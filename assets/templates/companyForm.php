@@ -1,11 +1,11 @@
 <?php
-$slug = EC_Company::getSlug_fn();
-$TD = EC_Company::getTD_fn();
+$slug = RGS_Company::getSlug_fn();
+$TD = RGS_Company::getTD_fn();
 
 global $post;
 //
 $output = ''; 
-$TAXO = EC_Company::getSlug_fn() . '-campaign';
+$TAXO = RGS_Company::getSlug_fn() . '-campaign';
 $taxoHTML = '';
 $isInRange = FALSE;
 $isPublicForm = TRUE;
@@ -21,7 +21,7 @@ if ( ! empty( $terms ) ) :
 		$termID = $term->term_id;
 		$termName = $term->name;
 		// 
-		$termMETAS = EC_Company::campaignTaxoGetCustomFields_fn( $term->term_id );
+		$termMETAS = RGS_Company::campaignTaxoGetCustomFields_fn( $term->term_id );
 		$startDate = $termMETAS['startDate']; 
 		$endDate = $termMETAS['endDate']; 
 		$cLogo = $termMETAS['cLogo']; 
@@ -30,7 +30,7 @@ if ( ! empty( $terms ) ) :
 		//
 		$moreDAYS = 14; // 2 weeks
 		$DATE = date($dFORMAT);
-		$DATE_END = EC_Company::getMoreDays_fn( $DATE, $moreDAYS, $dFORMAT  );
+		$DATE_END = RGS_Company::getMoreDays_fn( $DATE, $moreDAYS, $dFORMAT  );
 		//
 		$DATE = date($dFORMAT, strtotime($DATE . ' +' . 15 . $moreDAYS . ' days'));
 		//
@@ -39,7 +39,7 @@ if ( ! empty( $terms ) ) :
 		echo '<pre>termMETAS:: '.print_r($termMETAS, TRUE).'</pre>';
 		echo '<pre>DATE:: '.print_r($startDate, TRUE).'</pre>';
 		echo '<pre>DATE_END:: '.print_r($endDate, TRUE).'</pre>';*/
-		$termInRange = EC_Company::isDateRange_fn($startDate, $endDate);
+		$termInRange = RGS_Company::isDateRange_fn($startDate, $endDate);
 		//
 		if($termInRange) :
 			//

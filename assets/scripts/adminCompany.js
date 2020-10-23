@@ -7,9 +7,9 @@
 */
 //----------------------------------------------------------
 /**
- * @class EC_Company
+ * @class RGS_Company
  * @fullname Eco Citoyen Management
- * @package EC_Company
+ * @package RGS_Company
  * @category Core
  * @filesource assets/plugins/Entreprise/assets/scripts/Company.js
  * @version 0.0.1
@@ -46,7 +46,7 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 
 							copyText.select();
 							copyText.setSelectionRange(0, 99999); // used for mobile phone
-							document.execCommand("copy");
+							document.exrgsCommand("copy");
 							console.log( `${copyText.value} is copied` );
 						});
 					}

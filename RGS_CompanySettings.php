@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class EC_CompanySettings
+ * @class RGS_CompanySettings
  * @fullname Eco Citoyen Management
- * @package EC_CompanySettings
+ * @package RGS_CompanySettings
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_CompanySettings.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanySettings.php
  * @version 0.0.1
  * @created 2020-10-02
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_CompanySettings' ) ):
+if( ! class_exists( 'RGS_CompanySettings' ) ):
 	//----------------------------------
-	class EC_CompanySettings
+	class RGS_CompanySettings
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -47,8 +47,8 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 		static public $gBasename;
 		// Plugin Hierarchy
 		//---
-		const K_SLUG = 'ecCompanySettings';
-		const K_PREFIX = 'ecCompanySettings-';
+		const K_SLUG = 'rgsCompanySettings';
+		const K_PREFIX = 'rgsCompanySettings-';
 		const K_VERS = '1.0.0';
 		
 		//------------------------------
@@ -134,12 +134,12 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
-			return EC_Company::getSlug_fn();
+			return RGS_Company::getSlug_fn();
 		}
 		//---------------------------------------------------------------
 		static function getTD_fn()
 		{
-			return EC_Company::getTD_fn();
+			return RGS_Company::getTD_fn();
 		}
 		//---------------------------------------------------------------
 		static function getSettingsName_fn()
@@ -181,7 +181,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			//
 			/*$colors = self::getColorsByName_fn();
 			//
-			$formArchitect = EC_FormStats::getFormArchitect_fn($formChoice);
+			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
 			//
 			$qPos = 0;
 			foreach($formArchitect as $ftId => $formThemeArr):
@@ -226,7 +226,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 		//---------------------------------------------------------------
 		public function initSettings_fn() 
 		{
-			$pageID = EC_Company::getAdminMenuId_fn();
+			$pageID = RGS_Company::getAdminMenuId_fn();
 			$rgsOptionID = self::getOptionName_fn();
 			 // register_setting( 'settingsID', 'rgsOptionID' );
 			register_setting( $pageID, $rgsOptionID, array( __CLASS__, 'settingsPageValidate_fn' ) );
@@ -291,7 +291,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			$rgsOptions = self::getOption_fn();
 			$formChoice = $rgsOptions['formChoice'];
 			//
-			$formArchitect = EC_FormStats::getFormArchitect_fn($formChoice);
+			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
 			//
 			$qPos = 0;
 			foreach($formArchitect as $ftId => $formThemeArr):
@@ -403,7 +403,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			// Get the value of the setting we've registered with register_setting()
 			$options = self::getOption_fn();
 			//
-			$list = EC_CompanyForm::getFormsList_fn();
+			$list = RGS_CompanyForm::getFormsList_fn();
 			//
 			if($list):
 			
@@ -435,7 +435,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			$options = self::getOption_fn();
 			$cDatas = $args['_custom_data'];
 			$labelFor = $args['label_for'];
-			$colors = EC_CompanySettings::getColorsByName_fn();
+			$colors = RGS_CompanySettings::getColorsByName_fn();
 			//
 			if($colors):
 				if( ! isset($options[ $labelFor ]) ):
@@ -454,7 +454,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			$options = self::getOption_fn();
 			$cDatas = $args['_custom_data'];
 			$labelFor = $args['label_for'];
-			$colors = EC_CompanySettings::getColorsByName_fn();
+			$colors = RGS_CompanySettings::getColorsByName_fn();
 			//
 			if($colors):
 				//
@@ -476,7 +476,7 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 			// Get the value of the setting we've registered with register_setting()
 			$options = self::getOption_fn();
 			//
-			$list = EC_CompanyForm::getFormsList_fn();
+			$list = RGS_CompanyForm::getFormsList_fn();
 			
 			if($list):
 			
@@ -771,15 +771,15 @@ if( ! class_exists( 'EC_CompanySettings' ) ):
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'ecCompanySettings_fn' ) ):
-		function ecCompanySettings_fn() 
+	if( ! function_exists( 'rgsCompanySettings_fn' ) ):
+		function rgsCompanySettings_fn() 
 		{
-			return EC_CompanySettings::getInstance_fn();
+			return RGS_CompanySettings::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_CompanySettings' ] ) ):
-		$GLOBALS[ 'EC_CompanySettings' ] = ecCompanySettings_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanySettings' ] ) ):
+		$GLOBALS[ 'RGS_CompanySettings' ] = rgsCompanySettings_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

@@ -8,11 +8,11 @@
 */
 //----------------------------------------------------------
 /**
- * @class EC_CompanyMsg
+ * @class RGS_CompanyMsg
  * @fullname Eco Citoyen Management
- * @package EC_CompanyMsg
+ * @package RGS_CompanyMsg
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_CompanyMsg.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanyMsg.php
  * @version 0.0.1
  * @created 2020-10-15
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -24,9 +24,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_CompanyMsg' ) ):
+if( ! class_exists( 'RGS_CompanyMsg' ) ):
 	//----------------------------------
-	class EC_CompanyMsg
+	class RGS_CompanyMsg
 	{
 		//------------------------------
 		//--------------------------------------------------
@@ -46,8 +46,8 @@ if( ! class_exists( 'EC_CompanyMsg' ) ):
 		static public $gBasename;
 		// Plugin Hierarchy
 		//---
-		const K_SLUG = 'ecCompanyMsg';
-		const K_PREFIX = 'ecCompanyMsg-';
+		const K_SLUG = 'rgsCompanyMsg';
+		const K_PREFIX = 'rgsCompanyMsg-';
 		const K_VERS = '1.0.0';
 		
 		//------------------------------
@@ -241,17 +241,17 @@ if( ! class_exists( 'EC_CompanyMsg' ) ):
 		//--------------------------------------------------
 		static function getSlug_fn()
 		{
-			return EC_Company::getSlug_fn();
+			return RGS_Company::getSlug_fn();
 		}
 		//--------------------------------------------------
 		static function getTD_fn()
 		{
-			return EC_Company::getTD_fn();
+			return RGS_Company::getTD_fn();
 		}
 		//--------------------------------------------------
 		static function getCptName_fn()
 		{
-			return EC_Company::getSlug_fn().'Msg';
+			return RGS_Company::getSlug_fn().'Msg';
 		}
 		//--------------------------------------------------
 		// Columns
@@ -282,7 +282,7 @@ if( ! class_exists( 'EC_CompanyMsg' ) ):
 			$pending_count = wp_count_posts( self::getCptName_fn() )->draft;
 
 			foreach($menu as $menu_key => $menu_data) {
-				if ('post_type=' . EC_Company::getSlug_fn() . '&page=' . EC_Company::getMsgMenuId_fn()  != $menu_data[2])
+				if ('post_type=' . RGS_Company::getSlug_fn() . '&page=' . RGS_Company::getMsgMenuId_fn()  != $menu_data[2])
 					continue;
 
 				$menu[$menu_key][0] .= ' <span class="update-plugins count-$pending_count"><span class="plugin-count">' . number_format_i18n($pending_count) . '</span></span>';
@@ -306,7 +306,7 @@ if( ! class_exists( 'EC_CompanyMsg' ) ):
 			if(isset( $formFields['POST_TYPE'] ) ) :
 				$postTitle = $formFields['POST_TYPE'];
 				$ID = $formFields['POST_ID'];
-				if( $formFields['POST_TYPE'] == EC_Company::getSlug_fn() ):
+				if( $formFields['POST_TYPE'] == RGS_Company::getSlug_fn() ):
 					unset( $formFields['POST_ID'] );
 					$formFields['COMPANY_ID'] = $ID;
 				endif;
@@ -418,15 +418,15 @@ if( ! class_exists( 'EC_CompanyMsg' ) ):
 		
 	};
 	//------------------------------------------------------
-	if( ! function_exists( 'ecCompanyMsg_fn' ) ):
-		function ecCompanyMsg_fn() 
+	if( ! function_exists( 'rgsCompanyMsg_fn' ) ):
+		function rgsCompanyMsg_fn() 
 		{
-			return EC_CompanyMsg::getInstance_fn();
+			return RGS_CompanyMsg::getInstance_fn();
 		};
 	endif;
 	//------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_CompanyMsg' ] ) ):
-		$GLOBALS[ 'EC_CompanyMsg' ] = ecCompanyMsg_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanyMsg' ] ) ):
+		$GLOBALS[ 'RGS_CompanyMsg' ] = rgsCompanyMsg_fn();
 	endif;
 	//------------------------------------------------------
 endif;

@@ -2,7 +2,7 @@
 global $post;
 //
 $refPrefix = self::getOptionNameMB_fn();
-$refDatas = EC_Company::getRefsDatas_fn( $post->ID );
+$refDatas = RGS_Company::getRefsDatas_fn( $post->ID );
 //
 $TD = self::getTD_fn();
 ?>   
@@ -28,7 +28,7 @@ $TD = self::getTD_fn();
 			<div class="label"><?php _e('Form', $TD); ?></div>
 			<div class="fields">
 				<?php
-				EC_CompanySettings::getSelectForm_fn( $refPrefix . '[REFS][REF_FormID]', $refDatas['REFS']['REF_FormID'] );
+				RGS_CompanySettings::getSelectForm_fn( $refPrefix . '[REFS][REF_FormID]', $refDatas['REFS']['REF_FormID'] );
 				?>
 				<span class="description"><?php _e('Select the form for company employees', $TD); 
 					// $shortcode = addslashes( '[contact-form-7 id="' . $theId . '" title="' . $theName. '"]' ) ;

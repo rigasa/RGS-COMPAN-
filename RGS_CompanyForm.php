@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class EC_CampaignForm
+ * @class RGS_CompanyForm
  * @fullname Eco Citoyen Management
- * @package EC_CampaignForm
+ * @package RGS_CompanyForm
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_CampaignForm.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanyForm.php
  * @version 0.0.1
  * @created 2020-10-07
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_CampaignForm' ) ):
+if( ! class_exists( 'RGS_CompanyForm' ) ):
 	//----------------------------------
-	class EC_CampaignForm
+	class RGS_CompanyForm
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -49,8 +49,10 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 		//---
 		static public $gCF7Installed;
 		//---
-		const K_SLUG = 'ecCampaignForm';
-		const K_PREFIX = 'ecCampaignForm-';
+		static public $gFIELDS;
+		//---
+		const K_SLUG = 'rgsCompanyForm';
+		const K_PREFIX = 'rgsCompanyForm-';
 		const K_VERS = '0.0.1';
 		const K_DBVERS = '0.0.1';
 		
@@ -104,6 +106,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			//
 			self::$gCF7Installed 	= is_plugin_active( 'contact-form-7/wp-contact-form-7.php' );
 			//---
+			self::$gFIELDS 			= array();
 			self::$gSlug 			= sanitize_title( self::K_SLUG );
 			//---
 		}
@@ -129,15 +132,38 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
             	add_action( 'admin_init',     array( __CLASS__, 'initForm_fn' ) );
 				//-----------------------------------------------
         	endif;
+			if(is_admin()):
+				
+				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
+				//
+			else:
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
+			endif;
 			//---------------------------------------------------
 			if ( self::$gCF7Installed ) :
 				//-----
 				add_action( 'wpcf7_before_send_mail', array(__CLASS__, 'beforeSend_fn') );
 				//-----
+				add_filter('wpcf7_form_response_output', array(__CLASS__, 'filterResponseOutput_fn'), 10, 4);
+				//-----
+			
 				//add_action( 'wp_footer', array(__CLASS__, 'customFooter_fn' ));
 				//add_filter( 'wpcf7_load_js', '__return_false' );
 				//add_filter( 'wpcf7_load_css', '__return_false' );
-				//------
+				/*
+				add_filter(‘wpcf7_form_response_output’, function($output, $class, $content, $cf7) {
+
+			  		return $output;
+
+			   });
+			   
+			   add_filter(‘wpcf7_validation_error’, function($error, $name, $cf7) {
+
+   					return $error;
+				});
+				*/
+				add_action('wpcf7_mail_sent', array(__CLASS__, 'afterSubmission_fn'), 10, 1 );
+				//
 			endif;
 			//---------------------------------------------------
 		}
@@ -146,12 +172,66 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
-			return EC_Company::getSlug_fn();
+			return RGS_Company::getSlug_fn();
 		}
 		//---------------------------------------------------------------
 		static function getTD_fn()
 		{
-			return EC_Company::getTD_fn();
+			return RGS_Company::getTD_fn();
+		}
+		//---------------------------------------------------------------
+		static function enqueueScripts_fn()
+		{
+			//------------------------------------------------------
+			if( file_exists( RGS_Company::$gJsDir . 'companyForm.js' ) ):
+				//
+				wp_enqueue_script( 
+					self::getSlug_fn() . '_companyForm', 
+					RGS_Company::$gJsUrl . 'companyForm.js', 
+					array( 'jquery' ), 
+					'0.0.1', 
+					true 
+				);
+				//-------------------------
+				$localize = self::getLocalize_fn();
+				$_args = apply_filters( self::getSlug_fn() .'_localize', $localize );
+				$localize = array_replace_recursive( $localize, $_args );
+				//
+				wp_localize_script( 
+					self::getSlug_fn() . '_companyForm', 
+					'oCompanyForm', 
+					$localize
+				); 
+			
+			endif;
+			//------------------------------------------------------
+		}
+		//---------------------------------------------------------------
+		static function getLocalize_fn()
+		{
+			$SLUG = self::getSlug_fn();
+			$TD = self::getTD_fn();
+			//
+			return array( 
+				'ajaxUrl' 			=> admin_url( 'admin-ajax.php' ),
+				'nonce' 			=> wp_create_nonce( $SLUG . '-nonce' ),
+				'isAdmin' 			=> is_admin()? true: false,
+				'isFrontPage' 		=> is_front_page()? true: false,
+				'slug' 				=> $SLUG,
+				/*'assetsUrl' 		=> self::$gAssetsUrl,
+				'stylesUrl'			=> self::$gCssUrl,
+				'scriptsUrl'		=> self::$gJsUrl,
+				'imgUrl' 			=> self::$gImgUrl,
+				'delay' 			=> 1000,
+				'isSingleOrPage' 	=> ( is_page() || is_single() )? true: false,
+				'taxoCampaign'		=> self::getSlug_fn() . '-campaign',*/
+				'pagePermalink' 	=> get_the_permalink(),
+				'lang' 				=> array(
+					'yes' 				=> __( 'Yes', $TD ),
+					'saveImage'			=> __( 'Save Image', $TD )
+
+				)
+			);
 		}
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
@@ -187,7 +267,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 				endforeach;
 				return $rs;
 			else:
-				$rs['0'] = esc_html__('No Contact Form found', $TD);
+				$rs['0'] = esc_html__('No Form found', self::getTD_fn());
 				return null;
 			endif;
 			
@@ -195,7 +275,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 		//---------------------------------------------------------------
 		// SHORTCODE
 		//---------------------------------------------------------------
-		static function getCampaignForm_fn()
+		static function getCompanyShortcode_fn()
 		{
 			return '[contact-form-7 id="329" title="Questionnaire employés"]';
 		}
@@ -241,11 +321,22 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			return $results;
 		}
 		//---------------------------------------------------------------
-		static function setMail_fn( $wpcf7 )
+		static function setMail_fn( $wpcf7, $replaceTags = array() )
 		{
 			$mail = $wpcf7->prop('mail');
-			
-			$mailHeaderTmpl = ''; //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_header.php');
+			//
+			if(isset($replaceTags['company']) ):
+				$companyTag = '***COMPANY***';
+				$graphTag = '***GRAPH***';
+				//
+				$companyTitle = $replaceTags['company'];
+				$mail['body'] = str_replace($companyTag,$companyTitle, $mail['body']);
+				//
+				$graphVal = '';
+				$mail['body'] = str_replace($graphTag,$graphVal, $mail['body']);
+			endif;
+			//
+			$mailHeaderTmpl = '<p>' . __( 'IP Address:', self::getTD_fn() ) . $_SERVER['REMOTE_ADDR'].'</p>'; //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_header.php');
   			$mailFooterTmpl = ''; //self::createChart_fn($chartProp); //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_footer.php');
 
   			// Replace the email body with the designed one
@@ -272,6 +363,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			$return = array();
 			$return['total'] = 0;
 			$return['points'] = array();
+			$return['maxPoints'] = array();
 			//
 			foreach ( $results as $key => $val ) :
 				//
@@ -301,9 +393,35 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 						
 						$return['total'] += floatval( $return['points'][$key]);
 						break;
+						
 					default:
 						$return['points'][$key] = floatval($val) + 1;
 						$return['total'] += $return['points'][$key];
+				endswitch;
+				//
+				switch( $key ):
+					case 4:
+					case 10:
+						if( ! isset($return['maxPoints'][$key] ) ):
+							$return['maxPoints'][$key] = 3;
+						endif;
+						break;
+					case 5:
+						if( ! isset($return['maxPoints'][$key] ) ):
+							$return['maxPoints'][$key] = 0.5 * 24;
+						endif;
+						break;
+					case 8:
+					case 9:
+					case 11:
+						if( ! isset($return['maxPoints'][$key] ) ):
+							$return['maxPoints'][$key] = 2;
+						endif;
+						break;
+					default:
+						if( ! isset($return['maxPoints'][$key] ) ):
+							$return['maxPoints'][$key] = 4;
+						endif;
 				endswitch;
 				//
 			endforeach;
@@ -313,157 +431,66 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 		}
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
+		//---------------------------------------------------------------
 		public function beforeSend_fn($wpcf7)
 		{
 			$formId = null;
 			$postId = null;
 			$dbFields = array();
-			
-			// Add in DB => Tags = radio buttons labels
-			#echo '<pre>gTags::: '.print_r( $gTags, TRUE ).'</pre><br>';
+			$replaceTags = array();
+			//
 			//-----------------
 			$submission = WPCF7_Submission::get_instance();
-			
+			//
 			if ($submission) :
 				$postedData = $submission->get_posted_data();
-				if ($postedData) :
+				//
+				if ( empty( $postedData) ):
+					return $wpcf7;
+				else:
 					//
-					$dbFields['created_at'] = gmdate('Y-m-d H:i:s');
+					$FORM_ID = $postedData['_wpcf7'];
 					//
-					$currentUser = wp_get_current_user();
-
-					if ( 0 == $currentUser->ID ) :
-						$dbFields['user_id'] = 0; // Not logged in.
-					else :
-						$dbFields['user_id'] = $currentUser->ID; // Logged in.
+					$POST_ID = $postedData['_wpcf7_container_post'];
+					//
+					$thePost = get_post( $POST_ID );
+					if( $thePost ):
+						// CHECK META FOEM ID
+						$refDatas = get_post_meta($POST_ID, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+						//
+						$refFormID = 0;
+						if(isset($refDatas['REFS']['REF_FormID'])):
+							$refFormID = $refDatas['REFS']['REF_FormID'];
+						endif;
+						// CHECK IS FORM IS VALID...
+						if( $FORM_ID != $refFormID):
+							#$wpcf7->skip_mail = true;
+							return $wpcf7;
+						endif;
 					endif;
-					//
-					$dbFields['form_id'] = $postedData['_wpcf7'];
-					//
-					$dbFields['post_id'] = $postedData['_wpcf7_container_post'];
-					//
-					$scannedFormTags = $wpcf7->scan_form_tags();
-					$gTags = self::getFormTags_fn( $scannedFormTags );
-					$tagsString = mysql_escape_string( serialize( $gTags ) );
-					$dbFields['tags'] = $tagsString;
-					//
-					$gResponses = self::getFormValues_fn($postedData);
-					$responseString = mysql_escape_string( serialize( $gResponses ) );
-					$dbFields['responses'] = $responseString;
-					//
-					$gResults = self::getResults_fn( $gResponses, $gTags );
-					$resultsString = mysql_escape_string( serialize( $gResults ) );
-					$dbFields['results'] = $resultsString;
-					//
-					foreach ( $gResults as $key => $val ) :
-						$dbFields['result_' . $key ] = (int) $val;
-					endforeach;
-					// 
-					$points = self::getPoints_fn( $gResults );
-					$pointsString = mysql_escape_string( serialize( $points['points'] ) );
-					$dbFields['points'] = $pointsString;
-					$dbFields['total'] = $points['total'];
-					//
-					$series = self::getSeries_fn( $points['points'] );
-					$seriesString = mysql_escape_string( serialize( $series ) );
-					$dbFields['series'] = $seriesString;
-					//
-					foreach ( $series as $key => $val ) :
-						$dbFields['theme_' . $key ] = (int) $val;
-					endforeach;
-					// 
+					////////////////////////////////////////////////
+					$replaceTags['company'] = $thePost->post_title;
 					// UPDATE MAIL
-					$mail = self::setMail_fn( $wpcf7 );
+					$mail = self::setMail_fn( $wpcf7, $replaceTags );
 					//
-					$thePost = get_post( $dbFields['post_id'] );
 					if( $thePost ):
 						$mail['subject'] = $thePost->post_title;
 					endif;
 					// Save our new body content
 					$wpcf7->set_properties( array("mail" => $mail)) ;
 					//
-					$dbFields['mail'] = mysql_escape_string( serialize( $mail ) );
-					//
-					// SAVE IN DB
-					// $insert = self::dbInsert_fn( $dbFields );
-					//
 				endif;
 			endif;
-			//-----------------
-			echo '<pre>FIELDS::: '.print_r( $dbFields, TRUE ).'</pre><br>';
-			die('beforeSend_fn');
 			//-------------------------------------------------
-			return FALSE; //$wpcf7;
+			return $wpcf7;
 			//-------------------------------------------------
 		}
 		//---------------------------------------------------------------
-		public function beforeSend2_fn($wpcf7)
-		{
-			$formId = null;
-			$postId = null;
-			
-			
-			$scannedFormTags = $wpcf7->scan_form_tags();
-			self::$gTags = self::getFormTags_fn( $scannedFormTags );
-			
-			echo '<pre>beforeSend_fn::: scannedFormTags::: '.print_r( self::$gTags, TRUE ).'</pre><br>';
-			die('DEBUG');
-			
-			$submission = WPCF7_Submission::get_instance();
-			if ($submission) :
-				$postedData = $submission->get_posted_data();
-				
-				$formId = $postedData['_wpcf7']; // 329
-				$postId = $postedData['_wpcf7_container_post']; // 288
-				#echo '<pre>form_id::: '.print_r( $formId, TRUE ).'</pre><br>';
-				#echo '<pre>post_id::: '.print_r( $postId, TRUE ).'</pre><br>';
-				//
-				self::$gResponses = self::getFormValues_fn($postedData);
-				
-				echo '<pre>beforeSend_fn::: getFormValues_fn::: '.print_r( self::$gResponses, TRUE ).'</pre><br>';
-			
-				/*$fieldMax = 11;
-				for ($fieldId = 0; $fieldId <= $fieldMax; $fieldId++) :
-    				self::$gResponses[] = isset($postedData['radio-' . ($fieldId+1)][0]) ? $postedData['radio-' . ($fieldId+1)][0]: '';
-				endfor;*/
-				self::$gResults = self::getResults_fn( self::$gResponses, self::$gTags );
-				
-				// array("Memory","Disk","Network","Slots","CPU")
-				self::$gLabels = array();
-			
-				echo '<pre>beforeSend_fn::: getResults_fn::: '.print_r( self::$gResults, TRUE ).'</pre><br>';
-			
-				$currentUser = wp_get_current_user();
-
-				if ( 0 == $currentUser->ID ) :
-					// Not logged in.
-				else :
-					// Logged in.
-				endif;
-				// chart properties
-				$chartProp = array();
-				$chartProp['labels'] = self::$gLabels;
-				$chartProp['values'] = self::$gResults;
-				$chartProp['serieId'] = 'Serie1';
-				$chartProp['serieName'] = __('Reference');
-			
-				
-				$mail = self::setMail_fn( $wpcf7, $chartProp );
-				#$mail['subject'] = "this is an alternate subject" ;
-				// Save our new body content
-				#$wpcf7->set_properties( array("mail" => $mail)) ;
-				
-				echo '<pre>beforeSend_fn::: setMail_fn::: '.print_r( $mail, TRUE ).'</pre><br>';
-			
-				// If you want to skip mailing the data, you can do it...
-    			#wpcf7->skip_mail = true;
-			
-			endif;
-			//-------------------------------------------------
-			return FALSE; //$wpcf7;
-			
-		}
-		//---------------------------------------------------------------
+		static function filterResponseOutput_fn( $output, $class, $content, $instance ) { 
+			// make filter magic happen here...
+			$output = '<div id="rgsResponse" class="' . $class . ' " data-fields="'. json_encode(self::$gFIELDS) .'">' . esc_html( $content ) . '</div>';
+			return $output;
+		} 
 		//---------------------------------------------------------------
 		static function customFooter_fn()
 		{
@@ -514,6 +541,143 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			<?php
 		}
 		//---------------------------------------------------------------
+		static function afterSubmission_fn($wpcf7)
+		{
+			
+			$formId = null;
+			$postId = null;
+			$dbFields = array();
+			$replaceTags = array();
+			//
+			//-----------------
+			$submission = WPCF7_Submission::get_instance();
+			//
+			if ($submission) :
+				$postedData = $submission->get_posted_data();
+				if ( empty( $postedData) ):
+					return $wpcf7;
+				else:
+					//
+					$dbFields['createdAt'] = gmdate('Y-m-d H:i:s');
+					//
+					$dbFields['uniqId'] = ( isset( $_POST['uniqid'] ) ) ? $_POST['uniqid'] : '';
+					//
+					$currentUser = wp_get_current_user();
+
+					if ( 0 == $currentUser->ID ) :
+						$dbFields['USER_ID'] = 0; // Not logged in.
+					else :
+						$dbFields['USER_ID'] = $currentUser->ID; // Logged in.
+					endif;
+					//
+					$dbFields['unitTag'] = $postedData['_wpcf7_unit_tag'];
+					//
+					$dbFields['FORM_ID'] = $postedData['_wpcf7'];
+					//
+					$dbFields['POST_ID'] = $postedData['_wpcf7_container_post'];
+					//
+					$thePost = get_post( $dbFields['POST_ID'] );
+					if( $thePost ):
+						$ID = $dbFields['POST_ID'];
+						// CHECK META FOEM ID
+						$refDatas = get_post_meta($ID, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+						#$dbFields['refDatas'] = $refDatas;
+						$refFormID = 0;
+						if(isset($refDatas['REFS']['REF_FormID'])):
+							$refFormID = $refDatas['REFS']['REF_FormID'];
+						endif;
+						///////////////////////////////////
+						// CHECK IS FORM IS VALID...
+						if( $dbFields['FORM_ID'] != $refFormID):
+							#$wpcf7->skip_mail = true;
+							return $wpcf7;
+						endif;
+						//
+						$dbFields['POST_TYPE'] = $thePost->post_type;
+						//
+						$dbFields['POST_TITLE'] = $thePost->post_title;
+						//
+						$TAXO = self::getSlug_fn() . '-campaign';
+						// Get post type taxonomies.
+						$terms = get_the_terms( $ID, $TAXO );
+						if ( ! empty( $terms ) ) :
+							
+							$dbCampaigns = array();
+							//$dbFields['taxos'] = $terms;
+							//
+							foreach($terms as $term):
+								//
+								$termMETAS = RGS_Company::campaignTaxoGetCustomFields_fn( $term->term_id );
+								//
+								$dbCampaigns[] = array(
+									'campaignId' => $term->term_id,
+									'slug' => $term->slug,
+									'name' => $term->name,
+									'description' => $term->description,
+									'startDate' => $termMETAS['startDate'],
+									'endDate' => $termMETAS['endDate'],
+									'cLogo' => $termMETAS['cLogo'],
+								);
+							endforeach;
+							//
+							//$taxosString = sc_sql( serialize( $dbCampaigns ) );
+							$dbFields['taxos'] = $dbCampaigns; 
+						endif;
+						//
+						$dbFields['private'] = ( ! empty( $terms ) )? 'yes' : 'no';
+						//
+						$scannedFormTags = $wpcf7->scan_form_tags();
+						$gTags = self::getFormTags_fn( $scannedFormTags );
+						//$tagsString = sc_sql( serialize( $gTags ) );
+						$dbFields['tags'] = $gTags;
+						//
+						$gResponses = self::getFormValues_fn($postedData);
+						//$responseString = sc_sql( serialize( $gResponses ) );
+						$dbFields['responses'] = $gResponses;
+						//
+						$gResults = self::getResults_fn( $gResponses, $gTags );
+						//$resultsString = sc_sql( serialize( $gResults ) );
+						$dbFields['results'] = $gResults;
+						//
+						foreach ( $gResults as $key => $val ) :
+							$dbFields['result_' . $key ] = (int) $val;
+						endforeach;
+						// 
+						$points = self::getPoints_fn( $gResults );
+						//$pointsString = sc_sql( serialize( $points['points'] ) );
+						$dbFields['points'] = $points;
+						$dbFields['pointsTotal'] = $points['total'];
+						//
+						$series = self::getSeries_fn( $points['points'] );
+						//$seriesString = esc_sql( serialize( $series ) );
+						$dbFields['series'] = $series;
+						//
+						foreach ( $series as $key => $val ) :
+							$dbFields['theme_' . $key ] = (int) $val;
+						endforeach;
+						//
+						$dbFields['graphSeries'] = implode( ',', $series );
+						// 
+						$mail = $wpcf7->prop('mail');
+						//
+						$dbFields['mail'] = $mail;
+						//
+					endif;
+					///////////////////////////////////
+				endif;
+				///////////////////////////////////////
+			endif;
+			///////////////////////////////////////////
+			if( method_exists( 'RGS_CompanyMsg', 'insertMsg_fn' ) ):
+				//
+				RGS_CompanyMsg::insertMsg_fn( $dbFields );
+				//
+			endif;
+			//-------------------------------------------------
+			return $wpcf7;
+			//-------------------------------------------------
+		}
+		//---------------------------------------------------------------
 		// DB
 		//---------------------------------------------------------------
 		static function dbGetTableName_fn()
@@ -540,7 +704,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			endif;
 		}
 		//---------------------------------------------------------------
-		static function dbCreate_fn()
+		static function dbCreateTableForm_fn()
 		{
 			global $wpdb;
 			
@@ -549,9 +713,11 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			
 			$sql = "CREATE TABLE `{$tableName}` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
-			  `form_id` bigint(20) UNSIGNED NOT NULL,
-			  `post_id` bigint(20) UNSIGNED NOT NULL,
-			  `user_id` bigint(20) UNSIGNED NULL,
+			  `formId` bigint(20) UNSIGNED NOT NULL,
+			  `postId` bigint(20) UNSIGNED NOT NULL,
+			  `userId` bigint(20) UNSIGNED NULL,
+			  
+			  `private` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
 			  
  			  `tags` text COLLATE utf8_unicode_ci NOT NULL,
  			  `responses` text COLLATE utf8_unicode_ci NOT NULL,
@@ -578,7 +744,7 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			  `theme_4` bigint(20) UNSIGNED NOT NULL,
 			  `theme_5` bigint(20) UNSIGNED NOT NULL,
 			  
-			  `created_at` datetime NOT NULL,
+			  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			  PRIMARY KEY (`id`)
 			) $charset_collate;";
 
@@ -587,6 +753,64 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			$success = empty($wpdb->last_error);
 
 			return $success;
+		}
+		//---------------------------------------------------------------
+		static function dbCreateTableFormCampaign_fn()
+		{
+			global $wpdb;
+			
+			$tableName = self::dbGetTableName_fn() . '_campaign2form';
+    		$charsetCollate = $wpdb->get_charset_collate();
+			
+			$sql = "CREATE TABLE `{$tableName}` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `formId` bigint(20) UNSIGNED NOT NULL,
+			  `campaignId` bigint(20) UNSIGNED NOT NULL,
+			  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			  
+			  PRIMARY KEY (`id`)
+			) $charset_collate;";
+
+			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+			dbDelta($sql);
+			$success = empty($wpdb->last_error);
+
+			return $success;
+		}
+		//---------------------------------------------------------------
+		static function dbCreateTableCampaign_fn()
+		{
+			global $wpdb;
+			
+			$tableName = self::dbGetTableName_fn() . '_campaign';
+    		$charsetCollate = $wpdb->get_charset_collate();
+			
+			$sql = "CREATE TABLE `{$tableName}` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `campaignId` bigint(20) UNSIGNED NOT NULL,
+			  `slug` varchar(100) DEFAULT NULL,
+			  `name` varchar(100) DEFAULT NULL,
+ 			  `description` text COLLATE utf8_unicode_ci NOT NULL,
+			  `logoId` mediumint(11) DEFAULT NULL,
+			  `dateStart` varchar(10) NOT NULL,
+			  `dateEnd` varchar(10) NOT NULL,
+			  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			  
+			  PRIMARY KEY (`id`)
+			) $charset_collate;";
+
+			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+			dbDelta($sql);
+			$success = empty($wpdb->last_error);
+
+			return $success;
+		}
+		//---------------------------------------------------------------
+		static function dbCreate_fn()
+		{
+			self::dbCreateTableForm_fn();
+			self::dbCreateTableCampaign_fn();
+			self::dbCreateTableFormCampaign_fn();
 			
 		}
 		//---------------------------------------------------------------
@@ -599,10 +823,10 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			
 			$sql = "CREATE TABLE `{$tableName}` (
 			  id mediumint(8) unsigned NOT NULL auto_increment,
-			  form_id bigint(20) UNSIGNED NOT NULL,
-			  post_id bigint(20) UNSIGNED NOT NULL,
-			  user_id bigint(20) UNSIGNED NULL,
-			  created_at datetime NOT NULL,
+			  formId bigint(20) UNSIGNED NOT NULL,
+			  postId bigint(20) UNSIGNED NOT NULL,
+			  userId bigint(20) UNSIGNED NULL,
+			  createdAt datetime NOT NULL,
 			  expires_at datetime NOT NULL,
 			  PRIMARY KEY  (id)
 			) $charset_collate;";
@@ -620,9 +844,9 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			$optName = self::dbGetOptionName_fn();
 			$savedVersion = get_option( $optName );
 
-			if (( version_compare( $savedVersion, $version ) < 0 ) && self::dbUpgradeNewVersion_fn()) :
+			/*if (( version_compare( $savedVersion, $version ) < 0 ) && self::dbUpgradeNewVersion_fn()) :
 				update_option( $optName, $version );
-			endif;
+			endif;*/
 		}
 		//---------------------------------------------------------------
 		static function dbRemove_fn()
@@ -642,16 +866,6 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 				self::dbCreate_fn();
 			endif;
 		}
-		//---------------------------------------------------------------
-		/*
-		$wpdb->insert("{$wpdb->base_prefix}cli_logins", [
-			'public_key' => $magic->getKey(),
-			'private_key' => $data['private'],
-			'user_id' => $data['user'],
-			'created_at' => gmdate('Y-m-d H:i:s'),
-			'expires_at' => gmdate('Y-m-d H:i:s', $data['time'] + ceil($expires)),
-		]);
-		*/
 		//---------------------------------------------------------------
 		static function dbInsert_fn( $dbFields )
 		{
@@ -687,9 +901,15 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 			return $wpdb->get_var( "SELECT COUNT(*) FROM $tableName" );
 		}
 		//---------------------------------------------------------------
+		// TEMPLATES
 		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
+		static function includeTemplate_fn()
+		{
+			$file = RGS_Company::$gTemplatesDir .'companyForm.php';
+			if( is_file( $file ) ):
+				include_once( $file  );
+			endif;
+		}
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
@@ -706,15 +926,15 @@ if( ! class_exists( 'EC_CampaignForm' ) ):
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'ecCampaignForm_fn' ) ):
-		function ecCampaignForm_fn() 
+	if( ! function_exists( 'rgsCompanyForm_fn' ) ):
+		function rgsCompanyForm_fn() 
 		{
-			return EC_CampaignForm::getInstance_fn();
+			return RGS_CompanyForm::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_CampaignForm' ] ) ):
-		$GLOBALS[ 'EC_CampaignForm' ] = ecCampaignForm_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanyForm' ] ) ):
+		$GLOBALS[ 'RGS_CompanyForm' ] = rgsCompanyForm_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

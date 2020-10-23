@@ -1,9 +1,9 @@
 <?php
 
 
-/*$optName = EC_CompanySettings::getOptionName_fn();
-$settings = EC_CompanySettings::getOption_fn($optName);
-$def = (array) EC_CompanySettings::getDefaultOptions_fn();
+/*$optName = RGS_CompanySettings::getOptionName_fn();
+$settings = RGS_CompanySettings::getOption_fn($optName);
+$def = (array) RGS_CompanySettings::getDefaultOptions_fn();
 
 
 echo '<pre>option in::: '.print_r($settings, TRUE).'</pre>';
@@ -11,21 +11,21 @@ echo '<pre>defaults::: '.print_r( $def, TRUE).'</pre>';
 
 delete_option( $optName );
 
-$settings = EC_CompanySettings::getOption_fn($optName);
+$settings = RGS_CompanySettings::getOption_fn($optName);
 
 echo '<pre>option out::: '.print_r($settings, TRUE).'</pre>';
 
 die('DEBUG');*/
 global $title;
-$slug = EC_Company::getSlug_fn();
-$TD = EC_Company::getTD_fn();
-$pageID = EC_Company::getAdminMenuId_fn();
+$slug = RGS_Company::getSlug_fn();
+$TD = RGS_Company::getTD_fn();
+$pageID = RGS_Company::getAdminMenuId_fn();
 $pageURL = '?page=' . self::getStatsMenuId_fn() . '&tab=';
 
 $pTab = ( ! empty($pTab) ) ? $pTab : 'companies';
 $activeTab = ( isset( $_GET[ 'tab' ] ) ) ? $activeTab = $_GET[ 'tab' ] : $activeTab = $pTab;
 // GET OPTIONS
-$rgsOptions = EC_CompanySettings::getOption_fn();
+$rgsOptions = RGS_CompanySettings::getOption_fn();
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><i class="wp-menu-image dashicons-before dashicons-chart-line" style="vertical-align: middle; position: relative; top: 2px;"></i> <?php echo esc_html($title); ?>
@@ -46,9 +46,9 @@ $rgsOptions = EC_CompanySettings::getOption_fn();
 			?>
 			<?php
 			//----------------------------
-			$allMsg = EC_FormStats::getAllMsg_fn();
+			$allMsg = RGS_FormStats::getAllMsg_fn();
 			//----------------------------
-			$companiesList = EC_FormStats::getCompaniesList_fn();
+			$companiesList = RGS_FormStats::getCompaniesList_fn();
 			$nbCompanies = count($companiesList);
 			$nbForms = count($allMsg);
 			//
@@ -90,7 +90,7 @@ $rgsOptions = EC_CompanySettings::getOption_fn();
 			$formChoice = (int) $rgsOptions['formChoice'];
 			$themeChoice = $rgsOptions['themeChoice'];
 			//----------------------------
-			//$allMsg = EC_FormStats::getAllMsg_fn();
+			//$allMsg = RGS_FormStats::getAllMsg_fn();
 			//
 			if( empty( $allMsg ) ) : ?>
 					<p class="noDataFound"><?php _e('No data found', $TD); ?></p>
@@ -98,7 +98,7 @@ $rgsOptions = EC_CompanySettings::getOption_fn();
 				<div id="architectContainer">
 				<?php
 				//---------------------------------------------------------
-				echo EC_FormStats::getArchitectHtml_fn( $allMsg , $formChoice );
+				echo RGS_FormStats::getArchitectHtml_fn( $allMsg , $formChoice );
 				//---------------------------------------------------------
 				?>
 				</div>

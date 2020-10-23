@@ -8,11 +8,11 @@
 */
 //----------------------------------------------------------
 /**
- * @class EC_Company
+ * @class RGS_Company
  * @fullname Eco Citoyen Management
- * @package EC_Company
+ * @package RGS_Company
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_Company.php
+ * @filesource assets/plugins/Entreprise/RGS_Company.php
  * @version 0.0.1
  * @created 2020-10-02
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -24,9 +24,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_Company' ) ):
+if( ! class_exists( 'RGS_Company' ) ):
 	//----------------------------------
-	class EC_Company
+	class RGS_Company
 	{
 		//------------------------------
 		//--------------------------------------------------
@@ -94,8 +94,8 @@ if( ! class_exists( 'EC_Company' ) ):
 		//---
 		static public $gAdminPageId;
 		//---
-		const K_SLUG = 'ecCompany';
-		const K_PREFIX = 'ecCompany-';
+		const K_SLUG = 'rgsCompany';
+		const K_PREFIX = 'rgsCompany-';
 		const K_VERS = '1.0.0';
 		
 		//------------------------------
@@ -218,12 +218,12 @@ if( ! class_exists( 'EC_Company' ) ):
 		private function loadDependencies_fn() 
 		{
 			//------------------------------------------------------
-			$dirMBoxes = self::$gDir . 'EC_CompanyMBoxes.php';
+			$dirMBoxes = self::$gDir . 'RGS_CompanyMBoxes.php';
 			if( file_exists( $dirMBoxes ) ):
 				require_once( $dirMBoxes );
 			endif;
 			//------------------------------------------------------
-			$dirSettings = self::$gDir . 'EC_CompanySettings.php';
+			$dirSettings = self::$gDir . 'RGS_CompanySettings.php';
 			if( file_exists( $dirSettings ) ):
 				require_once( $dirSettings );
 			endif;
@@ -233,17 +233,17 @@ if( ! class_exists( 'EC_Company' ) ):
 				require_once( $dirZC );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'EC_CompanyForm.php';
+			$dirForm = self::$gDir . 'RGS_CompanyForm.php';
 			if( file_exists( $dirForm ) ):
 				require_once( $dirForm );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'EC_CompanyMsg.php';
+			$dirForm = self::$gDir . 'RGS_CompanyMsg.php';
 			if( file_exists( $dirForm ) ):
 				require_once( $dirForm );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'EC_FormStats.php';
+			$dirForm = self::$gDir . 'RGS_FormStats.php';
 			if( file_exists( $dirForm ) ):
 				require_once( $dirForm );
 			endif;
@@ -504,7 +504,7 @@ if( ! class_exists( 'EC_Company' ) ):
 		{
 			$SLUG = self::getSlug_fn();
 			$TD = self::getTD_fn();
-			$options = EC_CompanySettings::getOption_fn();
+			$options = RGS_CompanySettings::getOption_fn();
 			//
 			return array( 
 				'ajaxUrl' 			=> admin_url( 'admin-ajax.php' ),
@@ -841,8 +841,8 @@ if( ! class_exists( 'EC_Company' ) ):
         		return;
     		endif;
 			
-			if( is_file( self::$gViewsDir . 'menuPage.php' ) ):
-				include_once(self::$gViewsDir . 'menuPage.php');
+			if( is_file( self::$gViewsDir . 'settingsPage.php' ) ):
+				include_once(self::$gViewsDir . 'settingsPage.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Settings Page Loaded!', self::getTD_fn() ); 
@@ -889,11 +889,11 @@ if( ! class_exists( 'EC_Company' ) ):
 		static function adminEnqueueStyles_fn()
 		{
 			
-			if( file_exists( EC_Company::$gCssDir  . 'adminSettings.css' ) ):
+			if( file_exists( RGS_Company::$gCssDir  . 'adminSettings.css' ) ):
 				
 				wp_enqueue_style( 
 					self::getSlug_fn() . '_adminSettings', 
-					EC_Company::$gCssUrl . 'adminSettings.css', 
+					RGS_Company::$gCssUrl . 'adminSettings.css', 
 					array( ), 
 					'0.0.1', 
 					'all' 
@@ -951,7 +951,7 @@ if( ! class_exists( 'EC_Company' ) ):
 		//--------------------------------------------------
 		static function getRefsDatas_fn( $post_id )
 		{
-			$refDatas = get_post_meta($post_id, EC_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+			$refDatas = get_post_meta($post_id, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
 			//
 			if ( ! $refDatas) :
 				$refDatas = array();
@@ -975,15 +975,15 @@ if( ! class_exists( 'EC_Company' ) ):
 		
 	};
 	//------------------------------------------------------
-	if( ! function_exists( 'ecCompany_fn' ) ):
-		function ecCompany_fn() 
+	if( ! function_exists( 'rgsCompany_fn' ) ):
+		function rgsCompany_fn() 
 		{
-			return EC_Company::getInstance_fn();
+			return RGS_Company::getInstance_fn();
 		};
 	endif;
 	//------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_Company' ] ) ):
-		$GLOBALS[ 'EC_Company' ] = ecCompany_fn();
+	if( ! isset( $GLOBALS[ 'RGS_Company' ] ) ):
+		$GLOBALS[ 'RGS_Company' ] = rgsCompany_fn();
 	endif;
 	//------------------------------------------------------
 endif;

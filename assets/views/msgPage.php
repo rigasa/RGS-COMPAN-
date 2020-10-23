@@ -1,14 +1,14 @@
 <?php
 global $title;
-$slug = EC_Company::getSlug_fn();
-$TD = EC_Company::getTD_fn();
-$pageID = EC_Company::getAdminMenuId_fn();
+$slug = RGS_Company::getSlug_fn();
+$TD = RGS_Company::getTD_fn();
+$pageID = RGS_Company::getAdminMenuId_fn();
 //
-$cptMessages = EC_CompanyMsg::getCptName_fn();
+$cptMessages = RGS_CompanyMsg::getCptName_fn();
 //
 //class Example_List_Table extends WP_List_Table {}
 //$example_lt = new Example_List_Table();
-// $refDatas = EC_Company::getRefsDatas_fn( $post->ID );
+// $refDatas = RGS_Company::getRefsDatas_fn( $post->ID );
 //
 // check if the user have submitted the settings
 // WordPress will add the "settings-updated" $_GET parameter to the url
@@ -36,7 +36,7 @@ settings_errors( $slug . 'messages' );
 	{
 		$args = array(
 			'numberposts' 	=> -1,
-			'post_type'   	=> EC_CompanyMsg::getCptName_fn(),
+			'post_type'   	=> RGS_CompanyMsg::getCptName_fn(),
 			'post_status' 	=> 'draft'
 		);
 		$post_list = get_posts( $args );

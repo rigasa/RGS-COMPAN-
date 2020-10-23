@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class EC_CompanyMBoxes
+ * @class RGS_CompanyMBoxes
  * @fullname Eco Citoyen Management
- * @package EC_CompanyMBoxes
+ * @package RGS_CompanyMBoxes
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_CompanyMBoxes.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanyMBoxes.php
  * @version 0.0.1
  * @created 2020-10-02
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_CompanyMBoxes' ) ):
+if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 	//----------------------------------
-	class EC_CompanyMBoxes
+	class RGS_CompanyMBoxes
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -47,8 +47,8 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
 		static public $gBasename;
 		// Plugin Hierarchy
 		//---
-		const K_SLUG = 'ecCompanyMBoxCampaign';
-		const K_PREFIX = 'ecCompanyMBoxCampaign-';
+		const K_SLUG = 'rgsCompanyMBoxCampaign';
+		const K_PREFIX = 'rgsCompanyMBoxCampaign-';
 		const K_VERS = '1.0.0';
 		
 		//------------------------------
@@ -129,7 +129,7 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
 				//add_filter('manage_' . self::getRefMetabox_fn() .'_columns', array( __CLASS__, 'manageAdminColumns_fn'), 99, 1 );
 				//add_action( 'manage_' . self::getRefMetabox_fn() .'_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 99, 2 );
 				
-				$TAXO = EC_Company::getTaxoCampaignName_fn();
+				$TAXO = RGS_Company::getTaxoCampaignName_fn();
 				// MODIFY COLUMNS (add our meta to the list)
 				add_filter( 
 					'manage_edit-' . $TAXO . '_columns', 
@@ -159,12 +159,12 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
-			return EC_Company::getSlug_fn();
+			return RGS_Company::getSlug_fn();
 		}
 		//---------------------------------------------------------------
 		static function getTD_fn()
 		{
-			return EC_Company::getTD_fn();
+			return RGS_Company::getTD_fn();
 		}
 		//---------------------------------------------------------------
 		static function getNonceName_fn()
@@ -226,8 +226,8 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
         		return;
     		endif;
 			
-			if( is_file( EC_Company::$gViewsDir . 'mbRef.php' ) ):
-				include_once(EC_Company::$gViewsDir . 'mbRef.php');
+			if( is_file( RGS_Company::$gViewsDir . 'companyRef_MB.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'companyRef_MB.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Reference Metabox Page Loaded!', self::getTD_fn() ); 
@@ -242,8 +242,8 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
         		return;
     		endif;
 			
-			if( is_file( EC_Company::$gViewsDir . 'mbCampaign.php' ) ):
-				include_once(EC_Company::$gViewsDir . 'mbCampaign.php');
+			if( is_file( RGS_Company::$gViewsDir . 'companyCampaign_MB.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'companyCampaign_MB.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Campaign Metabox Page Loaded!', self::getTD_fn() ); 
@@ -317,7 +317,7 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
 		//--------------------------------------------------
 		static function manageRefTermColumns_fn( $content, $columnName, $termID )
 		{
-			$term = get_term($termID, EC_Company::getTaxoCampaignName_fn() );
+			$term = get_term($termID, RGS_Company::getTaxoCampaignName_fn() );
 			/*
 			["term_id"]=>  //int
 			["name"]=>   //string 
@@ -400,15 +400,15 @@ if( ! class_exists( 'EC_CompanyMBoxes' ) ):
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'ecCompanyMBoxes_fn' ) ):
-		function ecCompanyMBoxes_fn() 
+	if( ! function_exists( 'rgsCompanyMBoxes_fn' ) ):
+		function rgsCompanyMBoxes_fn() 
 		{
-			return EC_CompanyMBoxes::getInstance_fn();
+			return RGS_CompanyMBoxes::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_CompanyMBoxes' ] ) ):
-		$GLOBALS[ 'EC_CompanyMBoxes' ] = ecCompanyMBoxes_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanyMBoxes' ] ) ):
+		$GLOBALS[ 'RGS_CompanyMBoxes' ] = rgsCompanyMBoxes_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

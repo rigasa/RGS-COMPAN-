@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class EC_FormStats
+ * @class RGS_FormStats
  * @fullname Eco Citoyen Management
- * @package EC_FormStats
+ * @package RGS_FormStats
  * @category Core
- * @filesource assets/plugins/Entreprise/EC_FormStats.php
+ * @filesource assets/plugins/Entreprise/RGS_FormStats.php
  * @version 0.0.1
  * @created 2020-10-07
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'EC_FormStats' ) ):
+if( ! class_exists( 'RGS_FormStats' ) ):
 	//----------------------------------
-	class EC_FormStats
+	class RGS_FormStats
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -49,8 +49,8 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		//---
 		static public $gAdminPageId;
 		//---
-		const K_SLUG = 'ecFormStats';
-		const K_PREFIX = 'ecFormStats-';
+		const K_SLUG = 'rgsFormStats';
+		const K_PREFIX = 'rgsFormStats-';
 		const K_VERS = '0.0.1';
 		const K_DBVERS = '0.0.1';
 		
@@ -152,26 +152,26 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
-			return EC_Company::getSlug_fn();
+			return RGS_Company::getSlug_fn();
 		}
 		//---------------------------------------------------------------
 		static function getTD_fn()
 		{
-			return EC_Company::getTD_fn();
+			return RGS_Company::getTD_fn();
 		}
 		//---------------------------------------------------------------
 		static function enqueueScripts_fn()
 		{
 			//------------------------------------------------------
-			if( method_exists( 'EC_Company', 'loadScripts_fn' ) ):
-				EC_Company::loadScripts_fn();
+			if( method_exists( 'RGS_Company', 'loadScripts_fn' ) ):
+				RGS_Company::loadScripts_fn();
 			endif;
 			//------------------------------------------------------
-			if( file_exists( EC_Company::$gJsDir . 'companyForm.js' ) ):
+			if( file_exists( RGS_Company::$gJsDir . 'companyForm.js' ) ):
 				//
 				wp_enqueue_script( 
 					self::getSlug_fn() . '_companyForm', 
-					EC_Company::$gJsUrl . 'companyForm.js', 
+					RGS_Company::$gJsUrl . 'companyForm.js', 
 					array( 'jquery' ), 
 					'0.0.1', 
 					true 
@@ -192,10 +192,10 @@ if( ! class_exists( 'EC_FormStats' ) ):
 			$activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'companies';
 			if($activeTab == 'companies') :
 				//
-				if( file_exists( EC_Company::$gJsDir . 'statsCompanies.js' ) ):
+				if( file_exists( RGS_Company::$gJsDir . 'statsPage.js' ) ):
 					wp_enqueue_script( 
-						self::getSlug_fn() . '_statsCompanies', 
-						EC_Company::$gJsUrl . 'statsCompanies.js', 
+						self::getSlug_fn() . '_statsPage', 
+						RGS_Company::$gJsUrl . 'statsPage.js', 
 						array( 'jquery' ), 
 						'0.0.1', 
 						true 
@@ -210,16 +210,16 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		{
 			$SLUG = self::getSlug_fn();
 			$TD = self::getTD_fn();
-			$options = EC_CompanySettings::getOption_fn();
+			$options = RGS_CompanySettings::getOption_fn();
 			//---------------------------------------------------------
-			$allMsg = EC_FormStats::getAllMsg_fn();
+			$allMsg = RGS_FormStats::getAllMsg_fn();
 			//
-			$arrReturn = EC_FormStats::getStructMsg_fn($allMsg);
+			$arrReturn = RGS_FormStats::getStructMsg_fn($allMsg);
 			$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 			//----
 			$arrPoints = (isset($arrReturn['points']['points']) ) ? $arrReturn['points']['points'] : array();
 			//---------------------------------------------------------
-			$arrColors = EC_CompanySettings::getQuestionsColors_fn();
+			$arrColors = RGS_CompanySettings::getQuestionsColors_fn();
 			//---------------------------------------------------------
 			$return = array( 
 				'ajaxUrl' 			=> admin_url( 'admin-ajax.php' ),
@@ -280,7 +280,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		//---------------------------------------------------------------
 		static function includeTemplate_fn()
 		{
-			/*$file = EC_Company::$gTemplatesDir .'companyForm.php';
+			/*$file = RGS_Company::$gTemplatesDir .'companyForm.php';
 			if( is_file( $file ) ):
 				include_once( $file  );
 			endif;*/
@@ -302,8 +302,8 @@ if( ! class_exists( 'EC_FormStats' ) ):
         		return;
     		endif;
 			
-			if( is_file( EC_Company::$gViewsDir . 'statsPage.php' ) ):
-				include_once(EC_Company::$gViewsDir . 'statsPage.php');
+			if( is_file( RGS_Company::$gViewsDir . 'statsPage.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'statsPage.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Statistics Page Loaded!', self::getTD_fn() ); 
@@ -353,11 +353,11 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function adminEnqueueStyles_fn()
 		{
 			
-			if( file_exists( EC_Company::$gCssDir  . 'formStats.css' ) ):
+			if( file_exists( RGS_Company::$gCssDir  . 'formStats.css' ) ):
 				
 				wp_enqueue_style( 
 					self::getSlug_fn() . '_formStats', 
-					EC_Company::$gCssUrl . 'formStats.css', 
+					RGS_Company::$gCssUrl . 'formStats.css', 
 					array( ), 
 					'0.0.1', 
 					'all' 
@@ -371,7 +371,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getCompaniesList_fn()
 		{
 			$args = array(
-				'post_type' => EC_Company::getSlug_fn(), 
+				'post_type' => RGS_Company::getSlug_fn(), 
 				'posts_per_page' => -1
 			);
 			$rs = array();
@@ -390,7 +390,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getCompanyMsg_fn( $companyId = 0 )
 		{
 			$args = array(
-				'post_type' 		=> EC_CompanyMsg::getCptName_fn(), 
+				'post_type' 		=> RGS_CompanyMsg::getCptName_fn(), 
 				'posts_per_page' 	=> -1,
 				'post_status' 		=> 'draft',
 				'meta_key' 			=> 'COMPANY_ID',
@@ -414,7 +414,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getAllMsg_fn()
 		{
 			$args = array(
-				'post_type' 		=> EC_CompanyMsg::getCptName_fn(),
+				'post_type' 		=> RGS_CompanyMsg::getCptName_fn(),
 				'posts_per_page' 	=> -1,
 				'post_status' 		=> 'draft',
 			);
@@ -436,7 +436,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getPrivateList_fn()
 		{
 			$args = array(
-				'post_type' 	=> EC_CompanyMsg::getCptName_fn(),
+				'post_type' 	=> RGS_CompanyMsg::getCptName_fn(),
 				'post_status' 	=> 'draft',
 				'posts_per_page' => -1,
 				'meta_key' 		=> 'private',
@@ -459,7 +459,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getPublicList_fn()
 		{
 			$args = array(
-				'post_type' 	=> EC_CompanyMsg::getCptName_fn(),
+				'post_type' 	=> RGS_CompanyMsg::getCptName_fn(),
 				'post_status' 	=> 'draft',
 				'posts_per_page' => -1,
 				'meta_key' 		=> 'private',
@@ -521,7 +521,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 			$arrMaxPoints = array();
 			$totalPoints = 0;
 			//
-			$rgsOptions = EC_CompanySettings::getOption_fn();
+			$rgsOptions = RGS_CompanySettings::getOption_fn();
 			$formID = (isset($rgsOptions['formChoice']) ) ? (int) $rgsOptions['formChoice'] : 0;
 			
 			if( $formID > 0 ):
@@ -706,7 +706,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 		static function getArchitectHtml_fn( $listMsg, $formChoice )
 		{
 			
-			$formArchitect = EC_FormStats::getFormArchitect_fn($formChoice);
+			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
 			//
 			$architectHTML = '';
 			$arrTags = array();
@@ -715,7 +715,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 			$arrResults = array();
 			$arrPercents = array();
 
-			$arrReturn = EC_FormStats::getStructMsg_fn($listMsg);
+			$arrReturn = RGS_FormStats::getStructMsg_fn($listMsg);
 			$arrTags = (isset($arrReturn['tags']) ) ? $arrReturn['tags'] : array();
 			$arrResults = (isset($arrReturn['results']) ) ? $arrReturn['results'] : array();
 			$arrPercents = (isset($arrReturn['percents']) ) ? $arrReturn['percents'] : array();
@@ -723,8 +723,8 @@ if( ! class_exists( 'EC_FormStats' ) ):
 			$arrMaxPoints = (isset($arrReturn['maxPoints']) ) ? $arrReturn['maxPoints'] : array();
 			$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 			//---------------------------------------------------------
-			$colorsSections = EC_CompanySettings::getSectionsColors_fn();
-			$colorsQuestions = EC_CompanySettings::getQuestionsColors_fn();
+			$colorsSections = RGS_CompanySettings::getSectionsColors_fn();
+			$colorsQuestions = RGS_CompanySettings::getQuestionsColors_fn();
 			//---------------------------------------------------------
 			if( is_array($formArchitect) and count($formArchitect) > 0 ):
 				$architectHTML = '<ul id="architect">';
@@ -825,7 +825,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 				wp_send_json_error( __('companyID is mandatory', self::getTD_fn() ) );
 			else:
 				//
-				$rgsOptions = EC_CompanySettings::getOption_fn();
+				$rgsOptions = RGS_CompanySettings::getOption_fn();
 				$formChoice = (int) $rgsOptions['formChoice'];
 				//
 				if($companyID == 0 ):
@@ -852,7 +852,7 @@ if( ! class_exists( 'EC_FormStats' ) ):
 						) );
 						//wp_send_json_error( __('Empty List', self::getTD_fn() ) );
 					else:
-						$arrReturn = EC_FormStats::getStructMsg_fn($msgList);
+						$arrReturn = RGS_FormStats::getStructMsg_fn($msgList);
 						$arrPoints = (isset($arrReturn['points']) ) ? $arrReturn['points'] : array();
 						$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 						//---------------------------------------------------------
@@ -888,12 +888,12 @@ if( ! class_exists( 'EC_FormStats' ) ):
 	if( ! function_exists( 'ecFormStats_fn' ) ):
 		function ecFormStats_fn() 
 		{
-			return EC_FormStats::getInstance_fn();
+			return RGS_FormStats::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'EC_FormStats' ] ) ):
-		$GLOBALS[ 'EC_FormStats' ] = ecFormStats_fn();
+	if( ! isset( $GLOBALS[ 'RGS_FormStats' ] ) ):
+		$GLOBALS[ 'RGS_FormStats' ] = ecFormStats_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

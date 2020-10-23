@@ -7,11 +7,11 @@
 */
 //----------------------------------------------------------
 /**
- * @class EC_Company
+ * @class RGS_Company
  * @fullname Eco Citoyen Management
- * @package EC_Company
+ * @package RGS_Company
  * @category Core
- * @filesource assets/plugins/Entreprise/assets/scripts/statsCompanies.js
+ * @filesource assets/plugins/Entreprise/assets/scripts/statsPage.js
  * @version 0.0.1
  * @created 2020-10-21
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>

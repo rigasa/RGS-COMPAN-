@@ -7,9 +7,9 @@
 */
 //----------------------------------------------------------
 /**
- * @class EC_Company
+ * @class RGS_Company
  * @fullname Eco Citoyen Management
- * @package EC_Company
+ * @package RGS_Company
  * @category Core
  * @filesource assets/plugins/Entreprise/assets/scripts/Company.js
  * @version 0.0.1

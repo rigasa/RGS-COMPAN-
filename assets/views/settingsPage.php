@@ -1,12 +1,12 @@
 <?php
 global $title;
-$slug = EC_Company::getSlug_fn();
-$TD = EC_Company::getTD_fn();
-$pageID = EC_Company::getAdminMenuId_fn();
+$slug = RGS_Company::getSlug_fn();
+$TD = RGS_Company::getTD_fn();
+$pageID = RGS_Company::getAdminMenuId_fn();
 // GET OPTIONS
-//$rgsOptionID = EC_CompanySettings::getOptionName_fn();
+//$rgsOptionID = RGS_CompanySettings::getOptionName_fn();
 //$rgsOptions = get_option( $rgsOptionID );
-$rgsOptions = EC_CompanySettings::getOption_fn();
+$rgsOptions = RGS_CompanySettings::getOption_fn();
 // check if the user have submitted the settings
 // WordPress will add the "settings-updated" $_GET parameter to the url
 if ( isset( $_GET[ 'settings-updated' ] ) ) {
@@ -65,13 +65,13 @@ settings_errors( $slug . 'messages' );
 			<?php do_settings_sections( $pageID . '_colors' ); ?>
 			
 			<?php
-			/*$arrColors = EC_CompanySettings::getDefaultColors_fn();
-			$colors = EC_CompanySettings::getColorsByName_fn();
+			/*$arrColors = RGS_CompanySettings::getDefaultColors_fn();
+			$colors = RGS_CompanySettings::getColorsByName_fn();
 			//
 			$formChoice = (int) $rgsOptions['formChoice'];
 			$themeChoice = $rgsOptions['themeChoice'];
 			//
-			$formArchitect = EC_FormStats::getFormArchitect_fn($formChoice);
+			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
 			//
 			$qPos = 0;
 			
@@ -88,12 +88,12 @@ settings_errors( $slug . 'messages' );
 			//----------------------------
 			
 			
-			//$data = EC_CompanyForm::getFormElem_fn( 329 );
+			//$data = RGS_CompanyForm::getFormElem_fn( 329 );
 			
 			//echo '<p>SATAS::: '.print_r($data, TRUE).'</p>';
 			
 			
-			/*$short = EC_CompanyForm::getCampaignForm_fn();
+			/*$short = RGS_CompanyForm::getCampaignForm_fn();
 			
 			echo do_shortcode( $short );*/
 			
