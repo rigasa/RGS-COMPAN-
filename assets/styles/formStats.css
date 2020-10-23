@@ -1,0 +1,90 @@
+/* CSS Document */
+
+#architect {
+	list-style: none;
+}
+
+#architect > li {
+	border: 1px solid #ccc;
+    padding: 0px 16px 10px 16px;
+}
+
+#architect > li .architect-theme {
+	font-weight: bold;
+	line-height: 30px;
+	font-size: 18px;
+	text-decoration: underline;
+	border-left: 10px solid #ccc;
+	padding-left: 10px;
+}
+
+#architect > li .architect-series {
+	margin-left: 20px;
+}
+
+#architect > li .architect-child {
+	margin: 8px 20px;
+}
+
+#architect > li .architect-child li {
+	border-left: 10px solid #ccc;
+}
+
+#architect > li .architect-child li .architect-points {
+	font-size: 12px;
+	margin-left: 16px;
+	float: left;
+    width: 70px;
+}
+
+#architect > li .architect-child li .architect-question {
+	font-size: 13px;
+	float:left;
+	width: 76%;
+	font-weight: bold;
+}
+
+#architect > li .architect-child .architect-percents {
+	margin-left: 30px;
+	clear: both;
+}
+
+#architect > li .architect-child .architect-percents .architect-percent {
+	width: 70px;
+	padding: 0px;
+}
+
+#architect > li .architect-child .architect-percents .architect-response {
+	font-style: italic;
+}
+
+/*
+chartByPoints
+*/
+#chartByPoints {
+	width:100%;
+	height: 500px;
+    margin: 0px auto;
+	border: 1px solid #ccc;
+}
+
+/*#pointsChart-license-text {display:none;}*/
+
+
+
+#sectionsGraph {
+    width: 100%;
+	height: 400px;
+    overflow: hidden;
+    margin: 0px auto;
+	border: 1px solid #ccc;
+}
+#sectionsGraph-save {
+	
+}
+#sectionsGraph-photo {
+	margin-top: 20px;
+	/*width: 100%;
+	height: 400px;*/
+}
+/*#sectionsGraph-license-text { display: none; }*/

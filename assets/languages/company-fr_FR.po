@@ -1,0 +1,871 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Company v0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-23 10:20+0200\n"
+"PO-Revision-Date: 2020-10-23 10:23+0200\n"
+"Last-Translator: RiGaSa <ricardo@rigasa.pro>\n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"esc_html_e;esc_html\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EC_CampaignForm.php:448
+msgid "Reference"
+msgstr "Référence"
+
+#: EC_Company.php:295
+msgctxt "Post Type General Name"
+msgid "Companies"
+msgstr "Entreprises"
+
+#: EC_Company.php:296
+msgctxt "Post Type Singular Name"
+msgid "Company"
+msgstr "Entreprise"
+
+#: EC_Company.php:297 EC_Company.php:330 assets/views/statsPage.php:35
+#: assets/views/statsPage.php:59
+msgid "Companies"
+msgstr "Entreprises"
+
+#: EC_Company.php:298 EC_Company.php:324
+msgid "Company"
+msgstr "Entreprise"
+
+#: EC_Company.php:299
+msgid "Company Archives"
+msgstr "Archives des entreprises"
+
+#: EC_Company.php:300
+msgid "Company Attributes"
+msgstr "Attributs de l’entreprise"
+
+#: EC_Company.php:301
+msgid "Parent Company:"
+msgstr "Entreprise parente:"
+
+#: EC_Company.php:302 assets/views/statsPage.php:63
+msgid "All Companies"
+msgstr "Toutes"
+
+#: EC_Company.php:303
+msgid "Add New Company"
+msgstr "Ajouter une nouvelle entreprise"
+
+#: EC_Company.php:304
+msgid "Add Company"
+msgstr "Ajouter"
+
+#: EC_Company.php:305
+msgid "New Company"
+msgstr "Nouvelle entreprise"
+
+#: EC_Company.php:306
+msgid "Edit Company"
+msgstr "Modifier l'entreprise"
+
+#: EC_Company.php:307
+msgid "Update Company"
+msgstr "Mettre à jour de l'entreprise"
+
+#: EC_Company.php:308
+msgid "View Company"
+msgstr "Voir l’entreprise"
+
+#: EC_Company.php:309
+msgid "View Companies"
+msgstr "Afficher les entreprises"
+
+#: EC_Company.php:310
+msgid "Search Company"
+msgstr "Rechercher une entreprise"
+
+#: EC_Company.php:311 EC_CompanyMsg.php:179
+msgid "Not found"
+msgstr "Rien n'a été trouvé"
+
+#: EC_Company.php:312 EC_CompanyMsg.php:180
+msgid "Not found in Trash"
+msgstr "Aucun élément trouvée dans la corbeille"
+
+#: EC_Company.php:313 EC_CompanyMsg.php:181
+msgid "Featured Image"
+msgstr "Image mise en avant"
+
+#: EC_Company.php:314 EC_CompanyMsg.php:182
+msgid "Set featured image"
+msgstr "Définir l’image mise en avant"
+
+#: EC_Company.php:315 EC_CompanyMsg.php:183
+msgid "Remove featured image"
+msgstr "Supprimer l'image mise en avant"
+
+#: EC_Company.php:316 EC_CompanyMsg.php:184
+msgid "Use as featured image"
+msgstr "Utiliser comme image mise en avant"
+
+#: EC_Company.php:317
+msgid "Insert into company"
+msgstr "Insérer dans l’entreprise"
+
+#: EC_Company.php:318
+msgid "Uploaded to this company"
+msgstr "Uploadé dans cette entreprise"
+
+#: EC_Company.php:319
+msgid "Companies list"
+msgstr "Liste des entreprises"
+
+#: EC_Company.php:320
+msgid "Companies list navigation"
+msgstr "Navigation dans la liste des entreprises"
+
+#: EC_Company.php:321
+msgid "Filter companies list"
+msgstr "Filter la liste des entreprises"
+
+#: EC_Company.php:331
+msgid "Company Description"
+msgstr "Description de l’entreprise"
+
+#: EC_Company.php:525 EC_CompanyForm.php:230 EC_FormStats.php:236
+msgid "Yes"
+msgstr "Oui"
+
+#: EC_Company.php:526
+msgid "Are you sure you want to delete this media?"
+msgstr "Êtes-vous sûr de que vouloir supprimer le média ?"
+
+#: EC_Company.php:527
+msgid "No media to delete!"
+msgstr "Aucun média à supprimer!"
+
+#: EC_Company.php:528
+msgid "LOGO ID NOT EXISTS !"
+msgstr "LOGO ID N’EXISTE PAS !"
+
+#: EC_Company.php:558
+msgctxt "Taxonomy General Name"
+msgid "Types"
+msgstr "Types"
+
+#: EC_Company.php:559
+msgctxt "Taxonomy Singular Name"
+msgid "Type"
+msgstr "Type"
+
+#: EC_Company.php:560
+msgid "Types"
+msgstr "Types"
+
+#: EC_Company.php:561
+msgid "All Types"
+msgstr "Tous les types"
+
+#: EC_Company.php:562
+msgid "Parent Type"
+msgstr "Parent du type"
+
+#: EC_Company.php:563
+msgid "Parent Type:"
+msgstr "Parent du type:"
+
+#: EC_Company.php:564
+msgid "New Type Name"
+msgstr "Nom du nouveau type"
+
+#: EC_Company.php:565
+msgid "Add New Type"
+msgstr "Ajouter nouveau type"
+
+#: EC_Company.php:566
+msgid "Edit Type"
+msgstr "Modifier le type"
+
+#: EC_Company.php:567
+msgid "Update Type"
+msgstr "Mettre à jour le type"
+
+#: EC_Company.php:568
+msgid "View Type"
+msgstr "Voir le type"
+
+#: EC_Company.php:569
+msgid "Separate types with commas"
+msgstr "Séparer les types par des virgules"
+
+#: EC_Company.php:570
+msgid "Add or remove types"
+msgstr "Ajouter ou supprimer des types"
+
+#: EC_Company.php:571 EC_Company.php:619
+msgid "Choose from the most used"
+msgstr "Choisissez parmi les plus utilisés"
+
+#: EC_Company.php:572
+msgid "Popular Types"
+msgstr "Types populaires"
+
+#: EC_Company.php:573
+msgid "Search Types"
+msgstr "Rechercher un type"
+
+#: EC_Company.php:574 EC_Company.php:622
+msgid "Not Found"
+msgstr "Rien n'a été trouvé"
+
+#: EC_Company.php:575
+msgid "No types"
+msgstr "Aucun type"
+
+#: EC_Company.php:576
+msgid "Types list"
+msgstr "Liste des types"
+
+#: EC_Company.php:577
+msgid "Types list navigation"
+msgstr "Navigation dans la liste des types"
+
+#: EC_Company.php:580
+msgctxt "property_type"
+msgid "type"
+msgstr "type"
+
+#: EC_Company.php:606
+msgctxt "Taxonomy General Name"
+msgid "Campaigns"
+msgstr "Campagnes"
+
+#: EC_Company.php:607
+msgctxt "Taxonomy Singular Name"
+msgid "Campaign"
+msgstr "Campagne"
+
+#: EC_Company.php:608 assets/templates/companyForm.php:72
+msgid "Campaigns"
+msgstr "Campagnes"
+
+#: EC_Company.php:609
+msgid "All Campaigns"
+msgstr "Toutes les campagnes"
+
+#: EC_Company.php:610
+msgid "Parent Campaign"
+msgstr "Campagne parente"
+
+#: EC_Company.php:611
+msgid "Parent Campaign:"
+msgstr "Campagne parente:"
+
+#: EC_Company.php:612
+msgid "New Campaign Name"
+msgstr "Nom de la nouvelle campagne"
+
+#: EC_Company.php:613
+msgid "Add New Campaign"
+msgstr "Ajouter une nouvelle campagne"
+
+#: EC_Company.php:614
+msgid "Edit Campaign"
+msgstr "Modifier la campagne"
+
+#: EC_Company.php:615
+msgid "Update Campaign"
+msgstr "Mettre à jour la campagne"
+
+#: EC_Company.php:616
+msgid "View Campaign"
+msgstr "Voir la campagne"
+
+#: EC_Company.php:617
+msgid "Separate campaigns with commas"
+msgstr "Séparez les campagnes avec des virgules"
+
+#: EC_Company.php:618
+msgid "Add or remove Campaigns"
+msgstr "Ajouter ou supprimer des campagnes"
+
+#: EC_Company.php:620
+msgid "Popular Campaigns"
+msgstr "Compagnes populaires"
+
+#: EC_Company.php:621
+msgid "Search Campaigns"
+msgstr "Rechercher parmi les campagnes"
+
+#: EC_Company.php:623
+msgid "No campaign"
+msgstr "Aucune campagne"
+
+#: EC_Company.php:624
+msgid "Campaigns list"
+msgstr "Liste des campagnes"
+
+#: EC_Company.php:625
+msgid "Campaigns list navigation"
+msgstr "Navigation dans la liste des campagnes"
+
+#: EC_Company.php:628
+msgctxt "property_type"
+msgid "campaign"
+msgstr "enquête"
+
+#: EC_Company.php:691 EC_Company.php:739
+msgid "Start Date"
+msgstr "Date de début"
+
+#: EC_Company.php:694 EC_Company.php:742
+msgid "The start date for campaign"
+msgstr "La date de début de la campagne"
+
+#: EC_Company.php:698 EC_Company.php:747
+msgid "End Date"
+msgstr "Date de fin"
+
+#: EC_Company.php:701 EC_Company.php:750
+msgid "The end date for campaign"
+msgstr "Date de fin de la campagne"
+
+#: EC_Company.php:705 EC_Company.php:755 EC_CompanyMBoxes.php:312
+#: assets/views/mbCampaign.php:28 assets/views/mbCampaign.php:46
+msgid "Logo"
+msgstr "Logo"
+
+#: EC_Company.php:715 EC_Company.php:766
+msgid "Add media"
+msgstr "Ajouter un média"
+
+#: EC_Company.php:715
+msgid "Add media to campaign"
+msgstr "Ajouter un média à la campagne"
+
+#: EC_Company.php:716 EC_Company.php:768
+msgid "Remove Image"
+msgstr "Supprimer l'image"
+
+#: EC_Company.php:719 EC_Company.php:772
+msgid "The logo for campaign"
+msgstr "Le logo de la campagne"
+
+#: EC_Company.php:766
+msgid "Add image to campaign"
+msgstr "Ajouter l’image à la campagne"
+
+#: EC_Company.php:766
+msgid "Add image"
+msgstr "Ajouter une image"
+
+#: EC_Company.php:813
+msgid "Companies Settings"
+msgstr "Paramètres des entreprises"
+
+#: EC_Company.php:814
+msgid "Settings"
+msgstr "Paramètres"
+
+#: EC_Company.php:828
+msgid "Companies Messages"
+msgstr "Messages des entreprises"
+
+#: EC_Company.php:829 EC_CompanyMsg.php:165 EC_CompanyMsg.php:198
+msgid "Messages"
+msgstr "Messages"
+
+#: EC_Company.php:848
+msgid "No Settings Page Loaded!"
+msgstr "La page des paramètres n’est pas chargée!"
+
+#: EC_Company.php:865
+msgid "No Messages Page Loaded!"
+msgstr "La page des messages n’est pas chargée!"
+
+#: EC_Company.php:878
+msgid "Company Help Tab"
+msgstr "Onglet Aide de l’entreprise"
+
+#: EC_Company.php:880
+msgid "Descriptive content that will show in Company Help Tab body goes here."
+msgstr ""
+"Contenu descriptif qui s’affichera dans le corps de l’onglet d’aide de "
+"l’entreprise va ici."
+
+#: EC_Company.php:910 EC_CompanyMsg.php:262
+msgid "Image"
+msgstr "Image"
+
+#: EC_Company.php:911 EC_CompanyMBoxes.php:306 EC_CompanyMsg.php:263
+#: assets/views/mbCampaign.php:27 assets/views/mbCampaign.php:45
+#: assets/views/msgPage.php:80 assets/views/msgPage.php:89
+msgid "ID"
+msgstr "ID"
+
+#: EC_CompanyForm.php:231 EC_FormStats.php:237 assets/views/menuPage.php:43
+#: assets/views/statsPage.php:115
+msgid "Save Image"
+msgstr "Enregistrer l'image"
+
+#: EC_CompanyForm.php:339
+msgid "IP Address:"
+msgstr "Adresse IP"
+
+#: EC_CompanyMBoxes.php:198
+msgid "References"
+msgstr "Références"
+
+#: EC_CompanyMBoxes.php:233
+msgid "No Reference Metabox Page Loaded!"
+msgstr "Aucune page metabox de référence chargée!"
+
+#: EC_CompanyMBoxes.php:249
+msgid "No Campaign Metabox Page Loaded!"
+msgstr "Pas de campagne Metabox Page chargée!"
+
+#: EC_CompanyMBoxes.php:307
+msgid "Slug"
+msgstr "Jeton"
+
+#: EC_CompanyMBoxes.php:308
+msgid "Name"
+msgstr "Nom"
+
+#: EC_CompanyMBoxes.php:309 assets/templates/companyForm.php:59
+#: assets/views/mbCampaign.php:29 assets/views/mbCampaign.php:47
+msgid "Start"
+msgstr "Début"
+
+#: EC_CompanyMBoxes.php:310 assets/templates/companyForm.php:60
+#: assets/views/mbCampaign.php:30 assets/views/mbCampaign.php:48
+msgid "End"
+msgstr "Fin"
+
+#: EC_CompanyMBoxes.php:311
+msgid "Description"
+msgstr "Description"
+
+#: EC_CompanyMBoxes.php:313
+msgid "Count"
+msgstr "Total"
+
+#: EC_CompanyMsg.php:163
+msgctxt "Post Type General Name"
+msgid "Messages"
+msgstr "Messages"
+
+#: EC_CompanyMsg.php:164
+msgctxt "Post Type Singular Name"
+msgid "Message"
+msgstr "Message"
+
+#: EC_CompanyMsg.php:166 EC_CompanyMsg.php:192
+msgid "Message"
+msgstr "Message"
+
+#: EC_CompanyMsg.php:167
+msgid "Message Archives"
+msgstr "Archives des messages"
+
+#: EC_CompanyMsg.php:168
+msgid "Message Attributes"
+msgstr "Attributs des messages"
+
+#: EC_CompanyMsg.php:169
+msgid "Parent Message:"
+msgstr "Message parent :"
+
+#: EC_CompanyMsg.php:170
+msgid "All Messages"
+msgstr "Tous les messages"
+
+#: EC_CompanyMsg.php:171
+msgid "Add New Message"
+msgstr "Ajouter un nouveau message"
+
+#: EC_CompanyMsg.php:172
+msgid "Add Message"
+msgstr "Nouveau Message"
+
+#: EC_CompanyMsg.php:173
+msgid "New Message"
+msgstr "Nouveau message"
+
+#: EC_CompanyMsg.php:174
+msgid "Edit Message"
+msgstr "Modifier le message"
+
+#: EC_CompanyMsg.php:175
+msgid "Update Message"
+msgstr "Mettre à jour le message"
+
+#: EC_CompanyMsg.php:176
+msgid "View Message"
+msgstr "Afficher le message"
+
+#: EC_CompanyMsg.php:177
+msgid "View Messages"
+msgstr "Voir les messages"
+
+#: EC_CompanyMsg.php:178
+msgid "Search Message"
+msgstr "﻿Chercher un message"
+
+#: EC_CompanyMsg.php:185
+msgid "Insert into message"
+msgstr "Insérer dans le message"
+
+#: EC_CompanyMsg.php:186
+msgid "Uploaded to this message"
+msgstr "Téléversés sur ce message"
+
+#: EC_CompanyMsg.php:187
+msgid "Messages list"
+msgstr "Liste des messages"
+
+#: EC_CompanyMsg.php:188
+msgid "Messages list navigation"
+msgstr "Navigation de la liste des messages"
+
+#: EC_CompanyMsg.php:189
+msgid "Filter message list"
+msgstr "Filtrer la liste des messages"
+
+#: EC_CompanyMsg.php:199
+msgid "Message Description"
+msgstr "Description du message"
+
+#: EC_CompanyMsg.php:384
+msgid "Uniq id is mandatory"
+msgstr "L’identifiant unique est obligatoire"
+
+#: EC_CompanyMsg.php:405
+msgid "No message was retrieved"
+msgstr "Aucun message n’a été récupéré"
+
+#: EC_CompanySettings.php:237
+msgid "Chart Options"
+msgstr "Options du graphique"
+
+#: EC_CompanySettings.php:245
+msgid "Theme"
+msgstr "Thème"
+
+#: EC_CompanySettings.php:262
+msgid "Default Form"
+msgstr "Formulaire par défaut"
+
+#: EC_CompanySettings.php:269 assets/views/mbRef.php:28
+msgid "Form"
+msgstr "Formulaire"
+
+#: EC_CompanySettings.php:285
+msgid "Architecture colors"
+msgstr "Couleurs de l’architecture"
+
+#: EC_CompanySettings.php:352
+msgid "The light theme is enabled by default implicitly."
+msgstr "Le thème clair est activé par défaut implicitement."
+
+#: EC_CompanySettings.php:359
+msgid "Select the default form for companies"
+msgstr "Sélectionner le formulaire par défaut pour les entreprises"
+
+#: EC_CompanySettings.php:366
+msgid "Select the colors of the architecture"
+msgstr "Sélectionner les couleurs de l’architecture"
+
+#: EC_CompanySettings.php:389
+msgid "Light Theme"
+msgstr "Thème clair"
+
+#: EC_CompanySettings.php:392
+msgid "Dark Theme"
+msgstr "Thème sombre"
+
+#: EC_FormStats.php:238
+msgid "Chart by Points"
+msgstr "Graphique par points"
+
+#: EC_FormStats.php:239
+msgid "Points per question"
+msgstr "Points par question"
+
+#: EC_FormStats.php:240
+msgid "Questions"
+msgstr "Questions"
+
+#: EC_FormStats.php:241
+msgid "Points"
+msgstr "Points"
+
+#: EC_FormStats.php:243
+msgid "Lighting"
+msgstr "Éclairage"
+
+#: EC_FormStats.php:244
+msgid "Equipment"
+msgstr "Equipement"
+
+#: EC_FormStats.php:245
+msgid "Temperature"
+msgstr "Température"
+
+#: EC_FormStats.php:246
+msgid "Duration"
+msgstr "Durée"
+
+#: EC_FormStats.php:247
+msgid "Printer"
+msgstr "Imprimante"
+
+#: EC_FormStats.php:248
+msgid "Movement"
+msgstr "Déplacement"
+
+#: EC_FormStats.php:249
+msgid "Distance"
+msgstr "Distance"
+
+#: EC_FormStats.php:250
+msgid "Teleworking"
+msgstr "Télétravail"
+
+#: EC_FormStats.php:251
+msgid "Drink"
+msgstr "Boisson"
+
+#: EC_FormStats.php:252
+msgid "Eat"
+msgstr "Manger"
+
+#: EC_FormStats.php:253
+msgid "Production"
+msgstr "Production"
+
+#: EC_FormStats.php:254
+msgid "Solutions"
+msgstr "Solutions"
+
+#: EC_FormStats.php:309
+msgid "No Statistics Page Loaded!"
+msgstr "La page des statistiques n’est pas chargée!"
+
+#: EC_FormStats.php:322
+msgid "Statistics Help Tab"
+msgstr "Onglet Aide statistiques"
+
+#: EC_FormStats.php:324
+msgid ""
+"Descriptive content that will show in Statistics Help Tab body goes here."
+msgstr ""
+"Contenu descriptif qui s’affichera dans l’organisme de l’onglet d’aide "
+"statistiques va ici."
+
+#: EC_FormStats.php:336
+msgid "EC Statistics"
+msgstr "Statistiques EC"
+
+#: EC_FormStats.php:337
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: EC_FormStats.php:755
+msgid "point"
+msgid_plural "points"
+msgstr[0] "point"
+msgstr[1] ""
+
+#: EC_FormStats.php:825
+msgid "companyID is mandatory"
+msgstr "L’identifiant de l’entreprise est obligatoire"
+
+#: EC_FormStats.php:841 EC_FormStats.php:851 assets/views/msgPage.php:121
+#: assets/views/statsPage.php:95
+msgid "No data found"
+msgstr "Aucune donnée n'a été trouvée"
+
+# @ RGS_TEXTDOMAIN
+# @ twentytwelve
+#: assets/templates/companyForm.php:94
+msgid "Pages:"
+msgstr "Pages:"
+
+#: assets/views/mbCampaign.php:18
+msgid "Add"
+msgstr "Ajouter"
+
+#: assets/views/mbCampaign.php:19
+msgid "Remove"
+msgstr "Supprimer"
+
+#: assets/views/mbRef.php:12
+msgid "Mail address"
+msgstr "Adresse e-mail"
+
+#: assets/views/mbRef.php:15
+msgid "Respondent's email address"
+msgstr "Adresse électronique du répondant"
+
+#: assets/views/mbRef.php:20
+msgid "Number of employees"
+msgstr "Nombre d’employés"
+
+#: assets/views/mbRef.php:23
+msgid "Number of company employees"
+msgstr "Nombre d’employés de l’entreprise"
+
+#: assets/views/mbRef.php:33
+msgid "Select the form for company employees"
+msgstr "Sélectionner le formulaire pour les employés de l’entreprise"
+
+#: assets/views/mbRef.php:40
+msgid "Shortcode"
+msgstr "Raccourci"
+
+#: assets/views/mbRef.php:44
+msgid "Copy in clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#: assets/views/mbRef.php:45
+msgid "Add this shortcode in editor."
+msgstr "Ajoutez ce raccourci dans l’éditeur."
+
+#: assets/views/menuPage.php:14 assets/views/msgPage.php:17
+msgid "Settings Saved"
+msgstr "Paramètres enregistrés"
+
+#: assets/views/menuPage.php:25
+msgid "Charts"
+msgstr "Graphiques"
+
+#: assets/views/menuPage.php:26
+msgid "Forms"
+msgstr "Formulaires"
+
+#: assets/views/menuPage.php:27 assets/views/statsPage.php:37
+msgid "Informations"
+msgstr "Informations"
+
+#: assets/views/menuPage.php:108
+msgid "Save Settings"
+msgstr "Enregistrer les paramètres"
+
+#: assets/views/msgPage.php:66
+msgid "All"
+msgstr "Tout"
+
+#: assets/views/msgPage.php:72
+msgid "Active"
+msgstr "Actif"
+
+#: assets/views/msgPage.php:81 assets/views/msgPage.php:90
+msgid "Uniq ID"
+msgstr "ID unique"
+
+#: assets/views/msgPage.php:82 assets/views/msgPage.php:91
+msgid "Title"
+msgstr "Titre"
+
+#: assets/views/msgPage.php:83 assets/views/msgPage.php:92
+msgid "Created At"
+msgstr "Créé le"
+
+#: assets/views/msgPage.php:84 assets/views/msgPage.php:93
+msgid "Private"
+msgstr "Privé"
+
+#: assets/views/statsPage.php:36
+msgid "Public"
+msgstr "Public"
+
+#: assets/views/statsPage.php:75
+msgid "Number Companies"
+msgstr "Nombre d'entreprises"
+
+#: assets/views/statsPage.php:76
+msgid "Number Forms"
+msgstr "Nombre de formulaires"
+
+#: assets/views/statsPage.php:118
+msgid "Clear Image"
+msgstr "Supprimer l'image"
+
+#: assets/views/statsPage.php:135
+msgid "Powered by"
+msgstr "Propulsé par"
+
+#~ msgid "Username: %s"
+#~ msgstr "Nom d’utilisateur : %s"
+
+#~ msgid "Password: %s"
+#~ msgstr "Mot de passe:  %s"
+
+#~ msgid "[%s] Your username and password"
+#~ msgstr "[%s] Votre nom d'utilisateur et votre mot de passe"
+
+#~ msgid "When someone sent message through Contact Form 7"
+#~ msgstr ""
+#~ "Lorsqu’une personne envoie un message par le biais du formulaire de "
+#~ "contact 7"
+
+#~ msgid ""
+#~ "*%s* just sent a message titled \"*%s*\" through *%s*. Check your email!"
+#~ msgstr ""
+#~ "*%s* vient d’envoyer un message intitulé « %s * » par *%s*. Vérifiez "
+#~ "votre e-mail!"
+
+#~ msgid "Forms manager."
+#~ msgstr "Gestionnaire de formulaires."
+
+#~ msgid "Form password for company employees"
+#~ msgstr "Mot de passe de formulaire pour les employés de l’entreprise"
+
+#~ msgid "Campaign"
+#~ msgstr "Campagne"
+
+#~ msgid "Set company for preview."
+#~ msgstr "Définissez l’entreprise pour l’aperçu."
+
+#~ msgid "red pill"
+#~ msgstr "pilule rouge"
+
+#~ msgid "blue pill"
+#~ msgstr "pilule bleue"
+
+#~ msgid ""
+#~ "You take the blue pill and the story ends. You wake in your bed and you "
+#~ "believe whatever you want to believe."
+#~ msgstr ""
+#~ "Tu prends la pilule bleue et l'histoire se termine. Tu te réveilles dans "
+#~ "ton lit et tu crois ce que tu veux croire."
+
+#~ msgid ""
+#~ "You take the red pill and you stay in Wonderland and I show you how deep "
+#~ "the rabbit-hole goes."
+#~ msgstr ""
+#~ "Tu prends la pilule rouge et tu restes au pays des merveilles et je te "
+#~ "montre la profondeur du terrier du lapin."
+
+#~ msgid "Add media(s) to gallery"
+#~ msgstr "Ajouter média(s) à la galerie"
+
+# @ RGS_TEXTDOMAIN
+#~ msgid "Realization"
+#~ msgstr "Réalisation"
+
+# @ RGS_TEXTDOMAIN
+#~ msgid "RGS"
+#~ msgstr "RGS"
+
+# @ RGS_TEXTDOMAIN
+#~ msgid "All rigths reserved"
+#~ msgstr "Tous droits réservés"

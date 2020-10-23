@@ -1,0 +1,44 @@
+/* CSS Document */
+
+.sectionPicker {
+	border-bottom: 1px solid #ccc;
+}
+
+.sectionPicker th, .sectionPicker td {
+	padding: 0;
+    vertical-align: middle;
+	width: 500px;
+}
+
+
+.sectionPicker th label {
+	font-size: 13px;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.questionPicker {
+	border-bottom: 1px solid #ccc;
+}
+
+.questionPicker th, .questionPicker td {
+	padding: 0;
+    vertical-align: middle;
+	width: 500px;
+}
+
+.questionPicker th {
+	padding-left: 20px;
+}
+
+.questionPicker th label {
+	font-weight: normal;
+    font-size: 11px;
+}
+
+.wp-picker-container .wp-color-result.button {
+    height: 24px;
+    margin: 4px 6px 6px 0;
+    padding: 0 0 0 30px;
+    font-size: 11px;
+}
