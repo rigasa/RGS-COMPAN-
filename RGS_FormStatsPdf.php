@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class RGS_FormStats
+ * @class RGS_FormStatsPdf
  * @fullname Eco Citoyen Management
- * @package RGS_FormStats
+ * @package RGS_FormStatsPdf
  * @category Core
- * @filesource assets/plugins/Entreprise/RGS_FormStats.php
+ * @filesource assets/plugins/Entreprise/RGS_FormStatsPdf.php
  * @version 0.0.1
  * @created 2020-10-07
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'RGS_FormStats' ) ):
+if( ! class_exists( 'RGS_FormStatsPdf' ) ):
 	//----------------------------------
-	class RGS_FormStats
+	class RGS_FormStatsPdf
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -49,8 +49,8 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		//---
 		static public $gAdminPageId;
 		//---
-		const K_SLUG = 'rgsFormStats';
-		const K_PREFIX = 'rgsFormStats-';
+		const K_SLUG = 'rgsFormStatsPdf';
+		const K_PREFIX = 'rgsFormStatsPdf-';
 		const K_VERS = '0.0.1';
 		const K_DBVERS = '0.0.1';
 		
@@ -212,9 +212,9 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$TD = self::getTD_fn();
 			$options = RGS_CompanySettings::getOption_fn();
 			//---------------------------------------------------------
-			$allMsg = RGS_FormStats::getAllMsg_fn();
+			$allMsg = RGS_FormStatsPdf::getAllMsg_fn();
 			//
-			$arrReturn = RGS_FormStats::getStructMsg_fn($allMsg);
+			$arrReturn = RGS_FormStatsPdf::getStructMsg_fn($allMsg);
 			$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 			//----
 			$arrPoints = (isset($arrReturn['points']['points']) ) ? $arrReturn['points']['points'] : array();
@@ -707,7 +707,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		static function getArchitectHtml_fn( $listMsg, $formChoice )
 		{
 			
-			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
+			$formArchitect = RGS_FormStatsPdf::getFormArchitect_fn($formChoice);
 			//
 			$architectHTML = '';
 			$arrTags = array();
@@ -716,7 +716,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$arrResults = array();
 			$arrPercents = array();
 
-			$arrReturn = RGS_FormStats::getStructMsg_fn($listMsg);
+			$arrReturn = RGS_FormStatsPdf::getStructMsg_fn($listMsg);
 			$arrTags = (isset($arrReturn['tags']) ) ? $arrReturn['tags'] : array();
 			$arrResults = (isset($arrReturn['results']) ) ? $arrReturn['results'] : array();
 			$arrPercents = (isset($arrReturn['percents']) ) ? $arrReturn['percents'] : array();
@@ -853,7 +853,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 						) );
 						//wp_send_json_error( __('Empty List', self::getTD_fn() ) );
 					else:
-						$arrReturn = RGS_FormStats::getStructMsg_fn($msgList);
+						$arrReturn = RGS_FormStatsPdf::getStructMsg_fn($msgList);
 						$arrPoints = (isset($arrReturn['points']) ) ? $arrReturn['points'] : array();
 						$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 						//---------------------------------------------------------
@@ -886,15 +886,15 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'rgsFormStats_fn' ) ):
-		function rgsFormStats_fn() 
+	if( ! function_exists( 'rgsFormStatsPdf_fn' ) ):
+		function rgsFormStatsPdf_fn() 
 		{
-			return RGS_FormStats::getInstance_fn();
+			return RGS_FormStatsPdf::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'RGS_FormStats' ] ) ):
-		$GLOBALS[ 'RGS_FormStats' ] = rgsFormStats_fn();
+	if( ! isset( $GLOBALS[ 'RGS_FormStatsPdf' ] ) ):
+		$GLOBALS[ 'RGS_FormStatsPdf' ] = rgsFormStatsPdf_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

@@ -32,13 +32,13 @@
 	//if (typeof(oCompanyF) === undefined) { var oCompany = {}; }
 	//if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
 	//if (typeof(zingchart) === undefined) { var zingchart = {}; }
-	
+	const theOptions = oCompanyForm.options;
 	// -----------------------------
 	// ONLY TAB COMPANIES STATS PAGE
 	// -----------------------------
 	oCompanyForm.theme = 'light';
-	if( typeof(oCompanyForm.options.themeChoice) !== 'undefined' ) {
-		oCompanyForm.theme = oCompanyForm.options.themeChoice;
+	if( typeof(theOptions.themeChoice) !== 'undefined' ) {
+		oCompanyForm.theme = theOptions.themeChoice;
 	}
 	// -----------------------------
 	// GRAPH BY SECTIONS
@@ -82,6 +82,84 @@
 			}
     	};
     }
+	//------------------------------------
+	// CHANGE COMPANY
+	// -----------------------------
+	if( oCompany.exists('#companiesList') ) {
+		
+		jQuery( '#companiesList' ).on('change', function( event ){
+			event.preventDefault();
+			//
+			const companyID = jQuery( '#companiesList' ).val();
+			console.log('companyID', companyID );
+			
+			jQuery.ajax({
+				url: oCompanyForm.ajaxUrl,
+				type: "POST",
+				data: {
+					'action': 'getStatsList',
+					'companyID': companyID 
+				},
+				dataType: 'JSON',
+				success:function(response){
+					//
+					const success = (typeof(response.success) !== 'undefined') ? response.success : false;
+					if(success){
+					 	const data = (typeof(response.data) !== 'undefined') ? response.data : false;
+						//
+						if(data){
+							//--------------------------
+							var seriesSections;
+							var seriesQuestions;
+							const code = (typeof(data.code) !== 'undefined') ? data.code : 2;
+							var newHtml = (typeof(data.content) !== 'undefined') ? data.content : '';
+							const hideCharts = ( code > 0 );
+							if( code > 0 ){
+								newHtml = '<p class="noDataFound">' + newHtml + '</p>';
+							} else {
+								seriesSections = (typeof(data.seriesSections) !== 'undefined') ? data.seriesSections : '';
+								seriesQuestions = (typeof(data.seriesQuestions['points']) !== 'undefined') ? data.seriesQuestions['points'] : '';
+							}
+							//--------------------------
+							//console.log( 'newHtml', newHtml);
+							jQuery('#architectContainer').fadeOut( 400, function(){
+								//
+								if(hideCharts){
+									jQuery('#chartByPoints, #chartBySections').hide();
+								} else {
+									//
+									if(seriesSections !== '' ){
+									   oCompanyForm.setSections_fn( seriesSections );
+									}
+									if(seriesQuestions !== '' ){
+									   oCompanyForm.setPoints_fn(seriesQuestions);
+									}
+									//
+								   jQuery('#chartByPoints, #chartBySections').fadeIn( 400 );
+								}
+								//
+								jQuery('#architectContainer').html(newHtml).fadeIn( 400 );
+							});
+							//----------------------
+						}
+						
+					 }
+					console.log( 'response', response);
+					
+					// architectContainer
+					//oCF.getMessageCallback_fn(response);
+				},
+				error: function(errorThrown){
+					//alert('error');
+					console.log(errorThrown);
+				}
+			}).done(function(response) {
+				//oCF.getMessageCallback_fn(response);
+			});
+			
+			//
+		});
+	}
 	// -----------------------------
 	// Points
 	//------------------------------------
@@ -185,8 +263,15 @@
 	}
 	//
 	oCompanyForm.setPoints_fn( oCompanyForm.points );
-	// -----------------------------
-	// Sections
+	//-------------------------
+	// RADAR
+	//-------------------------
+	if( oCompany.exists('#displayAllInRadar') ) {
+		jQuery( '#displayAllInRadar' ).on('change', function(){
+			const allSeries = theOptions.allSeries;
+
+		});
+	}
 	// -----------------------------
 	if (typeof(oCompanyForm.setSections_fn) !== 'function') {
         oCompanyForm.setSections_fn = function( series ) {
@@ -209,91 +294,5 @@
 	}
 	//
 	oCompanyForm.setSections_fn( oCompanyForm.series );
-	//------------------------------------
-	// CHANGE COMPANY
-	// -----------------------------
-	if( oCompany.exists('#companiesList') ) {
-		
-		jQuery( '#companiesList' ).on('change', function( event ){
-			event.preventDefault();
-			//
-			const companyID = jQuery( '#companiesList' ).val();
-			console.log('companyID', companyID );
-			
-			jQuery.ajax({
-				url: oCompanyForm.ajaxUrl,
-				type: "POST",
-				data: {
-					'action': 'getStatsList',
-					'companyID': companyID 
-				},
-				dataType: 'JSON',
-				success:function(response){
-					//
-					const success = (typeof(response.success) !== 'undefined') ? response.success : false;
-					if(success){
-					 	const data = (typeof(response.data) !== 'undefined') ? response.data : false;
-						//
-						if(data){
-							//--------------------------
-							var seriesSections;
-							var seriesQuestions;
-							const code = (typeof(data.code) !== 'undefined') ? data.code : 2;
-							var newHtml = (typeof(data.content) !== 'undefined') ? data.content : '';
-							const hideCharts = ( code > 0 );
-							if( code > 0 ){
-								newHtml = '<p class="noDataFound">' + newHtml + '</p>';
-							} else {
-								seriesSections = (typeof(data.seriesSections) !== 'undefined') ? data.seriesSections : '';
-								seriesQuestions = (typeof(data.seriesQuestions['points']) !== 'undefined') ? data.seriesQuestions['points'] : '';
-							}
-							//--------------------------
-							//console.log( 'newHtml', newHtml);
-							jQuery('#architectContainer').fadeOut( 400, function(){
-								//
-								if(hideCharts){
-									jQuery('#chartByPoints, #chartBySections').hide();
-								} else {
-									//
-									if(seriesSections !== '' ){
-									   oCompanyForm.setSections_fn( seriesSections );
-									}
-									if(seriesQuestions !== '' ){
-									   oCompanyForm.setPoints_fn(seriesQuestions);
-									}
-									//
-								   jQuery('#chartByPoints, #chartBySections').fadeIn( 400 );
-								}
-								//
-								jQuery('#architectContainer').html(newHtml).fadeIn( 400 );
-							});
-							//--------------------------
-							
-							
-							
-						}
-						
-					 }
-					console.log( 'response', response);
-					
-					// architectContainer
-					//oCF.getMessageCallback_fn(response);
-				},
-				error: function(errorThrown){
-					//alert('error');
-					console.log(errorThrown);
-				}
-			}).done(function(response) {
-				//oCF.getMessageCallback_fn(response);
-			});
-			
-			//
-		});
-	}
-	// -----------------------------
-		
-		
-		
-		
 	// -----------------------------
 })(jQuery);

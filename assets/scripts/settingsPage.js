@@ -27,7 +27,7 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 (function() {
 	"use strict";
 	// -----------------------------
-	// ONLY SETTINGS PAGE
+	// TABS
 	// -----------------------------
 	if( oCompany.exists('.nav-tab') ) {
 		
@@ -54,7 +54,9 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 			history.replaceState( {page: hash}, 'title ' + hash, hash );
 		});
 	}
-	//
+	//-------------------------
+	// RADAR
+	//-------------------------
 	if( oCompany.exists('#oneGraph') ) {
 		// -------------------------
 		if( oCompany.exists('#themeChoice') ) {
@@ -86,10 +88,12 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 	} else {
 		//console.log( oCompany.lang.noLogoId );
 	}
-	
-	if( oCompany.exists('.wp-color-picker') ) {
+	//-------------------------
+	// COLORS
+	//-------------------------
+	if( oCompany.exists('.color-field') ) {
 		
-		jQuery('.wp-color-picker').wpColorPicker();
+		jQuery('.color-field').wpColorPicker();
 		
 	}
 	// -----------------------------

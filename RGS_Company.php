@@ -271,7 +271,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				
 				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
 			
-				add_action( 'admin_print_scripts-post-new.php', array( __CLASS__, 'adminEnqueueScripts_fn'), CURL_SSLVERSION_TLSv1_2 );
+				add_action( 'admin_print_scripts-post-new.php', array( __CLASS__, 'adminEnqueueScripts_fn'), 12 );
 				add_action( 'admin_print_scripts-post.php', array( __CLASS__, 'adminEnqueueScripts_fn'), 12 );
 			
 				// Add columns in list
@@ -408,17 +408,6 @@ if( ! class_exists( 'RGS_Company' ) ):
 				//
 				if( is_admin() ):
 					wp_enqueue_editor();
-					wp_enqueue_style( 'wp-color-picker' );
-					wp_enqueue_script( 'wp-color-picker' );
-					if( file_exists( self::$gJsDir . 'wp-color-picker-alpha.min.js' ) ):
-						wp_enqueue_script( 
-							'wp-color-picker-alpha', 
-							self::$gJsUrl . 'wp-color-picker-alpha.min.js',
-							array( 'wp-color-picker' ), 
-							'0.0.1', 
-							true 
-						);
-					endif;
 				endif;
 				//
 				// src : https://www.zingchart.com/docs/chart-types/radar
@@ -988,49 +977,3 @@ if( ! class_exists( 'RGS_Company' ) ):
 	//------------------------------------------------------
 endif;
 //----------------------------------------------------------
-/*
-INCLURE LES CUSTOM POST TYPES SUR LA PAGE D’ACCUEIL
-
-function wpc_cpt_in_home($query) {
-  if (! is_admin() && $query->is_main_query()) {
-    if ($query->is_home) {
-      $query->set('post_type', array('post', 'property'));
-    }
-  }
-}
-
-add_action('pre_get_posts','wpc_cpt_in_home');
-
-INCLURE LES CUSTOM POST TYPES DANS LES RÉSULTATS DE RECHERCHE
-
-function wpc_cpt_in_search($query) {
-  if (! is_admin() && $query->is_main_query()) {
-    if ($query->is_search) {
-      $query->set('post_type', array('post', 'property'));
-    }
-  }
-}
-
-add_action('pre_get_posts','wpc_cpt_in_search');
-
-RÉCUPÉRER LES CONTENUS VIA WP_QUERY
-
-<?php
-	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-
-	$args = array(
-		'paged'		=> $paged,
-		'post_type' => 'property'
-		),
-	);
-
-	$the_query = new WP_Query($args);
-?>
-
-	<?php if ($the_query->have_posts()) : ?>
-		<?php while ($the_query->have_posts()) : $the_query->the_post(); ?>
-			<?php get_template_part('template-parts/content', 'property'); ?>
-		<?php endwhile; ?>
-	<?php wp_reset_postdata(); ?>
-<?php endif; ?>
-*/

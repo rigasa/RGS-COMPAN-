@@ -72,21 +72,16 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 
 					<?php endforeach; ?>
 
-				</select><br><span style="margin-left: 20px;"><?php echo __( 'Number Companies', $TD ) . ': <span style="font-weight: bold;">' . $nbCompanies .'</span>'; ?></span>
-				
-				</select><br><span style="margin-left: 20px;"><?php echo __( 'Number Forms', $TD ) . ': <span style="font-weight: bold;">' . $nbForms .'</span>'; ?></span>
-			
+				</select>
 			<br>
+				<p><span><?php echo __( 'Number Companies', $TD ) . ': <span style="font-weight: bold;">' . $nbCompanies .'</span>'; ?></span>
+				<br><span><?php echo __( 'Number Forms', $TD ) . ': <span style="font-weight: bold;">' . $nbForms .'</span>'; ?></span>
+				</p>
 			<hr>
 			<br>
 			<?php endif; ?>
 			
 			<?php
-			
-			
-			
-			
-			
 			$formChoice = (int) $rgsOptions['formChoice'];
 			$themeChoice = $rgsOptions['themeChoice'];
 			//----------------------------
@@ -109,6 +104,9 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 				<div id="pointsChart" style="width:100%; height: 500px;"></div>
 			</div>
 			<hr>
+			<?php
+
+			?>
 			<div id="chartBySections">
 				<div id="sectionsGraph"></div>
 				<br>
@@ -118,6 +116,14 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 				<button id="sectionsGraph-clear" class="button button-secondary">
 					<?php _e( 'Clear Image', $TD ); ?>
 				</button>
+				<p>
+			<?php
+				$val = isset($rgsOptions['displayAllInRadar']) ? $rgsOptions['displayAllInRadar']: 0;
+				//
+				?>
+				<input id="displayAllInRadar" type="checkbox" value="1" <?php checked(1, $val, true); ?> /><label> <?php _e( 'Display All In Radar', self::getTD_fn() ); ?></label>
+			
+				</p>
 				<div id="sectionsGraph-photo" class="output-img"></div>
 			</div>
 			<hr>

@@ -125,33 +125,14 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			// SETUPS
 			if ( is_admin() ) :
 				//-----------------------------------------------
-            	add_action( 'admin_init', array( __CLASS__, 'initSettings_fn' ) );
+            	add_action( 'admin_init',     array( __CLASS__, 'initSettings_fn' ) );
 				//-----------------------------------------------
-				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueColorpicker_fn' ));
+				
         	endif;
 			//----------------------------------------------------
 		}
 		//---------------------------------------------------------------
-		// ENQUEUE
-		//---------------------------------------------------------------
-		static function enqueueColorpicker_fn()
-		{
-			wp_enqueue_style( 'wp-color-picker' );
-			//
-			wp_enqueue_script( 'wp-color-picker' );
-			//
-			if( file_exists( RGS_Company::$gJsDir . 'wp-color-picker-alpha.min.js' ) ):
-				wp_enqueue_script( 
-					'wp-color-picker-alpha', 
-					RGS_Company::$gJsUrl . 'wp-color-picker-alpha.min.js',
-					array( 'wp-color-picker' ), 
-					'0.0.1', 
-					true 
-				);
-			endif;
-		}
-		//---------------------------------------------------------------
-		// GETTERS
+		// CPT
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
@@ -172,8 +153,6 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 		{
 			return self::getSlug_fn() . '_options';
 		}
-		//--------------------------------------------------------------
-		// OPTIONS
 		//---------------------------------------------------------------
 		static function getDefaultOptions_fn()
 		{
@@ -205,7 +184,6 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			//
 			return $settings;
 		}
-		//
 		//---------------------------------------------------------------
 		static function saveOption_fn($optName = '')
 		{
@@ -241,9 +219,9 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			$args = array(
 				'sanitize_callback' => array( __CLASS__, 'settingsPageValidate_fn' )
 			);
-			register_setting( $pageID, $rgsOptionID );
-			//register_setting( $pageID, $rgsOptionID, $args );
-			register_setting( $pageID . '_chart', $rgsOptionID, $args  );
+			//register_setting( $pageID, $rgsOptionID );
+			register_setting( $pageID, $rgsOptionID, $args );
+			register_setting( $pageID . '_chart', $rgsOptionID );
 			
 			 // 
 			add_settings_section(
@@ -429,7 +407,7 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			$options = self::getOption_fn();
 			//
 			//self::$gDefOptions
-			$val = isset($options[ $labelFor ]) ? $options[ $labelFor ]: 0;
+			$val = isset($options[ $labelFor ]) ? $options[ $labelFor ]: self::$gDefOptions[$labelFor];
 			//
 			?>
 			<input id="<?php echo esc_attr( $labelFor ); ?>" type="checkbox" name="<?php echo self::getOptionName_fn(); ?>[<?php echo esc_attr( $labelFor ); ?>]" value="1" <?php checked(1, $val, true); ?> />
@@ -484,7 +462,7 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 				endif;
 				// ?>
 				<input type="text" id="<?php echo esc_attr( $labelFor ); ?>"
-						name="<?php echo self::getOptionName_fn(); ?>[<?php echo esc_attr( $labelFor ); ?>]" value="<?php echo $options[ $labelFor ]; ?>" class="color-field" data-alpha="true">
+						name="<?php echo self::getOptionName_fn(); ?>[<?php echo esc_attr( $labelFor ); ?>]" value="<?php echo $options[ $labelFor ]; ?>" class="wp-color-picker" data-alpha="true">
 			<?php
 			endif;
 			//
@@ -504,7 +482,7 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 				endif;
 				// ?>
 				<input type="text" id="<?php echo esc_attr( $labelFor ); ?>"
-						name="<?php echo self::getOptionName_fn(); ?>[<?php echo esc_attr( $labelFor ); ?>]" value="<?php echo $options[ $labelFor ]; ?>" class="color-field" data-alpha="true">
+						name="<?php echo self::getOptionName_fn(); ?>[<?php echo esc_attr( $labelFor ); ?>]" value="<?php echo $options[ $labelFor ]; ?>" class="wp-color-picker" data-alpha="true">
 			<?php
 			endif;
 			//
@@ -553,27 +531,20 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 		//---------------------------------------------------------------
 		static function settingsPageValidate_fn($input) 
 		{
-			#echo '<pre>input SRC::: '. print_r($input, TRUE).'</pre>';
+			$options = self::getOption_fn();
+			
 
-			if( ! isset( $input['displayAllInRadar']) ):
-				$input['displayAllInRadar'] = 0;
-			endif;
+			echo '<pre>OUT::: '. print_r($options, TRUE).'</pre>';
+			echo '<pre>OUT::: '. print_r($options, TRUE).'</pre>';
 
-			#echo '<pre>input UPDATE::: '. print_r($input, TRUE).'</pre>';
-			#echo '<pre>POST::: '. print_r($_POST, TRUE).'</pre>';
+			die('DEBUG');
 
-			#die('DEBUG');
-
+			/*$options['text_string'] = trim($input['text_string']);
+			if(!preg_match('/^[a-z0-9]{32}$/i', $options['text_string'])) {
+				$options['text_string'] = '';
+			}*/
 			return $input;
 		}
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		// COLORS
 		//---------------------------------------------------------------

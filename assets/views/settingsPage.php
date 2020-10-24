@@ -1,19 +1,19 @@
 <?php
+//----------------------
 global $title;
 $slug = RGS_Company::getSlug_fn();
 $TD = RGS_Company::getTD_fn();
 $pageID = RGS_Company::getAdminMenuId_fn();
 // GET OPTIONS
-//$rgsOptionID = RGS_CompanySettings::getOptionName_fn();
-//$rgsOptions = get_option( $rgsOptionID );
 $rgsOptions = RGS_CompanySettings::getOption_fn();
+//----------------------
 // check if the user have submitted the settings
 // WordPress will add the "settings-updated" $_GET parameter to the url
 if ( isset( $_GET[ 'settings-updated' ] ) ) {
 	// add settings saved message with the class of "updated"
 	add_settings_error( $slug . '_messages', $slug . '_message', __( 'Settings Saved', $TD ), 'updated' );
 }
-
+//----------------------
 // show error/update messages
 settings_errors( $slug . 'messages' );
 ?>
