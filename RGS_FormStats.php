@@ -120,7 +120,12 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		 */
 		private function loadDependencies_fn() 
 		{
-			//
+			//------------------------------------------------------
+			$dirHtmlToPDF = RGS_Company::$gDir . 'RGS_HtmlToPDF.php';
+			if( file_exists( $dirHtmlToPDF ) ):
+				require_once( $dirHtmlToPDF );
+			endif;
+			//------------------------------------------------------
 		}
 		//---------------------------------------------------------------
 		private function setupHooks_fn() 
@@ -141,7 +146,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			endif;
 			//---------------------------------------------------
 			//------
-			// GET MESSAGE BY AJAX
+			// GET INQUESTS BY AJAX
 			//------
 			add_action( 'wp_ajax_getStatsList', array(__CLASS__, 'getStatsList_fn') );
 			add_action( 'wp_ajax_nopriv_getStatsList', array(__CLASS__, 'getStatsList_fn') );
@@ -212,7 +217,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$TD = self::getTD_fn();
 			$options = RGS_CompanySettings::getOption_fn();
 			//---------------------------------------------------------
-			$allInquest = RGS_FormStats::getAllInquest_fn();
+			$allInquest = (array) RGS_FormStats::getAllInquest_fn();
 			//
 			$arrReturn = RGS_FormStats::getStructInquest_fn($allInquest);
 			$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
@@ -407,7 +412,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				endforeach;
 				return $rs;
 			else:
-				return null;
+				return array();
 			endif;
 			
 		}
@@ -429,7 +434,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				endforeach;
 				return $rs;
 			else:
-				return null;
+				return array();
 			endif;
 			
 		}
@@ -830,9 +835,9 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				$formChoice = (int) $rgsOptions['formChoice'];
 				//
 				if($companyID == 0 ):
-					$msgList = self::getAllInquest_fn();
+					$msgList = (array) self::getAllInquest_fn();
 				else:
-					$msgList = self::getCompanyInquest_fn($companyID);
+					$msgList = (array) self::getCompanyInquest_fn($companyID);
 				endif;
 				
 				if( ! $msgList ):
@@ -862,7 +867,8 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 							'code' => 0, 
 							'content' => $msgListHtml,
 							'seriesSections' => $arrSeries,
-							'seriesQuestions' => $arrPoints
+							'seriesQuestions' => $arrPoints,
+							'nbInquest' => count( $msgList )
 						) );
 					endif;
 			
@@ -872,7 +878,6 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			
 			wp_die();
 		}
-		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------

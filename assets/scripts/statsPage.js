@@ -91,7 +91,7 @@
 			event.preventDefault();
 			//
 			const companyID = jQuery( '#companiesList' ).val();
-			console.log('companyID', companyID );
+			//console.log('companyID', companyID );
 			
 			jQuery.ajax({
 				url: oCompanyForm.ajaxUrl,
@@ -111,14 +111,18 @@
 							//--------------------------
 							var seriesSections;
 							var seriesQuestions;
+							var nbInquest;
 							const code = (typeof(data.code) !== 'undefined') ? data.code : 2;
 							var newHtml = (typeof(data.content) !== 'undefined') ? data.content : '';
 							const hideCharts = ( code > 0 );
 							if( code > 0 ){
 								newHtml = '<p class="noDataFound">' + newHtml + '</p>';
+								nbInquest = 0;
 							} else {
 								seriesSections = (typeof(data.seriesSections) !== 'undefined') ? data.seriesSections : '';
 								seriesQuestions = (typeof(data.seriesQuestions['points']) !== 'undefined') ? data.seriesQuestions['points'] : '';
+								
+								nbInquest = (typeof(data.nbInquest) !== 'undefined') ? parseInt( nbInquest ) : 0;
 							}
 							//--------------------------
 							//console.log( 'newHtml', newHtml);
@@ -139,15 +143,14 @@
 								}
 								//
 								jQuery('#architectContainer').html(newHtml).fadeIn( 400 );
+								//
+								jQuery('#nbInquest').html(nbInquest);
+								//
 							});
 							//----------------------
 						}
-						
 					 }
-					console.log( 'response', response);
-					
-					// architectContainer
-					//oCF.getInquestCallback_fn(response);
+					//
 				},
 				error: function(errorThrown){
 					//alert('error');
@@ -162,7 +165,7 @@
 	}
 	// -----------------------------
 	// Points
-	//------------------------------------
+	// -----------------------------
 	if (typeof(oCompanyForm.setPoints_fn) !== 'function') {
         oCompanyForm.setPoints_fn = function( points ) {
 			//
@@ -263,9 +266,9 @@
 	}
 	//
 	oCompanyForm.setPoints_fn( oCompanyForm.points );
-	//-------------------------
+	// -----------------------------
 	// RADAR
-	//-------------------------
+	// -----------------------------
 	if( oCompany.exists('#displayAllInRadar') ) {
 		jQuery( '#displayAllInRadar' ).on('change', function(){
 			const allSeries = theOptions.allSeries;
@@ -291,6 +294,43 @@
 			}
 			//
 		};
+	}
+	// -----------------------------
+	// PDF
+	// -----------------------------
+	if( oCompany.exists('#createPDF') ) {
+		jQuery( '#createPDF' ).on('click', function( event ){
+			event.preventDefault();
+			const dataHTML = document.getElementById('architectPDF').innerHTML;
+			//console.log('craete pdf', dataHTML);
+
+			jQuery.ajax({
+				url: oCompanyForm.ajaxUrl,
+				type: "POST",
+				data: {
+					'action': 'createPDF',
+					//'pageHTML': encodeURIComponent( dataHTML )
+					//'pageHTML': JSON.stringify( dataHTML )
+					'pageHTML': dataHTML
+				},
+				dataType: 'JSON',
+				success:function(response){
+					//
+					const success = (typeof(response.success) !== 'undefined') ? response.success : false;
+					if(success){
+					 	const data = (typeof(response.data) !== 'undefined') ? response.data : false;
+						//
+						if(data){
+							
+						}
+					 }
+					//
+				},
+				error: function(errorThrown){
+					console.log(errorThrown);
+				}
+			});
+		});
 	}
 	//
 	oCompanyForm.setSections_fn( oCompanyForm.series );

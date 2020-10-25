@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Company v0.0.1\n"
-"Report-Inquestid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-25 11:44+0100\n"
-"PO-Revision-Date: 2020-10-25 11:44+0100\n"
+"POT-Creation-Date: 2020-10-25 12:19+0100\n"
+"PO-Revision-Date: 2020-10-25 12:27+0100\n"
 "Last-Translator: RiGaSa <ricardo@rigasa.pro>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Inquestid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.4.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -316,7 +316,7 @@ msgstr "Navigation dans la liste des campagnes"
 #: RGS_Company.php:617
 msgctxt "property_type"
 msgid "campaign"
-msgstr "enquête"
+msgstr "campaign"
 
 #: RGS_Company.php:680 RGS_Company.php:728
 msgid "Start Date"
@@ -374,11 +374,11 @@ msgstr "Paramètres"
 
 #: RGS_Company.php:817
 msgid "Companies Inquests"
-msgstr "Inquests des entreprises"
+msgstr "Enquêtes sur les entreprises"
 
 #: RGS_Company.php:818 RGS_CompanyInquest.php:165 RGS_CompanyInquest.php:198
 msgid "Inquests"
-msgstr "Inquests"
+msgstr "Enquêtes"
 
 #: RGS_Company.php:837
 msgid "No Settings Page Loaded!"
@@ -386,7 +386,7 @@ msgstr "La page des paramètres n’est pas chargée!"
 
 #: RGS_Company.php:854
 msgid "No Inquests Page Loaded!"
-msgstr "La page des inquests n’est pas chargée!"
+msgstr "La page des enquêtes n’est pas chargée!"
 
 #: RGS_Company.php:867
 msgid "Company Help Tab"
@@ -402,10 +402,10 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: RGS_Company.php:900 RGS_CompanyMBoxes.php:306 RGS_CompanyInquest.php:263
+#: RGS_Company.php:900 RGS_CompanyInquest.php:263 RGS_CompanyMBoxes.php:306
 #: assets/views/companyCampaign_MB.php:27
-#: assets/views/companyCampaign_MB.php:45 assets/views/inquestPage.php:80
-#: assets/views/inquestPage.php:89
+#: assets/views/companyCampaign_MB.php:45 assets/views/inquestPage.php:62
+#: assets/views/inquestPage.php:71
 msgid "ID"
 msgstr "ID"
 
@@ -417,6 +417,100 @@ msgstr "Enregistrer l'image"
 #: RGS_CompanyForm.php:339
 msgid "IP Address:"
 msgstr "Adresse IP"
+
+#: RGS_CompanyInquest.php:163
+msgctxt "Post Type General Name"
+msgid "Inquests"
+msgstr "Enquêtes"
+
+#: RGS_CompanyInquest.php:164
+msgctxt "Post Type Singular Name"
+msgid "Inquest"
+msgstr "Enquête"
+
+#: RGS_CompanyInquest.php:166 RGS_CompanyInquest.php:192
+msgid "Inquest"
+msgstr "Enquête"
+
+#: RGS_CompanyInquest.php:167
+msgid "Inquest Archives"
+msgstr "Archives des enquêtes"
+
+#: RGS_CompanyInquest.php:168
+msgid "Inquest Attributes"
+msgstr "Attributs des enquêtes"
+
+#: RGS_CompanyInquest.php:169
+msgid "Parent Inquest:"
+msgstr "Enquête parente:"
+
+#: RGS_CompanyInquest.php:170
+msgid "All Inquests"
+msgstr "Toutes les enquêtes"
+
+#: RGS_CompanyInquest.php:171
+msgid "Add New Inquest"
+msgstr "Ajouter une nouvelle enquête"
+
+#: RGS_CompanyInquest.php:172
+msgid "Add Inquest"
+msgstr "Ajouter une enquête"
+
+#: RGS_CompanyInquest.php:173
+msgid "New Inquest"
+msgstr "Nouvelle enquête"
+
+#: RGS_CompanyInquest.php:174
+msgid "Edit Inquest"
+msgstr "Modifier l’enquête"
+
+#: RGS_CompanyInquest.php:175
+msgid "Update Inquest"
+msgstr "Mise à jour de l’enquête"
+
+#: RGS_CompanyInquest.php:176
+msgid "View Inquest"
+msgstr "Voir l’enquête"
+
+#: RGS_CompanyInquest.php:177
+msgid "View Inquests"
+msgstr "Voir les enquêtes"
+
+#: RGS_CompanyInquest.php:178
+msgid "Search Inquest"
+msgstr "Chercher une enquête"
+
+#: RGS_CompanyInquest.php:185
+msgid "Insert into inquest"
+msgstr "Insérer dans l’enquête"
+
+#: RGS_CompanyInquest.php:186
+msgid "Uploaded to this inquest"
+msgstr "Téléchargé à cette enquête"
+
+#: RGS_CompanyInquest.php:187
+msgid "Inquests list"
+msgstr "Liste des enquêtes"
+
+#: RGS_CompanyInquest.php:188
+msgid "Inquests list navigation"
+msgstr "Navigation de liste d’enquêtes"
+
+#: RGS_CompanyInquest.php:189
+msgid "Filter inquest list"
+msgstr "Filtrer la liste des enquêtes"
+
+#: RGS_CompanyInquest.php:199
+msgid "Inquest Description"
+msgstr "Description de l’enquête"
+
+#: RGS_CompanyInquest.php:385
+msgid "Uniq id is mandatory"
+msgstr "L’identifiant unique est obligatoire"
+
+#: RGS_CompanyInquest.php:406
+msgid "No inquest was retrieved"
+msgstr "Aucun inquest n’a été récupéré"
 
 #: RGS_CompanyMBoxes.php:198
 msgid "References"
@@ -457,100 +551,6 @@ msgstr "Description"
 #: RGS_CompanyMBoxes.php:313
 msgid "Count"
 msgstr "Total"
-
-#: RGS_CompanyInquest.php:163
-msgctxt "Post Type General Name"
-msgid "Inquests"
-msgstr "Inquests"
-
-#: RGS_CompanyInquest.php:164
-msgctxt "Post Type Singular Name"
-msgid "Inquest"
-msgstr "Inquest"
-
-#: RGS_CompanyInquest.php:166 RGS_CompanyInquest.php:192
-msgid "Inquest"
-msgstr "Inquest"
-
-#: RGS_CompanyInquest.php:167
-msgid "Inquest Archives"
-msgstr "Archives des inquests"
-
-#: RGS_CompanyInquest.php:168
-msgid "Inquest Attributes"
-msgstr "Attributs des inquests"
-
-#: RGS_CompanyInquest.php:169
-msgid "Parent Inquest:"
-msgstr "Inquest parent :"
-
-#: RGS_CompanyInquest.php:170
-msgid "All Inquests"
-msgstr "Tous les inquests"
-
-#: RGS_CompanyInquest.php:171
-msgid "Add New Inquest"
-msgstr "Ajouter un nouveau inquest"
-
-#: RGS_CompanyInquest.php:172
-msgid "Add Inquest"
-msgstr "Nouveau Inquest"
-
-#: RGS_CompanyInquest.php:173
-msgid "New Inquest"
-msgstr "Nouveau inquest"
-
-#: RGS_CompanyInquest.php:174
-msgid "Edit Inquest"
-msgstr "Modifier le inquest"
-
-#: RGS_CompanyInquest.php:175
-msgid "Update Inquest"
-msgstr "Mettre à jour le inquest"
-
-#: RGS_CompanyInquest.php:176
-msgid "View Inquest"
-msgstr "Afficher le inquest"
-
-#: RGS_CompanyInquest.php:177
-msgid "View Inquests"
-msgstr "Voir les inquests"
-
-#: RGS_CompanyInquest.php:178
-msgid "Search Inquest"
-msgstr "﻿Chercher un inquest"
-
-#: RGS_CompanyInquest.php:185
-msgid "Insert into inquest"
-msgstr "Insérer dans le inquest"
-
-#: RGS_CompanyInquest.php:186
-msgid "Uploaded to this inquest"
-msgstr "Téléversés sur ce inquest"
-
-#: RGS_CompanyInquest.php:187
-msgid "Inquests list"
-msgstr "Liste des inquests"
-
-#: RGS_CompanyInquest.php:188
-msgid "Inquests list navigation"
-msgstr "Navigation de la liste des inquests"
-
-#: RGS_CompanyInquest.php:189
-msgid "Filter inquest list"
-msgstr "Filtrer la liste des inquests"
-
-#: RGS_CompanyInquest.php:199
-msgid "Inquest Description"
-msgstr "Description du inquest"
-
-#: RGS_CompanyInquest.php:385
-msgid "Uniq id is mandatory"
-msgstr "L’identifiant unique est obligatoire"
-
-#: RGS_CompanyInquest.php:406
-msgid "No inquest was retrieved"
-msgstr "Aucun inquest n’a été récupéré"
 
 #: RGS_CompanySettings.php:251
 msgid "Chart Options"
@@ -694,7 +694,7 @@ msgid "companyID is mandatory"
 msgstr "L’identifiant de l’entreprise est obligatoire"
 
 #: RGS_FormStats.php:842 RGS_FormStats.php:852 RGS_FormStatsPdf.php:842
-#: RGS_FormStatsPdf.php:852 assets/views/inquestPage.php:121
+#: RGS_FormStatsPdf.php:852 assets/views/inquestPage.php:103
 #: assets/views/statsPage.php:91
 msgid "No data found"
 msgstr "Aucune donnée n'a été trouvée"
@@ -749,27 +749,27 @@ msgstr "Ajoutez ce raccourci dans l’éditeur."
 msgid "Settings Saved"
 msgstr "Paramètres enregistrés"
 
-#: assets/views/inquestPage.php:66
+#: assets/views/inquestPage.php:48
 msgid "All"
 msgstr "Tout"
 
-#: assets/views/inquestPage.php:72
+#: assets/views/inquestPage.php:54
 msgid "Active"
 msgstr "Actif"
 
-#: assets/views/inquestPage.php:81 assets/views/inquestPage.php:90
+#: assets/views/inquestPage.php:63 assets/views/inquestPage.php:72
 msgid "Uniq ID"
 msgstr "ID unique"
 
-#: assets/views/inquestPage.php:82 assets/views/inquestPage.php:91
+#: assets/views/inquestPage.php:64 assets/views/inquestPage.php:73
 msgid "Title"
 msgstr "Titre"
 
-#: assets/views/inquestPage.php:83 assets/views/inquestPage.php:92
+#: assets/views/inquestPage.php:65 assets/views/inquestPage.php:74
 msgid "Created At"
 msgstr "Créé le"
 
-#: assets/views/inquestPage.php:84 assets/views/inquestPage.php:93
+#: assets/views/inquestPage.php:66 assets/views/inquestPage.php:75
 msgid "Private"
 msgstr "Privé"
 
@@ -798,14 +798,14 @@ msgid "Number Companies"
 msgstr "Nombre d'entreprises"
 
 #: assets/views/statsPage.php:78
-msgid "Number of inquiries"
+msgid "Number of inquests"
 msgstr "Nombre d’enquêtes"
 
 #: assets/views/statsPage.php:117
 msgid "Clear Image"
 msgstr "Supprimer l'image"
 
-#: assets/views/statsPage.php:142
+#: assets/views/statsPage.php:145
 msgid "Powered by"
 msgstr "Propulsé par"
 

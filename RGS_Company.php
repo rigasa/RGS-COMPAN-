@@ -218,36 +218,42 @@ if( ! class_exists( 'RGS_Company' ) ):
 		private function loadDependencies_fn() 
 		{
 			//------------------------------------------------------
-			$dirMBoxes = self::$gDir . 'RGS_CompanyMBoxes.php';
-			if( file_exists( $dirMBoxes ) ):
-				require_once( $dirMBoxes );
+			$fileRequired = self::$gDir . 'RGS_CompanyMBoxes.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$dirSettings = self::$gDir . 'RGS_CompanySettings.php';
-			if( file_exists( $dirSettings ) ):
-				require_once( $dirSettings );
+			$fileRequired = self::$gDir . 'RGS_CompanySettings.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$dirZC = self::$gLibsDir . 'ZC.php';
-			if( file_exists( $dirZC ) ):
-				require_once( $dirZC );
+			$fileRequired = self::$gLibsDir . 'ZC.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'RGS_CompanyForm.php';
-			if( file_exists( $dirForm ) ):
-				require_once( $dirForm );
+			$fileRequired = self::$gDir . 'RGS_CompanyForm.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'RGS_CompanyInquest.php';
-			if( file_exists( $dirForm ) ):
-				require_once( $dirForm );
+			$fileRequired = self::$gDir . 'RGS_CompanyInquest.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'RGS_FormStats.php';
-			if( file_exists( $dirForm ) ):
-				require_once( $dirForm );
+			$fileRequired = self::$gDir . 'RGS_FormStats.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
+			$fileRequired = self::$gDir . 'RGS_CompanyTemplates.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
+			endif;
+			//------------------------------------------------------
+			unset($dirForm);
 		}
 		//--------------------------------------------------
 		private function setupHooks_fn() 
@@ -420,7 +426,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				);
 				//
 				wp_enqueue_script( 
-					self::getSlug_fn(), 
+					self::getEnqueueName_fn(), 
 					self::$gJsUrl . 'Company.js', 
 					array( self::getSlug_fn() . '_charts' ), 
 					'0.0.1', 
@@ -428,16 +434,21 @@ if( ! class_exists( 'RGS_Company' ) ):
 				);
 				//-------------------------
 				$localize = self::getLocalize_fn();
-				$_args = apply_filters( self::getSlug_fn() .'_localize', $localize );
+				$_args = apply_filters( self::getEnqueueName_fn() .'_localize', $localize );
 				$localize = array_replace_recursive( $localize, $_args );
 				//
 				wp_localize_script( 
-					self::getSlug_fn(), 
+					self::getEnqueueName_fn(), 
 					'oCompany', 
 					$localize
 				); 
 			
 			endif;
+		}
+		//-----------------------------------------------
+		static function getEnqueueName_fn()
+		{
+			return self::getSlug_fn();
 		}
 		//--------------------------------------------------
 		static function enqueueScripts_fn()
@@ -815,7 +826,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 			$inquestPageId = add_submenu_page(
 				'edit.php?post_type=' . self::getSlug_fn(),
 				__( 'Companies Inquests', self::getTD_fn() ),
-				'<i class="wp-menu-image dashicons-before dashicons-email-alt"></i> ' . __( 'Inquests', self::getTD_fn() ),
+				'<i class="wp-menu-image dashicons-before dashicons-forms"></i> ' . __( 'Inquests', self::getTD_fn() ),
 				'manage_options',
 				self::getInquestMenuId_fn(),
 				array( __CLASS__, 'adminInquestPage_fn' )
