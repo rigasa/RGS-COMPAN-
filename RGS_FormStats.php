@@ -212,9 +212,9 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$TD = self::getTD_fn();
 			$options = RGS_CompanySettings::getOption_fn();
 			//---------------------------------------------------------
-			$allMsg = RGS_FormStats::getAllMsg_fn();
+			$allInquest = RGS_FormStats::getAllInquest_fn();
 			//
-			$arrReturn = RGS_FormStats::getStructMsg_fn($allMsg);
+			$arrReturn = RGS_FormStats::getStructInquest_fn($allInquest);
 			$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 			//----
 			$arrPoints = (isset($arrReturn['points']['points']) ) ? $arrReturn['points']['points'] : array();
@@ -229,7 +229,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				'slug' 				=> $SLUG,
 				'pagePermalink' 	=> get_the_permalink(),
 				'series' 			=> $arrSeries,
-				'allSeries' 			=> $arrSeries,
+				'allSeries' 		=> $arrSeries,
 				'points' 			=> $arrPoints,
 				'questionsColors' 	=> $arrColors,
 				'options' 			=> $options,
@@ -262,7 +262,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			unset($SLUG);
 			unset($TD);
 			unset($options);
-			unset($allMsg);
+			unset($allInquest);
 			unset($arrReturn);
 			unset($arrSeries);
 			unset($arrPoints);
@@ -388,10 +388,10 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			
 		}
 		//---------------------------------------------------------------
-		static function getCompanyMsg_fn( $companyId = 0 )
+		static function getCompanyInquest_fn( $companyId = 0 )
 		{
 			$args = array(
-				'post_type' 		=> RGS_CompanyMsg::getCptName_fn(), 
+				'post_type' 		=> RGS_CompanyInquest::getCptName_fn(), 
 				'posts_per_page' 	=> -1,
 				'post_status' 		=> 'draft',
 				'meta_key' 			=> 'COMPANY_ID',
@@ -412,10 +412,10 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			
 		}
 		//---------------------------------------------------------------
-		static function getAllMsg_fn()
+		static function getAllInquest_fn()
 		{
 			$args = array(
-				'post_type' 		=> RGS_CompanyMsg::getCptName_fn(),
+				'post_type' 		=> RGS_CompanyInquest::getCptName_fn(),
 				'posts_per_page' 	=> -1,
 				'post_status' 		=> 'draft',
 			);
@@ -437,7 +437,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		static function getPrivateList_fn()
 		{
 			$args = array(
-				'post_type' 	=> RGS_CompanyMsg::getCptName_fn(),
+				'post_type' 	=> RGS_CompanyInquest::getCptName_fn(),
 				'post_status' 	=> 'draft',
 				'posts_per_page' => -1,
 				'meta_key' 		=> 'private',
@@ -460,7 +460,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		static function getPublicList_fn()
 		{
 			$args = array(
-				'post_type' 	=> RGS_CompanyMsg::getCptName_fn(),
+				'post_type' 	=> RGS_CompanyInquest::getCptName_fn(),
 				'post_status' 	=> 'draft',
 				'posts_per_page' => -1,
 				'meta_key' 		=> 'private',
@@ -599,7 +599,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			return $arrMaxPoints;
 		}
 		//---------------------------------------------------------------
-		static function getStructMsg_fn($listMsg)
+		static function getStructInquest_fn($listInquest)
 		{
 			$arrReturn = array();
 			$arrTags = array();
@@ -608,23 +608,23 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$arrSeries = array();
 			$arrResults = array();
 			$arrPercents = array();
-			$msgNb = count( $listMsg );
+			$msgNb = count( $listInquest );
 			//
-			foreach( $listMsg as $oMsg ) : 
+			foreach( $listInquest as $oInquest ) : 
 				if( empty($arrTags) ):
-					$arrTags = $oMsg['tags'];
+					$arrTags = $oInquest['tags'];
 				endif;
 				//POINTS
-				$thePointsTotal = (int) $oMsg['points']['total'];
+				$thePointsTotal = (int) $oInquest['points']['total'];
 				$arrPoints['total'] += $thePointsTotal;
 
-				$thePoints = $oMsg['points']['points'];
+				$thePoints = $oInquest['points']['points'];
 				foreach( $thePoints as $pos => $oPoint ) : 
 					//echo '<pre>P ' . $pos . ':::'.print_r($oPoint, TRUE).'</pre>';
 					$arrPoints['points'][$pos] += floatval( $oPoint );
 				endforeach;
 				//SERIES
-				$theSeries = explode( ',', $oMsg['graphSeries'] );
+				$theSeries = explode( ',', $oInquest['graphSeries'] );
 				foreach( $theSeries as $pLine => $oLine ) : 
 					$arrSeries[$pLine] += floatval( $oLine );
 				endforeach;
@@ -635,7 +635,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				endforeach;
 
 				//RESULTS
-				$theResults = $oMsg['results'];
+				$theResults = $oInquest['results'];
 				foreach( $arrTags as $pTag => $oTag) : 
 					$resp = $theResults[$pTag];
 					foreach( $oTag as $pTagR => $oTagR) : 
@@ -704,7 +704,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			//
 		}
 		//---------------------------------------------------------------
-		static function getArchitectHtml_fn( $listMsg, $formChoice )
+		static function getArchitectHtml_fn( $listInquest, $formChoice )
 		{
 			
 			$formArchitect = RGS_FormStats::getFormArchitect_fn($formChoice);
@@ -716,7 +716,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			$arrResults = array();
 			$arrPercents = array();
 
-			$arrReturn = RGS_FormStats::getStructMsg_fn($listMsg);
+			$arrReturn = RGS_FormStats::getStructInquest_fn($listInquest);
 			$arrTags = (isset($arrReturn['tags']) ) ? $arrReturn['tags'] : array();
 			$arrResults = (isset($arrReturn['results']) ) ? $arrReturn['results'] : array();
 			$arrPercents = (isset($arrReturn['percents']) ) ? $arrReturn['percents'] : array();
@@ -830,9 +830,9 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				$formChoice = (int) $rgsOptions['formChoice'];
 				//
 				if($companyID == 0 ):
-					$msgList = self::getAllMsg_fn();
+					$msgList = self::getAllInquest_fn();
 				else:
-					$msgList = self::getCompanyMsg_fn($companyID);
+					$msgList = self::getCompanyInquest_fn($companyID);
 				endif;
 				
 				if( ! $msgList ):
@@ -853,7 +853,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 						) );
 						//wp_send_json_error( __('Empty List', self::getTD_fn() ) );
 					else:
-						$arrReturn = RGS_FormStats::getStructMsg_fn($msgList);
+						$arrReturn = RGS_FormStats::getStructInquest_fn($msgList);
 						$arrPoints = (isset($arrReturn['points']) ) ? $arrReturn['points'] : array();
 						$arrSeries = (isset($arrReturn['series']) ) ? $arrReturn['series'] : array();
 						//---------------------------------------------------------

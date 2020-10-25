@@ -4,7 +4,7 @@ $slug = RGS_Company::getSlug_fn();
 $TD = RGS_Company::getTD_fn();
 $pageID = RGS_Company::getAdminMenuId_fn();
 //
-$cptMessages = RGS_CompanyMsg::getCptName_fn();
+$cptInquests = RGS_CompanyInquest::getCptName_fn();
 //
 //class Example_List_Table extends WP_List_Table {}
 //$example_lt = new Example_List_Table();
@@ -13,12 +13,12 @@ $cptMessages = RGS_CompanyMsg::getCptName_fn();
 // check if the user have submitted the settings
 // WordPress will add the "settings-updated" $_GET parameter to the url
 if ( isset( $_GET[ 'settings-updated' ] ) ) {
-	// add settings saved message with the class of "updated"
-	add_settings_error( $slug . '_messages', $slug . '_message', __( 'Settings Saved', $TD ), 'updated' );
+	// add settings saved inquest with the class of "updated"
+	add_settings_error( $slug . '_inquests', $slug . '_inquest', __( 'Settings Saved', $TD ), 'updated' );
 }
 
-// show error/update messages
-settings_errors( $slug . 'messages' );
+// show error/update inquests
+settings_errors( $slug . 'inquests' );
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><i class="wp-menu-image dashicons-before dashicons-email-alt" style="vertical-align: middle; position: relative; top: 2px;"></i> <?php echo esc_html($title); ?>
@@ -27,37 +27,19 @@ settings_errors( $slug . 'messages' );
 	
 	<?php
 	
-	function deleteMessage_fn( $id, $notInTrash = true )
-	{
-		wp_delete_post( $id, $notInTrash);
-	}
-	
-	function deleteAllMessages_fn()
-	{
-		$args = array(
-			'numberposts' 	=> -1,
-			'post_type'   	=> RGS_CompanyMsg::getCptName_fn(),
-			'post_status' 	=> 'draft'
-		);
-		$post_list = get_posts( $args );
-	
-		foreach ( $post_list as $post ) :
-			deleteMessage_fn( $post->ID, true);
-		endforeach;
-	}
-	//
+	#RGS_CompanyInquest::deleteAllInquests_fn();
 	//Protect against arbitrary paged values
 	$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 	$args = array(
 		'numberposts' 	=> 10,
-		'post_type'   	=> $cptMessages,
+		'post_type'   	=> $cptInquests,
 		'post_status' 	=> 'draft',
 		'orderby'    	=> 'date',
 		'paged' 		=> $paged,
     	'sort_order' 	=> 'ASC'
 	);
 	//
-	#deleteAllMessages_fn();
+	#deleteAllInquests_fn();
 	//
 	?>
 	<ul class="subsubsub">

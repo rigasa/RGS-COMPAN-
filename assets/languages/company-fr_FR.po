@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Company v0.0.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-23 10:20+0200\n"
-"PO-Revision-Date: 2020-10-23 10:23+0200\n"
+"Report-Inquestid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 11:44+0100\n"
+"PO-Revision-Date: 2020-10-25 11:44+0100\n"
 "Last-Translator: RiGaSa <ricardo@rigasa.pro>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
@@ -19,10 +19,6 @@ msgstr ""
 "X-Poedit-Basepath: ../..\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#: RGS_CampaignForm.php:448
-msgid "Reference"
-msgstr "Référence"
 
 #: RGS_Company.php:295
 msgctxt "Post Type General Name"
@@ -91,27 +87,27 @@ msgstr "Afficher les entreprises"
 msgid "Search Company"
 msgstr "Rechercher une entreprise"
 
-#: RGS_Company.php:311 RGS_CompanyMsg.php:179
+#: RGS_Company.php:311 RGS_CompanyInquest.php:179
 msgid "Not found"
 msgstr "Rien n'a été trouvé"
 
-#: RGS_Company.php:312 RGS_CompanyMsg.php:180
+#: RGS_Company.php:312 RGS_CompanyInquest.php:180
 msgid "Not found in Trash"
 msgstr "Aucun élément trouvée dans la corbeille"
 
-#: RGS_Company.php:313 RGS_CompanyMsg.php:181
+#: RGS_Company.php:313 RGS_CompanyInquest.php:181
 msgid "Featured Image"
 msgstr "Image mise en avant"
 
-#: RGS_Company.php:314 RGS_CompanyMsg.php:182
+#: RGS_Company.php:314 RGS_CompanyInquest.php:182
 msgid "Set featured image"
 msgstr "Définir l’image mise en avant"
 
-#: RGS_Company.php:315 RGS_CompanyMsg.php:183
+#: RGS_Company.php:315 RGS_CompanyInquest.php:183
 msgid "Remove featured image"
 msgstr "Supprimer l'image mise en avant"
 
-#: RGS_Company.php:316 RGS_CompanyMsg.php:184
+#: RGS_Company.php:316 RGS_CompanyInquest.php:184
 msgid "Use as featured image"
 msgstr "Utiliser comme image mise en avant"
 
@@ -139,279 +135,282 @@ msgstr "Filter la liste des entreprises"
 msgid "Company Description"
 msgstr "Description de l’entreprise"
 
-#: RGS_Company.php:525 RGS_CompanyForm.php:230 RGS_FormStats.php:236
+#: RGS_Company.php:514 RGS_CompanyForm.php:230 RGS_FormStats.php:237
+#: RGS_FormStatsPdf.php:237
 msgid "Yes"
 msgstr "Oui"
 
-#: RGS_Company.php:526
+#: RGS_Company.php:515
 msgid "Are you sure you want to delete this media?"
 msgstr "Êtes-vous sûr de que vouloir supprimer le média ?"
 
-#: RGS_Company.php:527
+#: RGS_Company.php:516
 msgid "No media to delete!"
 msgstr "Aucun média à supprimer!"
 
-#: RGS_Company.php:528
+#: RGS_Company.php:517
 msgid "LOGO ID NOT EXISTS !"
 msgstr "LOGO ID N’EXISTE PAS !"
 
-#: RGS_Company.php:558
+#: RGS_Company.php:547
 msgctxt "Taxonomy General Name"
 msgid "Types"
 msgstr "Types"
 
-#: RGS_Company.php:559
+#: RGS_Company.php:548
 msgctxt "Taxonomy Singular Name"
 msgid "Type"
 msgstr "Type"
 
-#: RGS_Company.php:560
+#: RGS_Company.php:549
 msgid "Types"
 msgstr "Types"
 
-#: RGS_Company.php:561
+#: RGS_Company.php:550
 msgid "All Types"
 msgstr "Tous les types"
 
-#: RGS_Company.php:562
+#: RGS_Company.php:551
 msgid "Parent Type"
 msgstr "Parent du type"
 
-#: RGS_Company.php:563
+#: RGS_Company.php:552
 msgid "Parent Type:"
 msgstr "Parent du type:"
 
-#: RGS_Company.php:564
+#: RGS_Company.php:553
 msgid "New Type Name"
 msgstr "Nom du nouveau type"
 
-#: RGS_Company.php:565
+#: RGS_Company.php:554
 msgid "Add New Type"
 msgstr "Ajouter nouveau type"
 
-#: RGS_Company.php:566
+#: RGS_Company.php:555
 msgid "Edit Type"
 msgstr "Modifier le type"
 
-#: RGS_Company.php:567
+#: RGS_Company.php:556
 msgid "Update Type"
 msgstr "Mettre à jour le type"
 
-#: RGS_Company.php:568
+#: RGS_Company.php:557
 msgid "View Type"
 msgstr "Voir le type"
 
-#: RGS_Company.php:569
+#: RGS_Company.php:558
 msgid "Separate types with commas"
 msgstr "Séparer les types par des virgules"
 
-#: RGS_Company.php:570
+#: RGS_Company.php:559
 msgid "Add or remove types"
 msgstr "Ajouter ou supprimer des types"
 
-#: RGS_Company.php:571 RGS_Company.php:619
+#: RGS_Company.php:560 RGS_Company.php:608
 msgid "Choose from the most used"
 msgstr "Choisissez parmi les plus utilisés"
 
-#: RGS_Company.php:572
+#: RGS_Company.php:561
 msgid "Popular Types"
 msgstr "Types populaires"
 
-#: RGS_Company.php:573
+#: RGS_Company.php:562
 msgid "Search Types"
 msgstr "Rechercher un type"
 
-#: RGS_Company.php:574 RGS_Company.php:622
+#: RGS_Company.php:563 RGS_Company.php:611
 msgid "Not Found"
 msgstr "Rien n'a été trouvé"
 
-#: RGS_Company.php:575
+#: RGS_Company.php:564
 msgid "No types"
 msgstr "Aucun type"
 
-#: RGS_Company.php:576
+#: RGS_Company.php:565
 msgid "Types list"
 msgstr "Liste des types"
 
-#: RGS_Company.php:577
+#: RGS_Company.php:566
 msgid "Types list navigation"
 msgstr "Navigation dans la liste des types"
 
-#: RGS_Company.php:580
+#: RGS_Company.php:569
 msgctxt "property_type"
 msgid "type"
 msgstr "type"
 
-#: RGS_Company.php:606
+#: RGS_Company.php:595
 msgctxt "Taxonomy General Name"
 msgid "Campaigns"
 msgstr "Campagnes"
 
-#: RGS_Company.php:607
+#: RGS_Company.php:596
 msgctxt "Taxonomy Singular Name"
 msgid "Campaign"
 msgstr "Campagne"
 
-#: RGS_Company.php:608 assets/templates/companyForm.php:72
+#: RGS_Company.php:597 assets/templates/companyForm.php:72
 msgid "Campaigns"
 msgstr "Campagnes"
 
-#: RGS_Company.php:609
+#: RGS_Company.php:598
 msgid "All Campaigns"
 msgstr "Toutes les campagnes"
 
-#: RGS_Company.php:610
+#: RGS_Company.php:599
 msgid "Parent Campaign"
 msgstr "Campagne parente"
 
-#: RGS_Company.php:611
+#: RGS_Company.php:600
 msgid "Parent Campaign:"
 msgstr "Campagne parente:"
 
-#: RGS_Company.php:612
+#: RGS_Company.php:601
 msgid "New Campaign Name"
 msgstr "Nom de la nouvelle campagne"
 
-#: RGS_Company.php:613
+#: RGS_Company.php:602
 msgid "Add New Campaign"
 msgstr "Ajouter une nouvelle campagne"
 
-#: RGS_Company.php:614
+#: RGS_Company.php:603
 msgid "Edit Campaign"
 msgstr "Modifier la campagne"
 
-#: RGS_Company.php:615
+#: RGS_Company.php:604
 msgid "Update Campaign"
 msgstr "Mettre à jour la campagne"
 
-#: RGS_Company.php:616
+#: RGS_Company.php:605
 msgid "View Campaign"
 msgstr "Voir la campagne"
 
-#: RGS_Company.php:617
+#: RGS_Company.php:606
 msgid "Separate campaigns with commas"
 msgstr "Séparez les campagnes avec des virgules"
 
-#: RGS_Company.php:618
+#: RGS_Company.php:607
 msgid "Add or remove Campaigns"
 msgstr "Ajouter ou supprimer des campagnes"
 
-#: RGS_Company.php:620
+#: RGS_Company.php:609
 msgid "Popular Campaigns"
 msgstr "Compagnes populaires"
 
-#: RGS_Company.php:621
+#: RGS_Company.php:610
 msgid "Search Campaigns"
 msgstr "Rechercher parmi les campagnes"
 
-#: RGS_Company.php:623
+#: RGS_Company.php:612
 msgid "No campaign"
 msgstr "Aucune campagne"
 
-#: RGS_Company.php:624
+#: RGS_Company.php:613
 msgid "Campaigns list"
 msgstr "Liste des campagnes"
 
-#: RGS_Company.php:625
+#: RGS_Company.php:614
 msgid "Campaigns list navigation"
 msgstr "Navigation dans la liste des campagnes"
 
-#: RGS_Company.php:628
+#: RGS_Company.php:617
 msgctxt "property_type"
 msgid "campaign"
 msgstr "enquête"
 
-#: RGS_Company.php:691 RGS_Company.php:739
+#: RGS_Company.php:680 RGS_Company.php:728
 msgid "Start Date"
 msgstr "Date de début"
 
-#: RGS_Company.php:694 RGS_Company.php:742
+#: RGS_Company.php:683 RGS_Company.php:731
 msgid "The start date for campaign"
 msgstr "La date de début de la campagne"
 
-#: RGS_Company.php:698 RGS_Company.php:747
+#: RGS_Company.php:687 RGS_Company.php:736
 msgid "End Date"
 msgstr "Date de fin"
 
-#: RGS_Company.php:701 RGS_Company.php:750
+#: RGS_Company.php:690 RGS_Company.php:739
 msgid "The end date for campaign"
 msgstr "Date de fin de la campagne"
 
-#: RGS_Company.php:705 RGS_Company.php:755 RGS_CompanyMBoxes.php:312
-#: assets/views/companyCampaign_MB.php:28 assets/views/companyCampaign_MB.php:46
+#: RGS_Company.php:694 RGS_Company.php:744 RGS_CompanyMBoxes.php:312
+#: assets/views/companyCampaign_MB.php:28
+#: assets/views/companyCampaign_MB.php:46
 msgid "Logo"
 msgstr "Logo"
 
-#: RGS_Company.php:715 RGS_Company.php:766
+#: RGS_Company.php:704 RGS_Company.php:755
 msgid "Add media"
 msgstr "Ajouter un média"
 
-#: RGS_Company.php:715
+#: RGS_Company.php:704
 msgid "Add media to campaign"
 msgstr "Ajouter un média à la campagne"
 
-#: RGS_Company.php:716 RGS_Company.php:768
+#: RGS_Company.php:705 RGS_Company.php:757
 msgid "Remove Image"
 msgstr "Supprimer l'image"
 
-#: RGS_Company.php:719 RGS_Company.php:772
+#: RGS_Company.php:708 RGS_Company.php:761
 msgid "The logo for campaign"
 msgstr "Le logo de la campagne"
 
-#: RGS_Company.php:766
+#: RGS_Company.php:755
 msgid "Add image to campaign"
 msgstr "Ajouter l’image à la campagne"
 
-#: RGS_Company.php:766
+#: RGS_Company.php:755
 msgid "Add image"
 msgstr "Ajouter une image"
 
-#: RGS_Company.php:813
+#: RGS_Company.php:802
 msgid "Companies Settings"
 msgstr "Paramètres des entreprises"
 
-#: RGS_Company.php:814
+#: RGS_Company.php:803
 msgid "Settings"
 msgstr "Paramètres"
 
-#: RGS_Company.php:828
-msgid "Companies Messages"
-msgstr "Messages des entreprises"
+#: RGS_Company.php:817
+msgid "Companies Inquests"
+msgstr "Inquests des entreprises"
 
-#: RGS_Company.php:829 RGS_CompanyMsg.php:165 RGS_CompanyMsg.php:198
-msgid "Messages"
-msgstr "Messages"
+#: RGS_Company.php:818 RGS_CompanyInquest.php:165 RGS_CompanyInquest.php:198
+msgid "Inquests"
+msgstr "Inquests"
 
-#: RGS_Company.php:848
+#: RGS_Company.php:837
 msgid "No Settings Page Loaded!"
 msgstr "La page des paramètres n’est pas chargée!"
 
-#: RGS_Company.php:865
-msgid "No Messages Page Loaded!"
-msgstr "La page des messages n’est pas chargée!"
+#: RGS_Company.php:854
+msgid "No Inquests Page Loaded!"
+msgstr "La page des inquests n’est pas chargée!"
 
-#: RGS_Company.php:878
+#: RGS_Company.php:867
 msgid "Company Help Tab"
 msgstr "Onglet Aide de l’entreprise"
 
-#: RGS_Company.php:880
+#: RGS_Company.php:869
 msgid "Descriptive content that will show in Company Help Tab body goes here."
 msgstr ""
 "Contenu descriptif qui s’affichera dans le corps de l’onglet d’aide de "
 "l’entreprise va ici."
 
-#: RGS_Company.php:910 RGS_CompanyMsg.php:262
+#: RGS_Company.php:899 RGS_CompanyInquest.php:262
 msgid "Image"
 msgstr "Image"
 
-#: RGS_Company.php:911 RGS_CompanyMBoxes.php:306 RGS_CompanyMsg.php:263
-#: assets/views/companyCampaign_MB.php:27 assets/views/companyCampaign_MB.php:45
-#: assets/views/msgPage.php:80 assets/views/msgPage.php:89
+#: RGS_Company.php:900 RGS_CompanyMBoxes.php:306 RGS_CompanyInquest.php:263
+#: assets/views/companyCampaign_MB.php:27
+#: assets/views/companyCampaign_MB.php:45 assets/views/inquestPage.php:80
+#: assets/views/inquestPage.php:89
 msgid "ID"
 msgstr "ID"
 
-#: RGS_CompanyForm.php:231 RGS_FormStats.php:237 assets/views/settingsPage.php:43
-#: assets/views/statsPage.php:115
+#: RGS_CompanyForm.php:231 RGS_FormStats.php:238 RGS_FormStatsPdf.php:238
+#: assets/views/settingsPage.php:43 assets/views/statsPage.php:114
 msgid "Save Image"
 msgstr "Enregistrer l'image"
 
@@ -440,12 +439,14 @@ msgid "Name"
 msgstr "Nom"
 
 #: RGS_CompanyMBoxes.php:309 assets/templates/companyForm.php:59
-#: assets/views/companyCampaign_MB.php:29 assets/views/companyCampaign_MB.php:47
+#: assets/views/companyCampaign_MB.php:29
+#: assets/views/companyCampaign_MB.php:47
 msgid "Start"
 msgstr "Début"
 
 #: RGS_CompanyMBoxes.php:310 assets/templates/companyForm.php:60
-#: assets/views/companyCampaign_MB.php:30 assets/views/companyCampaign_MB.php:48
+#: assets/views/companyCampaign_MB.php:30
+#: assets/views/companyCampaign_MB.php:48
 msgid "End"
 msgstr "Fin"
 
@@ -457,239 +458,244 @@ msgstr "Description"
 msgid "Count"
 msgstr "Total"
 
-#: RGS_CompanyMsg.php:163
+#: RGS_CompanyInquest.php:163
 msgctxt "Post Type General Name"
-msgid "Messages"
-msgstr "Messages"
+msgid "Inquests"
+msgstr "Inquests"
 
-#: RGS_CompanyMsg.php:164
+#: RGS_CompanyInquest.php:164
 msgctxt "Post Type Singular Name"
-msgid "Message"
-msgstr "Message"
+msgid "Inquest"
+msgstr "Inquest"
 
-#: RGS_CompanyMsg.php:166 RGS_CompanyMsg.php:192
-msgid "Message"
-msgstr "Message"
+#: RGS_CompanyInquest.php:166 RGS_CompanyInquest.php:192
+msgid "Inquest"
+msgstr "Inquest"
 
-#: RGS_CompanyMsg.php:167
-msgid "Message Archives"
-msgstr "Archives des messages"
+#: RGS_CompanyInquest.php:167
+msgid "Inquest Archives"
+msgstr "Archives des inquests"
 
-#: RGS_CompanyMsg.php:168
-msgid "Message Attributes"
-msgstr "Attributs des messages"
+#: RGS_CompanyInquest.php:168
+msgid "Inquest Attributes"
+msgstr "Attributs des inquests"
 
-#: RGS_CompanyMsg.php:169
-msgid "Parent Message:"
-msgstr "Message parent :"
+#: RGS_CompanyInquest.php:169
+msgid "Parent Inquest:"
+msgstr "Inquest parent :"
 
-#: RGS_CompanyMsg.php:170
-msgid "All Messages"
-msgstr "Tous les messages"
+#: RGS_CompanyInquest.php:170
+msgid "All Inquests"
+msgstr "Tous les inquests"
 
-#: RGS_CompanyMsg.php:171
-msgid "Add New Message"
-msgstr "Ajouter un nouveau message"
+#: RGS_CompanyInquest.php:171
+msgid "Add New Inquest"
+msgstr "Ajouter un nouveau inquest"
 
-#: RGS_CompanyMsg.php:172
-msgid "Add Message"
-msgstr "Nouveau Message"
+#: RGS_CompanyInquest.php:172
+msgid "Add Inquest"
+msgstr "Nouveau Inquest"
 
-#: RGS_CompanyMsg.php:173
-msgid "New Message"
-msgstr "Nouveau message"
+#: RGS_CompanyInquest.php:173
+msgid "New Inquest"
+msgstr "Nouveau inquest"
 
-#: RGS_CompanyMsg.php:174
-msgid "Edit Message"
-msgstr "Modifier le message"
+#: RGS_CompanyInquest.php:174
+msgid "Edit Inquest"
+msgstr "Modifier le inquest"
 
-#: RGS_CompanyMsg.php:175
-msgid "Update Message"
-msgstr "Mettre à jour le message"
+#: RGS_CompanyInquest.php:175
+msgid "Update Inquest"
+msgstr "Mettre à jour le inquest"
 
-#: RGS_CompanyMsg.php:176
-msgid "View Message"
-msgstr "Afficher le message"
+#: RGS_CompanyInquest.php:176
+msgid "View Inquest"
+msgstr "Afficher le inquest"
 
-#: RGS_CompanyMsg.php:177
-msgid "View Messages"
-msgstr "Voir les messages"
+#: RGS_CompanyInquest.php:177
+msgid "View Inquests"
+msgstr "Voir les inquests"
 
-#: RGS_CompanyMsg.php:178
-msgid "Search Message"
-msgstr "﻿Chercher un message"
+#: RGS_CompanyInquest.php:178
+msgid "Search Inquest"
+msgstr "﻿Chercher un inquest"
 
-#: RGS_CompanyMsg.php:185
-msgid "Insert into message"
-msgstr "Insérer dans le message"
+#: RGS_CompanyInquest.php:185
+msgid "Insert into inquest"
+msgstr "Insérer dans le inquest"
 
-#: RGS_CompanyMsg.php:186
-msgid "Uploaded to this message"
-msgstr "Téléversés sur ce message"
+#: RGS_CompanyInquest.php:186
+msgid "Uploaded to this inquest"
+msgstr "Téléversés sur ce inquest"
 
-#: RGS_CompanyMsg.php:187
-msgid "Messages list"
-msgstr "Liste des messages"
+#: RGS_CompanyInquest.php:187
+msgid "Inquests list"
+msgstr "Liste des inquests"
 
-#: RGS_CompanyMsg.php:188
-msgid "Messages list navigation"
-msgstr "Navigation de la liste des messages"
+#: RGS_CompanyInquest.php:188
+msgid "Inquests list navigation"
+msgstr "Navigation de la liste des inquests"
 
-#: RGS_CompanyMsg.php:189
-msgid "Filter message list"
-msgstr "Filtrer la liste des messages"
+#: RGS_CompanyInquest.php:189
+msgid "Filter inquest list"
+msgstr "Filtrer la liste des inquests"
 
-#: RGS_CompanyMsg.php:199
-msgid "Message Description"
-msgstr "Description du message"
+#: RGS_CompanyInquest.php:199
+msgid "Inquest Description"
+msgstr "Description du inquest"
 
-#: RGS_CompanyMsg.php:384
+#: RGS_CompanyInquest.php:385
 msgid "Uniq id is mandatory"
 msgstr "L’identifiant unique est obligatoire"
 
-#: RGS_CompanyMsg.php:405
-msgid "No message was retrieved"
-msgstr "Aucun message n’a été récupéré"
+#: RGS_CompanyInquest.php:406
+msgid "No inquest was retrieved"
+msgstr "Aucun inquest n’a été récupéré"
 
-#: RGS_CompanySettings.php:237
+#: RGS_CompanySettings.php:251
 msgid "Chart Options"
 msgstr "Options du graphique"
 
-#: RGS_CompanySettings.php:245
+#: RGS_CompanySettings.php:259
 msgid "Theme"
 msgstr "Thème"
 
-#: RGS_CompanySettings.php:262
+#: RGS_CompanySettings.php:272 assets/views/statsPage.php:124
+msgid "Display All In Radar"
+msgstr "Afficher tout dans le radar"
+
+#: RGS_CompanySettings.php:289
 msgid "Default Form"
 msgstr "Formulaire par défaut"
 
-#: RGS_CompanySettings.php:269 assets/views/companyRef_MB.php:28
+#: RGS_CompanySettings.php:296 assets/views/companyRef_MB.php:28
 msgid "Form"
 msgstr "Formulaire"
 
-#: RGS_CompanySettings.php:285
+#: RGS_CompanySettings.php:312
 msgid "Architecture colors"
 msgstr "Couleurs de l’architecture"
 
-#: RGS_CompanySettings.php:352
+#: RGS_CompanySettings.php:379
 msgid "The light theme is enabled by default implicitly."
 msgstr "Le thème clair est activé par défaut implicitement."
 
-#: RGS_CompanySettings.php:359
+#: RGS_CompanySettings.php:386
 msgid "Select the default form for companies"
 msgstr "Sélectionner le formulaire par défaut pour les entreprises"
 
-#: RGS_CompanySettings.php:366
+#: RGS_CompanySettings.php:393
 msgid "Select the colors of the architecture"
 msgstr "Sélectionner les couleurs de l’architecture"
 
-#: RGS_CompanySettings.php:389
+#: RGS_CompanySettings.php:416
 msgid "Light Theme"
 msgstr "Thème clair"
 
-#: RGS_CompanySettings.php:392
+#: RGS_CompanySettings.php:419
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
-#: RGS_FormStats.php:238
+#: RGS_FormStats.php:239 RGS_FormStatsPdf.php:239
 msgid "Chart by Points"
 msgstr "Graphique par points"
 
-#: RGS_FormStats.php:239
+#: RGS_FormStats.php:240 RGS_FormStatsPdf.php:240
 msgid "Points per question"
 msgstr "Points par question"
 
-#: RGS_FormStats.php:240
+#: RGS_FormStats.php:241 RGS_FormStatsPdf.php:241
 msgid "Questions"
 msgstr "Questions"
 
-#: RGS_FormStats.php:241
+#: RGS_FormStats.php:242 RGS_FormStatsPdf.php:242
 msgid "Points"
 msgstr "Points"
 
-#: RGS_FormStats.php:243
+#: RGS_FormStats.php:244 RGS_FormStatsPdf.php:244
 msgid "Lighting"
 msgstr "Éclairage"
 
-#: RGS_FormStats.php:244
+#: RGS_FormStats.php:245 RGS_FormStatsPdf.php:245
 msgid "Equipment"
 msgstr "Equipement"
 
-#: RGS_FormStats.php:245
+#: RGS_FormStats.php:246 RGS_FormStatsPdf.php:246
 msgid "Temperature"
 msgstr "Température"
 
-#: RGS_FormStats.php:246
+#: RGS_FormStats.php:247 RGS_FormStatsPdf.php:247
 msgid "Duration"
 msgstr "Durée"
 
-#: RGS_FormStats.php:247
+#: RGS_FormStats.php:248 RGS_FormStatsPdf.php:248
 msgid "Printer"
 msgstr "Imprimante"
 
-#: RGS_FormStats.php:248
+#: RGS_FormStats.php:249 RGS_FormStatsPdf.php:249
 msgid "Movement"
 msgstr "Déplacement"
 
-#: RGS_FormStats.php:249
+#: RGS_FormStats.php:250 RGS_FormStatsPdf.php:250
 msgid "Distance"
 msgstr "Distance"
 
-#: RGS_FormStats.php:250
+#: RGS_FormStats.php:251 RGS_FormStatsPdf.php:251
 msgid "Teleworking"
 msgstr "Télétravail"
 
-#: RGS_FormStats.php:251
+#: RGS_FormStats.php:252 RGS_FormStatsPdf.php:252
 msgid "Drink"
 msgstr "Boisson"
 
-#: RGS_FormStats.php:252
+#: RGS_FormStats.php:253 RGS_FormStatsPdf.php:253
 msgid "Eat"
 msgstr "Manger"
 
-#: RGS_FormStats.php:253
+#: RGS_FormStats.php:254 RGS_FormStatsPdf.php:254
 msgid "Production"
 msgstr "Production"
 
-#: RGS_FormStats.php:254
+#: RGS_FormStats.php:255 RGS_FormStatsPdf.php:255
 msgid "Solutions"
 msgstr "Solutions"
 
-#: RGS_FormStats.php:309
+#: RGS_FormStats.php:310 RGS_FormStatsPdf.php:310
 msgid "No Statistics Page Loaded!"
 msgstr "La page des statistiques n’est pas chargée!"
 
-#: RGS_FormStats.php:322
+#: RGS_FormStats.php:323 RGS_FormStatsPdf.php:323
 msgid "Statistics Help Tab"
 msgstr "Onglet Aide statistiques"
 
-#: RGS_FormStats.php:324
+#: RGS_FormStats.php:325 RGS_FormStatsPdf.php:325
 msgid ""
 "Descriptive content that will show in Statistics Help Tab body goes here."
 msgstr ""
 "Contenu descriptif qui s’affichera dans l’organisme de l’onglet d’aide "
 "statistiques va ici."
 
-#: RGS_FormStats.php:336
+#: RGS_FormStats.php:337 RGS_FormStatsPdf.php:337
 msgid "EC Statistics"
 msgstr "Statistiques EC"
 
-#: RGS_FormStats.php:337
+#: RGS_FormStats.php:338 RGS_FormStatsPdf.php:338
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: RGS_FormStats.php:755
+#: RGS_FormStats.php:756 RGS_FormStatsPdf.php:756
 msgid "point"
 msgid_plural "points"
 msgstr[0] "point"
-msgstr[1] ""
+msgstr[1] "Points"
 
-#: RGS_FormStats.php:825
+#: RGS_FormStats.php:826 RGS_FormStatsPdf.php:826
 msgid "companyID is mandatory"
 msgstr "L’identifiant de l’entreprise est obligatoire"
 
-#: RGS_FormStats.php:841 RGS_FormStats.php:851 assets/views/msgPage.php:121
-#: assets/views/statsPage.php:95
+#: RGS_FormStats.php:842 RGS_FormStats.php:852 RGS_FormStatsPdf.php:842
+#: RGS_FormStatsPdf.php:852 assets/views/inquestPage.php:121
+#: assets/views/statsPage.php:91
 msgid "No data found"
 msgstr "Aucune donnée n'a été trouvée"
 
@@ -739,9 +745,33 @@ msgstr "Copier dans le presse-papiers"
 msgid "Add this shortcode in editor."
 msgstr "Ajoutez ce raccourci dans l’éditeur."
 
-#: assets/views/settingsPage.php:14 assets/views/msgPage.php:17
+#: assets/views/inquestPage.php:17 assets/views/settingsPage.php:14
 msgid "Settings Saved"
 msgstr "Paramètres enregistrés"
+
+#: assets/views/inquestPage.php:66
+msgid "All"
+msgstr "Tout"
+
+#: assets/views/inquestPage.php:72
+msgid "Active"
+msgstr "Actif"
+
+#: assets/views/inquestPage.php:81 assets/views/inquestPage.php:90
+msgid "Uniq ID"
+msgstr "ID unique"
+
+#: assets/views/inquestPage.php:82 assets/views/inquestPage.php:91
+msgid "Title"
+msgstr "Titre"
+
+#: assets/views/inquestPage.php:83 assets/views/inquestPage.php:92
+msgid "Created At"
+msgstr "Créé le"
+
+#: assets/views/inquestPage.php:84 assets/views/inquestPage.php:93
+msgid "Private"
+msgstr "Privé"
 
 #: assets/views/settingsPage.php:25
 msgid "Charts"
@@ -759,69 +789,59 @@ msgstr "Informations"
 msgid "Save Settings"
 msgstr "Enregistrer les paramètres"
 
-#: assets/views/msgPage.php:66
-msgid "All"
-msgstr "Tout"
-
-#: assets/views/msgPage.php:72
-msgid "Active"
-msgstr "Actif"
-
-#: assets/views/msgPage.php:81 assets/views/msgPage.php:90
-msgid "Uniq ID"
-msgstr "ID unique"
-
-#: assets/views/msgPage.php:82 assets/views/msgPage.php:91
-msgid "Title"
-msgstr "Titre"
-
-#: assets/views/msgPage.php:83 assets/views/msgPage.php:92
-msgid "Created At"
-msgstr "Créé le"
-
-#: assets/views/msgPage.php:84 assets/views/msgPage.php:93
-msgid "Private"
-msgstr "Privé"
-
 #: assets/views/statsPage.php:36
 msgid "Public"
 msgstr "Public"
 
-#: assets/views/statsPage.php:75
+#: assets/views/statsPage.php:77
 msgid "Number Companies"
 msgstr "Nombre d'entreprises"
 
-#: assets/views/statsPage.php:76
-msgid "Number Forms"
-msgstr "Nombre de formulaires"
+#: assets/views/statsPage.php:78
+msgid "Number of inquiries"
+msgstr "Nombre d’enquêtes"
 
-#: assets/views/statsPage.php:118
+#: assets/views/statsPage.php:117
 msgid "Clear Image"
 msgstr "Supprimer l'image"
 
-#: assets/views/statsPage.php:135
+#: assets/views/statsPage.php:142
 msgid "Powered by"
 msgstr "Propulsé par"
 
-#~ msgid "Username: %s"
-#~ msgstr "Nom d’utilisateur : %s"
+#: test.php:489
+#, php-format
+msgid "Username: %s"
+msgstr "Nom d’utilisateur : %s"
 
-#~ msgid "Password: %s"
-#~ msgstr "Mot de passe:  %s"
+#: test.php:490
+#, php-format
+msgid "Password: %s"
+msgstr "Mot de passe:  %s"
 
-#~ msgid "[%s] Your username and password"
-#~ msgstr "[%s] Votre nom d'utilisateur et votre mot de passe"
+#: test.php:492
+#, php-format
+msgid "[%s] Your username and password"
+msgstr "[%s] Votre nom d'utilisateur et votre mot de passe"
 
-#~ msgid "When someone sent message through Contact Form 7"
-#~ msgstr ""
-#~ "Lorsqu’une personne envoie un message par le biais du formulaire de "
-#~ "contact 7"
+#: test.php:611
+msgid "When someone sent inquest through Contact Form 7"
+msgstr ""
+"Lorsqu’une personne envoie un inquest par le biais du formulaire de contact 7"
 
-#~ msgid ""
-#~ "*%s* just sent a message titled \"*%s*\" through *%s*. Check your email!"
-#~ msgstr ""
-#~ "*%s* vient d’envoyer un message intitulé « %s * » par *%s*. Vérifiez "
-#~ "votre e-mail!"
+#: test.php:616
+#, php-format
+msgid ""
+"*%s* just sent a inquest titled \"*%s*\" through *%s*. Check your email!"
+msgstr ""
+"*%s* vient d’envoyer un inquest intitulé « %s * » par *%s*. Vérifiez votre e-"
+"mail!"
+
+#~ msgid "Reference"
+#~ msgstr "Référence"
+
+#~ msgid "Number Forms"
+#~ msgstr "Nombre de formulaires"
 
 #~ msgid "Forms manager."
 #~ msgstr "Gestionnaire de formulaires."

@@ -238,7 +238,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				require_once( $dirForm );
 			endif;
 			//------------------------------------------------------
-			$dirForm = self::$gDir . 'RGS_CompanyMsg.php';
+			$dirForm = self::$gDir . 'RGS_CompanyInquest.php';
 			if( file_exists( $dirForm ) ):
 				require_once( $dirForm );
 			endif;
@@ -790,7 +790,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 			return self::getSlug_fn() . '-settings';
 		}
 		//--------------------------------------------------
-		static function getMsgMenuId_fn()
+		static function getInquestMenuId_fn()
 		{
 			return self::getSlug_fn() . '-msg';
 		}
@@ -812,13 +812,13 @@ if( ! class_exists( 'RGS_Company' ) ):
 			// Adds my_help_tab when my_admin_page loads
     		add_action( 'load-' . self::$gAdminPageId, array( __CLASS__, 'adminAddHelpTab_fn' ) );
 			
-			$msgPageId = add_submenu_page(
+			$inquestPageId = add_submenu_page(
 				'edit.php?post_type=' . self::getSlug_fn(),
-				__( 'Companies Messages', self::getTD_fn() ),
-				'<i class="wp-menu-image dashicons-before dashicons-email-alt"></i> ' . __( 'Messages', self::getTD_fn() ),
+				__( 'Companies Inquests', self::getTD_fn() ),
+				'<i class="wp-menu-image dashicons-before dashicons-email-alt"></i> ' . __( 'Inquests', self::getTD_fn() ),
 				'manage_options',
-				self::getMsgMenuId_fn(),
-				array( __CLASS__, 'adminMsgPage_fn' )
+				self::getInquestMenuId_fn(),
+				array( __CLASS__, 'adminInquestPage_fn' )
 			);
 			
 		}
@@ -840,18 +840,18 @@ if( ! class_exists( 'RGS_Company' ) ):
 			
 		}
 		//--------------------------------------------------
-		static function adminMsgPage_fn()
+		static function adminInquestPage_fn()
 		{
 			// check user capabilities
     		if ( ! current_user_can( 'manage_options' ) ) :
         		return;
     		endif;
 			
-			if( is_file( self::$gViewsDir . 'msgPage.php' ) ):
-				include_once(self::$gViewsDir . 'msgPage.php');
+			if( is_file( self::$gViewsDir . 'inquestPage.php' ) ):
+				include_once(self::$gViewsDir . 'inquestPage.php');
 			else:
 				echo '<h1>';
-				esc_html_e( 'No Messages Page Loaded!', self::getTD_fn() ); 
+				esc_html_e( 'No Inquests Page Loaded!', self::getTD_fn() ); 
 				echo '</h1>';
 			endif;
 			

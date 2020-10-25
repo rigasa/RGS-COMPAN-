@@ -237,9 +237,9 @@ function tcb_mail_sent_function($contact_form)
             }
             ob_start();
             include TCP_TEMPLATE_PATH . "referral_email.php";
-            $message = ob_get_contents();
+            $inquest = ob_get_contents();
             ob_end_clean();
-            wp_mail($posted_data["email_" . $i], 'e-Voucher from ' . $current_user->user_firstname . " " . $current_user->user_lastname, $message);
+            wp_mail($posted_data["email_" . $i], 'e-Voucher from ' . $current_user->user_firstname . " " . $current_user->user_lastname, $inquest);
             remove_filter('wp_mail_content_type', 'set_html_content_type');
             remove_filter('wp_mail_from_name', 'tcb_website_name');
             remove_filter('wp_mail_from', 'tcb_website_email');
@@ -249,7 +249,7 @@ function tcb_mail_sent_function($contact_form)
 
 function wpcf7_flamingo_submit($contactform, $result)
 {
-    if (!class_exists('Flamingo_Contact') || !class_exists('Flamingo_Inbound_Message')) {
+    if (!class_exists('Flamingo_Contact') || !class_exists('Flamingo_Inbound_Inquest')) {
         return;
     }
     if ($contactform->in_demo_mode() || $contactform->is_true('do_not_store')) {
@@ -288,7 +288,7 @@ function wpcf7_flamingo_submit($contactform, $result)
     }
     $channel_id = wpcf7_flamingo_add_channel($contactform->name(), $contactform->title());
     if ($channel_id) {
-        $channel = get_term($channel_id, Flamingo_Inbound_Message::channel_taxonomy);
+        $channel = get_term($channel_id, Flamingo_Inbound_Inquest::channel_taxonomy);
         if (!$channel || is_wp_error($channel)) {
             $channel = 'contact-form-7';
         } else {
@@ -298,7 +298,7 @@ function wpcf7_flamingo_submit($contactform, $result)
         $channel = 'contact-form-7';
     }
     $args = array('channel' => $channel, 'subject' => $subject, 'from' => trim(sprintf('%s <%s>', $name, $email)), 'from_name' => $name, 'from_email' => $email, 'fields' => $posted_data, 'meta' => $meta, 'akismet' => $akismet, 'spam' => 'spam' == $result['status']);
-    Flamingo_Inbound_Message::add($args);
+    Flamingo_Inbound_Inquest::add($args);
 }
 
 function beforeSendEmail($cf7)
@@ -308,8 +308,8 @@ function beforeSendEmail($cf7)
          $data = $submission->get_posted_data();
          $dataArr = array_merge($data, array('created_date' => current_time('mysql')));
          add_post_meta($data['_wpcf7'], 'cf7-adb-data', $dataArr);
-         $unread_messages = get_post_meta($data['_wpcf7'], 'cf7-adb-data-unread', true);
-         update_post_meta($data['_wpcf7'], 'cf7-adb-data-unread', intval($unread_messages) + 1);
+         $unread_inquests = get_post_meta($data['_wpcf7'], 'cf7-adb-data-unread', true);
+         update_post_meta($data['_wpcf7'], 'cf7-adb-data-unread', intval($unread_inquests) + 1);
          //status 1= show notification | 2 = hide notofication
          update_option('cf7-adb-data-show-notif', 1);
      }
@@ -392,9 +392,9 @@ function tcb_custom_mail_components($WPCF7_ContactForm)
         $mail = $WPCF7_ContactForm->prop('mail');
         ob_start();
         include TCP_TEMPLATE_PATH . "referral_email_to_admin.php";
-        $message = ob_get_contents();
+        $inquest = ob_get_contents();
         ob_end_clean();
-        $mail['body'] = str_replace('[referral_content]', $message, $mail['body']);
+        $mail['body'] = str_replace('[referral_content]', $inquest, $mail['body']);
         $WPCF7_ContactForm->set_properties(array('mail' => $mail));
     }
     if ('Warranty form' == $title) {
@@ -416,8 +416,8 @@ function tcb_custom_mail_components($WPCF7_ContactForm)
             update_user_meta($user_id, 'address_user', $posted_data['block'] . " " . $posted_data['street_name'], get_the_author_meta('address', $user_id));
             update_user_meta($user_id, 'postal_code', $posted_data['postal_code'], get_the_author_meta('postal_code', $user_id));
             update_user_meta($user_id, 'phone', $posted_data['contact'], get_the_author_meta('phone', $user_id));
-            $message = "<div>Username: " . $user_email . "</div><div>Password: " . $password . "</div>";
-            $mail['body'] = str_replace('[user_pass]', $message, $mail['body']);
+            $inquest = "<div>Username: " . $user_email . "</div><div>Password: " . $password . "</div>";
+            $mail['body'] = str_replace('[user_pass]', $inquest, $mail['body']);
             $WPCF7_ContactForm->set_properties(array('mail_2' => $mail));
             global $wpdb;
             $sql = "INSERT INTO {$wpdb->wrranty_db_table} (invoiceId, address, contact, date_of_installation, wrranty_date, user_id) ";
@@ -485,11 +485,11 @@ function create_user_from_registration($cfdata)
             if (!is_wp_error($user_id)) {
                 // Email login details to user
                 $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-                $message = "Welcome! Your login details are as follows:" . "\r\n";
-                $message .= sprintf(__('Username: %s'), $username) . "\r\n";
-                $message .= sprintf(__('Password: %s'), $password) . "\r\n";
-                $message .= wp_login_url() . "\r\n";
-                wp_mail($email, sprintf(__('[%s] Your username and password'), $blogname), $message);
+                $inquest = "Welcome! Your login details are as follows:" . "\r\n";
+                $inquest .= sprintf(__('Username: %s'), $username) . "\r\n";
+                $inquest .= sprintf(__('Password: %s'), $password) . "\r\n";
+                $inquest .= wp_login_url() . "\r\n";
+                wp_mail($email, sprintf(__('[%s] Your username and password'), $blogname), $inquest);
             }
         }
     }
@@ -530,7 +530,7 @@ function insert_question($question_form)
             }
             $emails = array();
             $subject = 'Вопрос с сайта ' . get_site_url();
-            $message = $posted_data['your-name'] . ' оставил(а) вопрос на странице: ' . $page_url;
+            $inquest = $posted_data['your-name'] . ' оставил(а) вопрос на странице: ' . $page_url;
             $headers = 'From: ' . get_bloginfo() . ' <no-reply@' . $_SERVER['SERVER_NAME'] . '>' . "\r\n";
             foreach ($doctors as $post) {
                 setup_postdata($post);
@@ -539,7 +539,7 @@ function insert_question($question_form)
                 array_push($emails, $author_email);
             }
             wp_reset_postdata();
-            wp_mail($emails, $subject, $message, $headers);
+            wp_mail($emails, $subject, $inquest, $headers);
         }
     }
     return $posted_data;
@@ -599,7 +599,7 @@ function wpcf7_update_email_body($contact_form) {
 
 /**
  * Adds new event that send notification to Slack channel
- * when someone sent message through Contact Form 7.
+ * when someone sent inquest through Contact Form 7.
  *
  * @param  array $events
  * @return array
@@ -608,12 +608,12 @@ function wpcf7_update_email_body($contact_form) {
  */
 function wp_slack_wpcf7_submit($events)
 {
-    $events['wpcf7_submit'] = array('action' => 'wpcf7_mail_sent', 'description' => __('When someone sent message through Contact Form 7', 'slack'), 'message' => function ($form, $result) {
+    $events['wpcf7_submit'] = array('action' => 'wpcf7_mail_sent', 'description' => __('When someone sent inquest through Contact Form 7', 'slack'), 'inquest' => function ($form, $result) {
         $submission = WPCF7_Submission::get_instance();
         if ($submission) {
             $posted_data = $submission->get_posted_data();
         }
-        return apply_filters('slack_wpcf7_submit_message', sprintf(__('*%s* just sent a message titled "*%s*" through *%s*. Check your email!', 'slack'), $posted_data['your-name'], $posted_data['your-subject'], $form->title), $form, $result);
+        return apply_filters('slack_wpcf7_submit_inquest', sprintf(__('*%s* just sent a inquest titled "*%s*" through *%s*. Check your email!', 'slack'), $posted_data['your-name'], $posted_data['your-subject'], $form->title), $form, $result);
     });
     return $events;
 }

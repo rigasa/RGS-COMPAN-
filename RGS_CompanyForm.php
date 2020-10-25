@@ -668,9 +668,9 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 				///////////////////////////////////////
 			endif;
 			///////////////////////////////////////////
-			if( method_exists( 'RGS_CompanyMsg', 'insertMsg_fn' ) ):
+			if( method_exists( 'RGS_CompanyInquest', 'insertInquest_fn' ) ):
 				//
-				RGS_CompanyMsg::insertMsg_fn( $dbFields );
+				RGS_CompanyInquest::insertInquest_fn( $dbFields );
 				//
 			endif;
 			//-------------------------------------------------

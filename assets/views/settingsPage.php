@@ -10,12 +10,12 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 // check if the user have submitted the settings
 // WordPress will add the "settings-updated" $_GET parameter to the url
 if ( isset( $_GET[ 'settings-updated' ] ) ) {
-	// add settings saved message with the class of "updated"
-	add_settings_error( $slug . '_messages', $slug . '_message', __( 'Settings Saved', $TD ), 'updated' );
+	// add settings saved inquest with the class of "updated"
+	add_settings_error( $slug . '_inquests', $slug . '_inquest', __( 'Settings Saved', $TD ), 'updated' );
 }
 //----------------------
-// show error/update messages
-settings_errors( $slug . 'messages' );
+// show error/update inquests
+settings_errors( $slug . 'inquests' );
 ?>
 <div class="wrap">
 	<h1 class="wp-heading-inline"><i class="wp-menu-image dashicons-before dashicons-admin-settings" style="vertical-align: middle; position: relative; top: 2px;"></i> <?php echo esc_html($title); ?>

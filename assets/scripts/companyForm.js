@@ -54,8 +54,8 @@ if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
 		};
 	}
 	// -----------------------------
-	if (typeof(oCF.getMessageCallback_fn) !== 'function') {
-		oCF.getMessageCallback_fn = function(response) {
+	if (typeof(oCF.getInquestCallback_fn) !== 'function') {
+		oCF.getInquestCallback_fn = function(response) {
 			console.log( "response", response );
 			//
 			if(typeof(response.success) !== 'undefined'){
@@ -74,25 +74,25 @@ if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
 	// ------------------------------------------
 	// AJAX CALLBACKS
 	// ------------------------------------------
-	if (typeof(oCF.getMessage_fn) !== 'function') {
-		oCF.getMessage_fn = function() {
+	if (typeof(oCF.getInquest_fn) !== 'function') {
+		oCF.getInquest_fn = function() {
 			jQuery.ajax({
 				url: oCF.ajaxUrl,
 				type: "POST",
 				data: {
-					'action': 'getMessage',
+					'action': 'getInquest',
 					'uniqid': oCF.Form.uniqId 
 				},
 				dataType: 'JSON',
 				success:function(response){
-					oCF.getMessageCallback_fn(response);
+					oCF.getInquestCallback_fn(response);
 				},
 				error: function(errorThrown){
 					//alert('error');
 					console.log(errorThrown);
 				}
 			}).done(function(response) {
-				//oCF.getMessageCallback_fn(response);
+				//oCF.getInquestCallback_fn(response);
 			});
 		};
 	}
@@ -124,7 +124,7 @@ if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
 			//const postID = event.detail.containerPostId;
 			//const inputs = event.detail.inputs;
 			//console.log('mail sent OK', event.detail );
-			oCompanyForm.getMessage_fn();
+			oCompanyForm.getInquest_fn();
 		} );
 		// ------------------------------------------
 	} else {

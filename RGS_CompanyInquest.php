@@ -8,11 +8,11 @@
 */
 //----------------------------------------------------------
 /**
- * @class RGS_CompanyMsg
+ * @class RGS_CompanyInquest
  * @fullname Eco Citoyen Management
- * @package RGS_CompanyMsg
+ * @package RGS_CompanyInquest
  * @category Core
- * @filesource assets/plugins/Entreprise/RGS_CompanyMsg.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanyInquest.php
  * @version 0.0.1
  * @created 2020-10-15
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -24,9 +24,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'RGS_CompanyMsg' ) ):
+if( ! class_exists( 'RGS_CompanyInquest' ) ):
 	//----------------------------------
-	class RGS_CompanyMsg
+	class RGS_CompanyInquest
 	{
 		//------------------------------
 		//--------------------------------------------------
@@ -46,8 +46,8 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 		static public $gBasename;
 		// Plugin Hierarchy
 		//---
-		const K_SLUG = 'rgsCompanyMsg';
-		const K_PREFIX = 'rgsCompanyMsg-';
+		const K_SLUG = 'rgsCompanyInquest';
+		const K_PREFIX = 'rgsCompanyInquest-';
 		const K_VERS = '1.0.0';
 		
 		//------------------------------
@@ -99,7 +99,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			// Directories Hierarchy
 			//
 			//---
-			self::$gSlug 			= sanitize_title( self::K_SLUG ) . 'Msg';
+			self::$gSlug 			= sanitize_title( self::K_SLUG ) . 'Inquest';
 			//---
 		}
 		//--------------------------------------------------
@@ -137,7 +137,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 				add_filter('manage_' . self::getCptName_fn() . '_columns', array( __CLASS__, 'manageAdminColumns_fn') );
 				add_action( 'manage_' . self::getCptName_fn() . '_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 10, 2 );
 				//
-				add_filter( 'add_menu_classes',  array( __CLASS__, 'menuMsgBubble_fn' ) );
+				add_filter( 'add_menu_classes',  array( __CLASS__, 'menuInquestBubble_fn' ) );
 				//
 			else:
 				//add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
@@ -146,8 +146,8 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			//------
 			// GET MESSAGE BY AJAX
 			//------
-			add_action( 'wp_ajax_getMessage', array(__CLASS__, 'getMessageByUniqId_fn') );
-			add_action( 'wp_ajax_nopriv_getMessage', array(__CLASS__, 'getMessageByUniqId_fn') );
+			add_action( 'wp_ajax_getInquest', array(__CLASS__, 'getInquestByUniqId_fn') );
+			add_action( 'wp_ajax_nopriv_getInquest', array(__CLASS__, 'getInquestByUniqId_fn') );
 			//
 	}
 		//------------------------------
@@ -160,43 +160,43 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			$TD = self::getTD_fn();
 			
 			$labels = array(
-				'name'                  => _x( 'Messages', 'Post Type General Name', $TD ),
-				'singular_name'         => _x( 'Message', 'Post Type Singular Name', $TD ),
-				'menu_name'             => __( 'Messages', $TD ),
-				'name_admin_bar'        => __( 'Message', $TD ),
-				'archives'              => __( 'Message Archives', $TD ),
-				'attributes'            => __( 'Message Attributes', $TD ),
-				'parent_item_colon'     => __( 'Parent Message:', $TD ),
-				'all_items'             => __( 'All Messages', $TD ),
-				'add_new_item'          => __( 'Add New Message', $TD ),
-				'add_new'               => __( 'Add Message', $TD ),
-				'new_item'              => __( 'New Message', $TD ),
-				'edit_item'             => __( 'Edit Message', $TD ),
-				'update_item'           => __( 'Update Message', $TD ),
-				'view_item'             => __( 'View Message', $TD ),
-				'view_items'            => __( 'View Messages', $TD ),
-				'search_items'          => __( 'Search Message', $TD ),
+				'name'                  => _x( 'Inquests', 'Post Type General Name', $TD ),
+				'singular_name'         => _x( 'Inquest', 'Post Type Singular Name', $TD ),
+				'menu_name'             => __( 'Inquests', $TD ),
+				'name_admin_bar'        => __( 'Inquest', $TD ),
+				'archives'              => __( 'Inquest Archives', $TD ),
+				'attributes'            => __( 'Inquest Attributes', $TD ),
+				'parent_item_colon'     => __( 'Parent Inquest:', $TD ),
+				'all_items'             => __( 'All Inquests', $TD ),
+				'add_new_item'          => __( 'Add New Inquest', $TD ),
+				'add_new'               => __( 'Add Inquest', $TD ),
+				'new_item'              => __( 'New Inquest', $TD ),
+				'edit_item'             => __( 'Edit Inquest', $TD ),
+				'update_item'           => __( 'Update Inquest', $TD ),
+				'view_item'             => __( 'View Inquest', $TD ),
+				'view_items'            => __( 'View Inquests', $TD ),
+				'search_items'          => __( 'Search Inquest', $TD ),
 				'not_found'             => __( 'Not found', $TD ),
 				'not_found_in_trash'    => __( 'Not found in Trash', $TD ),
 				'featured_image'        => __( 'Featured Image', $TD ),
 				'set_featured_image'    => __( 'Set featured image', $TD ),
 				'remove_featured_image' => __( 'Remove featured image', $TD ),
 				'use_featured_image'    => __( 'Use as featured image', $TD ),
-				'insert_into_item'      => __( 'Insert into message', $TD ),
-				'uploaded_to_this_item' => __( 'Uploaded to this message', $TD ),
-				'items_list'            => __( 'Messages list', $TD ),
-				'items_list_navigation' => __( 'Messages list navigation', $TD ),
-				'filter_items_list'     => __( 'Filter message list', $TD ),
+				'insert_into_item'      => __( 'Insert into inquest', $TD ),
+				'uploaded_to_this_item' => __( 'Uploaded to this inquest', $TD ),
+				'items_list'            => __( 'Inquests list', $TD ),
+				'items_list_navigation' => __( 'Inquests list navigation', $TD ),
+				'filter_items_list'     => __( 'Filter inquest list', $TD ),
 			);
 			$rewrite = array(
-				'slug'                  => __( 'Message', $TD ),
+				'slug'                  => __( 'Inquest', $TD ),
 				'with_front'            => true,
 				'pages'                 => true,
 				'feeds'                 => false,
 			);
 			$args = array(
-				'label'                 => __( 'Messages', $TD ),
-				'description'           => __( 'Message Description', $TD ),
+				'label'                 => __( 'Inquests', $TD ),
+				'description'           => __( 'Inquest Description', $TD ),
 				'labels'                => $labels,
 				'supports'              => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 				//'taxonomies'            => array( self::getSlug_fn() . '-type', self::getSlug_fn() . '-post_tag' ),
@@ -251,7 +251,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 		//--------------------------------------------------
 		static function getCptName_fn()
 		{
-			return RGS_Company::getSlug_fn().'Msg';
+			return RGS_Company::getSlug_fn().'Inquest';
 		}
 		//--------------------------------------------------
 		// Columns
@@ -277,12 +277,12 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			endswitch;
 		}
 		//--------------------------------------------------
-		static function menuMsgBubble_fn( $menu )
+		static function menuInquestBubble_fn( $menu )
 		{
 			$pending_count = wp_count_posts( self::getCptName_fn() )->draft;
 
 			foreach($menu as $menu_key => $menu_data) {
-				if ('post_type=' . RGS_Company::getSlug_fn() . '&page=' . RGS_Company::getMsgMenuId_fn()  != $menu_data[2])
+				if ('post_type=' . RGS_Company::getSlug_fn() . '&page=' . RGS_Company::getInquestMenuId_fn()  != $menu_data[2])
 					continue;
 
 				$menu[$menu_key][0] .= ' <span class="update-plugins count-$pending_count"><span class="plugin-count">' . number_format_i18n($pending_count) . '</span></span>';
@@ -293,7 +293,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 		//--------------------------------------------------
 		// MANAGE POST
 		//--------------------------------------------------
-		static function insertMsg_fn( $formFields )
+		static function insertInquest_fn( $formFields )
 		{
 			
 			$postTitle = '';
@@ -334,11 +334,11 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
         	#add_post_meta( $post_id, 'some_meta', $formFields['some_meta']);
 			
 			//echo '<pre>FIELDS AFTER::: '.print_r( $formFields, TRUE ).'</pre><br>';
-			//die('insertMsg_fn');
+			//die('insertInquest_fn');
 			
 		}
 		//---------------------------------------------------------------
-		static function getTableInMsg_fn( $content )
+		static function getTableInInquest_fn( $content )
 		{
 			//Début et fermeture du tag
 			$posd = '<table width="100%" border="2" cellspacing="0" cellpadding="6">';
@@ -351,7 +351,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			return $table;
 		}
 		//---------------------------------------------------------------
-		static function getDisplayMsg_fn( $post )
+		static function getDisplayInquest_fn( $post )
 		{
 			
 			if(! $post ):
@@ -360,7 +360,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			//
 			$arrDisplay = array();
 			// MANAGE TABLE RESPONSES
-			$table =  self::getTableInMsg_fn( $post->post_content );
+			$table =  self::getTableInInquest_fn( $post->post_content );
 			//
 			$pMetasResponses = get_post_meta($post->ID, 'responses', TRUE );
 			foreach( $pMetasResponses as $id => $response ) :
@@ -377,7 +377,7 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 		//---------------------------------------------------------------
 		// AJAX
 		//---------------------------------------------------------------
-		static function getMessageByUniqId_fn()
+		static function getInquestByUniqId_fn()
 		{
 			$uinqid = (isset( $_POST['uniqid'] ) ) ? $_POST['uniqid'] : '';
 			//
@@ -396,14 +396,14 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 						$query->the_post();
 						global $post;
 						//
-						$arrDisplay = self::getDisplayMsg_fn( $post );
+						$arrDisplay = self::getDisplayInquest_fn( $post );
 						//
 					endwhile;
 				endif;
 				wp_reset_postdata();
 				//
 				if( ! $arrDisplay ):
-					wp_send_json_error( __('No message was retrieved', self::getTD_fn() ) );
+					wp_send_json_error( __('No inquest was retrieved', self::getTD_fn() ) );
 				else:
 					wp_send_json_success($arrDisplay);
 				endif;
@@ -412,21 +412,39 @@ if( ! class_exists( 'RGS_CompanyMsg' ) ):
 			wp_die();
 		}
 		//--------------------------------------------------
+		static function deleteInquest_fn( $id, $notInTrash = true )
+		{
+			wp_delete_post( $id, $notInTrash);
+		}
+		//--------------------------------------------------
+		static function deleteAllInquests_fn()
+		{
+			$args = array(
+				'posts_per_page' 	=> -1,
+				'post_type'   	=> RGS_CompanyInquest::getCptName_fn(),
+				'post_status' 	=> 'draft'
+			);
+			$post_list = get_posts( $args );
+	
+			foreach ( $post_list as $post ) :
+				self::deleteInquest_fn( $post->ID, true);
+			endforeach;
+		}
 		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------
 		
 	};
 	//------------------------------------------------------
-	if( ! function_exists( 'rgsCompanyMsg_fn' ) ):
-		function rgsCompanyMsg_fn() 
+	if( ! function_exists( 'rgsCompanyInquest_fn' ) ):
+		function rgsCompanyInquest_fn() 
 		{
-			return RGS_CompanyMsg::getInstance_fn();
+			return RGS_CompanyInquest::getInstance_fn();
 		};
 	endif;
 	//------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'RGS_CompanyMsg' ] ) ):
-		$GLOBALS[ 'RGS_CompanyMsg' ] = rgsCompanyMsg_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanyInquest' ] ) ):
+		$GLOBALS[ 'RGS_CompanyInquest' ] = rgsCompanyInquest_fn();
 	endif;
 	//------------------------------------------------------
 endif;

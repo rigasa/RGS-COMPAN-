@@ -46,11 +46,11 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 			?>
 			<?php
 			//----------------------------
-			$allMsg = RGS_FormStats::getAllMsg_fn();
+			$allInquest = RGS_FormStats::getAllInquest_fn();
 			//----------------------------
 			$companiesList = RGS_FormStats::getCompaniesList_fn();
 			$nbCompanies = count($companiesList);
-			$nbForms = count($allMsg);
+			$nbForms = count($allInquest);
 			//
 			if($companiesList):
 				$selected = 0;
@@ -75,7 +75,7 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 				</select>
 			<br>
 				<p><span><?php echo __( 'Number Companies', $TD ) . ': <span style="font-weight: bold;">' . $nbCompanies .'</span>'; ?></span>
-				<br><span><?php echo __( 'Number Forms', $TD ) . ': <span style="font-weight: bold;">' . $nbForms .'</span>'; ?></span>
+				<br><span id="nbInquest"><?php echo __( 'Number of inquests', $TD ) . ': <span style="font-weight: bold;">' . $nbForms .'</span>'; ?></span>
 				</p>
 			<hr>
 			<br>
@@ -85,15 +85,15 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 			$formChoice = (int) $rgsOptions['formChoice'];
 			$themeChoice = $rgsOptions['themeChoice'];
 			//----------------------------
-			//$allMsg = RGS_FormStats::getAllMsg_fn();
+			//$allInquest = RGS_FormStats::getAllInquest_fn();
 			//
-			if( empty( $allMsg ) ) : ?>
+			if( empty( $allInquest ) ) : ?>
 					<p class="noDataFound"><?php _e('No data found', $TD); ?></p>
 			<?php else: ?>
 				<div id="architectContainer">
 				<?php
 				//---------------------------------------------------------
-				echo RGS_FormStats::getArchitectHtml_fn( $allMsg , $formChoice );
+				echo RGS_FormStats::getArchitectHtml_fn( $allInquest , $formChoice );
 				//---------------------------------------------------------
 				?>
 				</div>

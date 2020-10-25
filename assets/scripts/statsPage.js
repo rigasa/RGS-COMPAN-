@@ -84,7 +84,7 @@
     }
 	//------------------------------------
 	// CHANGE COMPANY
-	// -----------------------------
+	// --------nbInquest
 	if( oCompany.exists('#companiesList') ) {
 		
 		jQuery( '#companiesList' ).on('change', function( event ){
@@ -147,14 +147,14 @@
 					console.log( 'response', response);
 					
 					// architectContainer
-					//oCF.getMessageCallback_fn(response);
+					//oCF.getInquestCallback_fn(response);
 				},
 				error: function(errorThrown){
 					//alert('error');
 					console.log(errorThrown);
 				}
 			}).done(function(response) {
-				//oCF.getMessageCallback_fn(response);
+				//oCF.getInquestCallback_fn(response);
 			});
 			
 			//
