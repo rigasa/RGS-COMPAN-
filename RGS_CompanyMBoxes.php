@@ -287,15 +287,30 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 			endif;
 			//
 			$OPTION = self::getOptionNameMB_fn();
-			
-			
-			
-			if( isset( $_POST[ self::getOptionNameMB_fn()] ) ):
-				update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[self::getOptionNameMB_fn()]);
+			// Template 
+			$templateName   = isset( $_POST['_wp_page_template'] ) ? $_POST['_wp_page_template'] : '';
+			if(empty($templateName) ):
+				delete_post_meta($post_id, '_wp_page_template', $templateName );
+			else:
+				add_post_meta($post_id, '_wp_page_template', $templateName );
+			endif;
+			//
+			if( isset( $_POST[$OPTION] ) ):
+				update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
 			endif;
 			//
 			return $post_id;
 			//
+		}
+		//---------------------------------------------------------------
+		static function getCurTemplate_fn($post_id)
+		{
+			$theTemplate = get_post_meta( $post_id, '_wp_page_template', true  );
+			$arrTemplates = wp_get_theme()->get_page_templates();
+			if ( ! isset( $arrTemplates[ $theTemplate ] ) ) :
+				$theTemplate = '';
+			endif;
+			return $theTemplate;
 		}
 		//--------------------------------------------------
 		// Columns

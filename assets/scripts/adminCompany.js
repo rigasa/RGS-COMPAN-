@@ -71,8 +71,22 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 				});
 			}
 			// -----------------------------
+			if( oCompany.exists('#templateSelect') ) {
+				jQuery( '#templateSelect' ).on('change', function( event ){
+					event.preventDefault();
+					// 
+					const newTemplate = jQuery(this).val();
+					//
+					if( oCompany.exists('#templateField') ) {
+						jQuery('#templateField').val(newTemplate);
+						console.log('newTemplate', jQuery('#newTemplate').val() );
+					}
+				});
+			}
+			// -----------------------------
 			
 		}
 	}
+	
 	// -----------------------------
 })(jQuery);

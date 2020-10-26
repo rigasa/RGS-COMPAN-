@@ -83,14 +83,42 @@ else:
 	$isInRange = TRUE;
 endif;
 
-if( ! $isPublicForm ): ?>
+if( ! $isPublicForm ): 
+//-------------------------------
+
+//-------------------------------
+?>
 	<h1><?php echo $post->post_title; ?></h1>
-<?php endif;
-//
-echo $taxoHTML;
+	<?php
+
+//$pm = get_post_meta( $post->ID);
+
+//echo '<pre>'.print_r( $pm, TRUE ).'</pre>';
+	$mBoxMeta = get_post_meta( $post->ID, 'company_MB');
+	$nbEmployees = isset($mBoxMeta[0]['REFS']['REF_NbEmployees'])? (int) $mBoxMeta[0]['REFS']['REF_NbEmployees'] : 10;
+	// Get NUMBER OF INQUESTS
+	$nbInquiries = (int) RGS_FormStats::getNbInquestInCompany_fn( $post->ID );
+
+	$display = ($nbInquiries < $nbEmployees);
+else :
+	$display = TRUE;
+endif;
 //
 ?>
-<?php the_content(); ?>
-<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); ?>
+<?php 
+if(! $display ) :
+	echo '<p class="warning">'.__('Maximum number of inquiries reached!', $TD).' : ' . $nbEmployees . '</p>';
+else:
+	// Display Number of 
+	if( $nbEmployees > 0 ): //REF_MailAddress, REF_FormID, REF_Shortcode
+		echo '<p id="nbOfInquiries">'. __('Number of inquiries', $TD) . ': ' . $nbInquiries . '/' . $nbEmployees . '</p>';
+	endif;
+	// Display Taxonomies
+	echo $taxoHTML;
+
+	the_content();
+	wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); 
+endif;
+?>
 
 <br><br><br>

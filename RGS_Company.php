@@ -287,6 +287,8 @@ if( ! class_exists( 'RGS_Company' ) ):
 			else:
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
 			endif;
+			
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueSingle_fn'), 11 );
 	}
 		//------------------------------
 	//|-----------------
@@ -485,6 +487,21 @@ if( ! class_exists( 'RGS_Company' ) ):
 			self::loadScripts_fn();
 			//------------------------------------------------------
 			//------------------------------------------------------
+		}
+		//--------------------------------------------------
+		static function enqueueSingle_fn()
+		{
+			if( is_singular( self::getSlug_fn() ) || is_post_type_archive( self::getSlug_fn() ) ) :
+				if( file_exists( self::$gCssDir . 'companySingle.css' ) ):
+					wp_enqueue_style( 
+						self::getSlug_fn() . '_single', 
+						self::$gCssUrl . 'companySingle.css', 
+						array(  ), 
+						'0.0.1', 
+						'all' 
+					);
+				endif;
+			endif;
 		}
 		//--------------------------------------------------
 		static function enqueueSettingsScripts_fn()
@@ -970,6 +987,12 @@ if( ! class_exists( 'RGS_Company' ) ):
 			//
 		}
 		//--------------------------------------------------
+		static function setTemplateSingle_fn($postID)
+		{
+			/*
+			add_post_meta($postID, '_wp_page_template', 'companySingle.php' );
+			*/
+		}
 		//--------------------------------------------------
 		//--------------------------------------------------
 		

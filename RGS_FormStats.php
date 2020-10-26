@@ -393,6 +393,21 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 			
 		}
 		//---------------------------------------------------------------
+		static function getNbInquestInCompany_fn( $companyId = 0 )
+		{
+			$args = array(
+				'post_type' 		=> RGS_CompanyInquest::getCptName_fn(), 
+				'posts_per_page' 	=> -1,
+				'post_status' 		=> 'draft',
+				'meta_key' 			=> 'COMPANY_ID',
+				'meta_value' 		=> $companyId
+			);
+			//
+			$msgList = (array) get_posts( $args );
+
+			return is_array($msgList) ? count($msgList) : 0;
+		}
+		//---------------------------------------------------------------
 		static function getCompanyInquest_fn( $companyId = 0 )
 		{
 			$args = array(

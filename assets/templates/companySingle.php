@@ -6,7 +6,6 @@
 
 get_header(); ?>
 
-
 	<div id="primary" class="site-content company-single-template">
 		<div id="content" role="main">
 
@@ -19,12 +18,6 @@ get_header(); ?>
 					endif;
 					?>
 				</div><!-- .entry-content -->
-			</article><!-- #post -->
-			
-				<?php 
-				#get_template_part( 'content', 'page' ); 
-				?>
-				<?php comments_template( '', true ); ?>
 			<?php endwhile; // end of the loop. ?>
 
 		</div><!-- #content -->

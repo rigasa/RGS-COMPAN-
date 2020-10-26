@@ -19,7 +19,7 @@
  * @updated 2020-10-07
  * @copyright 2020 Ri.Ga.Sa
  * @license http://www.php.net/license/3_01.txt  PHP License 3.01
- * pChart http://pchart.sourceforge.net/screenshots.php
+ * Class FPDF http://www.fpdf.org/fr/doc/index.php
 */                                                                                 
 
 //--------------------------------------
@@ -121,9 +121,15 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 		private function loadDependencies_fn() 
 		{
 			//------------------------------------------------------
-			$fileFPDF = RGS_Company::$gLibsDir . trailingslashit( 'fpdf' ) . 'fpdf.php';
-			if( file_exists( $fileFPDF ) ):
-				require_once( $fileFPDF );
+			$fileRequired = RGS_Company::$gLibsDir . trailingslashit( 'fpdf' ) . 'fpdf.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
+			endif;
+			//------------------------------------------------------
+			$dirPlugins = RGS_Company::$gLibsDir . trailingslashit( 'fpdf' ) . trailingslashit( 'plugins' );
+			$fileRequired = $dirPlugins . 'loadPlugins.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
 		}
@@ -223,7 +229,7 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 				//Output the document
 				$pdf->Output('example1.pdf','I');
 
-				echo '<pre>createPDF::: '.print_r( $pageHTML, TRUE).'</pre>';
+				echo '<pre>createPDF::: '.print_r( $pdf, TRUE).'</pre>';
 				die('DEBUG');
 
 
