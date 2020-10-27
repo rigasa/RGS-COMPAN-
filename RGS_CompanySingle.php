@@ -903,7 +903,8 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 		//---------------------------------------------------------------
 		static function includeTemplate_fn()
 		{
-			$file = RGS_Company::$gTemplatesDir .'companySingle.php';
+			$file = RGS_Company::$gTemplatesDir .'companyForm.php';
+			
 			if( is_file( $file ) ):
 				include_once( $file  );
 			endif;
@@ -924,15 +925,15 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'rgsCompanyForm_fn' ) ):
-		function rgsCompanyForm_fn() 
+	if( ! function_exists( 'rgsCompanySingle_fn' ) ):
+		function rgsCompanySingle_fn() 
 		{
 			return RGS_CompanySingle::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
 	if( ! isset( $GLOBALS[ 'RGS_CompanySingle' ] ) ):
-		$GLOBALS[ 'RGS_CompanySingle' ] = rgsCompanyForm_fn();
+		$GLOBALS[ 'RGS_CompanySingle' ] = rgsCompanySingle_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

@@ -1,9 +1,29 @@
 <?php
+//////////////////////////////////
 $slug = RGS_Company::getSlug_fn();
 $TD = RGS_Company::getTD_fn();
-
+//////////////////////////////////
 global $post;
-//
+//////////////////////////////////
+// HAS PASSWORD
+//////////////////////////////////
+$passCookie = '';
+foreach($_COOKIE as $key=>$value) :
+  	if(!strncmp($key,"wp-postpass_",12)) :
+		$passCookie = $key;
+    	break;
+	endif;
+endforeach;
+#echo '<pre>$hasPassCookie::: '.print_r($passCookie, TRUE).'</pre>';
+$hasPass = (isset($post->post_password) and ! empty( $post->post_password ) );
+#echo '<pre>$hasPass::: '.print_r($hasPass, TRUE).'</pre>';
+//////////////////////////////////
+
+
+
+
+
+
 $output = ''; 
 $TAXO = RGS_Company::getSlug_fn() . '-campaign';
 $taxoHTML = '';
@@ -128,14 +148,29 @@ endif;
 if(! $display ) :
 	echo '<p class="warning">'.__('Maximum number of inquiries reached!', $TD).' : ' . $nbEmployees . '</p>';
 else:
+
+	$theContent = do_shortcode( get_the_content($post->ID) );
+
 	// Display Number of 
 	if( $nbEmployees > 0 ): //REF_MailAddress, REF_FormID, REF_Shortcode
-		echo '<p id="nbOfInquiries">'. __('Number of inquiries', $TD) . ': ' . $nbInquiries . '/' . $nbEmployees . '</p>';
+		$theNbEmployees = '<p id="nbOfInquiries">'. __('Number of inquiries', $TD) . ': ' . $nbInquiries . '/' . $nbEmployees . '</p>';
 	endif;
-	// Display Taxonomies
-	echo $taxoHTML;
 
-	the_content();
+	if( $hasPass and ! empty($passCookie) ):
+		// Display Full
+		echo $theNbEmployees . $taxoHTML . $theContent;
+	else:
+		if( ! $hasPass ):
+			// Display Full
+			echo $theNbEmployees . $taxoHTML . $theContent;
+		else:
+			echo $theContent;
+		endif;
+	endif;
+
+	
+
+	//the_content();
 	wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); 
 endif;
 ?>
