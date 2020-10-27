@@ -20,16 +20,13 @@ $hasPass = (isset($post->post_password) and ! empty( $post->post_password ) );
 //////////////////////////////////
 
 
-
-
-
-
+//////////////////////////////////
 $output = ''; 
 $TAXO = RGS_Company::getSlug_fn() . '-campaign';
 $taxoHTML = '';
 $isInRange = FALSE;
 $isPublicForm = TRUE;
-//
+//////////////////////////////////
 $terms = get_the_terms( $post->ID, $TAXO );
 if ( ! empty( $terms ) ) :
 	//
@@ -102,8 +99,7 @@ if ( ! empty( $terms ) ) :
 else:
 	$isInRange = TRUE;
 endif;
-
-
+//////////////////////////////////
 $user = get_user_by( 'login', 'rigasa' );
 $curUser = wp_get_current_user();
 
@@ -118,7 +114,7 @@ if($user and $curUser ):
 		//echo 'User NOT is admin';
 	endif;
 endif;
-
+//////////////////////////////////
 if( ! $isPublicForm ): 
 //-------------------------------
 $thumb = '';
@@ -167,11 +163,8 @@ else:
 			echo $theContent;
 		endif;
 	endif;
-
-	
-
-	//the_content();
-	wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); 
+	//
+	#wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); 
 endif;
 ?>
 

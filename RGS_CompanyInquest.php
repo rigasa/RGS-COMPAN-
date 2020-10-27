@@ -282,7 +282,7 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			$pending_count = wp_count_posts( self::getCptName_fn() )->draft;
 
 			foreach($menu as $menu_key => $menu_data) {
-				if ('post_type=' . RGS_Company::getSlug_fn() . '&page=' . RGS_Company::getInquestMenuId_fn()  != $menu_data[2])
+				if ('post_type=' . RGS_Company::getSlug_fn() . '&page=' . self::getInquestMenuId_fn()  != $menu_data[2])
 					continue;
 
 				$menu[$menu_key][0] .= ' <span class="update-plugins count-$pending_count"><span class="plugin-count">' . number_format_i18n($pending_count) . '</span></span>';
@@ -412,6 +412,8 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			wp_die();
 		}
 		//--------------------------------------------------
+		// DELETE INQUEST
+		//--------------------------------------------------
 		static function deleteInquest_fn( $id, $notInTrash = true )
 		{
 			wp_delete_post( $id, $notInTrash);
@@ -430,6 +432,66 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 				self::deleteInquest_fn( $post->ID, true);
 			endforeach;
 		}
+		//--------------------------------------------------
+		static function deleteInquestsByPost_fn($postID, $metaKEY = 'COMPANY_ID' )
+		{
+			$args = array(
+				'post_type' 		=> self::getCptName_fn(), 
+				'posts_per_page' 	=> -1,
+				'post_status' 		=> 'draft',
+				'meta_key' 			=> $metaKEY,
+				'meta_value' 		=> $postID
+			);
+			//
+			$theList = get_posts( $args );
+			//
+			foreach ( $theList as $post ) :
+				self::deleteInquest_fn( $post->ID, true);
+			endforeach;
+		}
+		//--------------------------------------------------
+		// MENU 
+		//--------------------------------------------------
+		static function getInquestMenuId_fn()
+		{
+			return self::getSlug_fn() . '-inquest';
+		}
+		//--------------------------------------------------
+		static function getSubMenu_fn()
+		{
+			$inquestPageId = add_submenu_page(
+				'edit.php?post_type=' . RGS_Company::getSlug_fn(),
+				__( 'Companies Inquests', RGS_Company::getTD_fn() ),
+				'<i class="wp-menu-image dashicons-before dashicons-forms"></i> ' . __( 'Inquests', RGS_Company::getTD_fn() ),
+				'manage_options',
+				self::getInquestMenuId_fn(),
+				array( __CLASS__, 'adminInquestPage_fn' )
+			);
+
+			return $inquestPageId;
+		}
+		//--------------------------------------------------
+		static function adminInquestPage_fn()
+		{
+			// check user capabilities
+    		if ( ! current_user_can( 'manage_options' ) ) :
+        		return;
+    		endif;
+			
+			if( is_file( RGS_Company::$gViewsDir . 'inquestPage.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'inquestPage.php');
+			else:
+				echo '<h1>';
+				esc_html_e( 'No Inquests Page Loaded!', RGS_Company::getTD_fn() ); 
+				echo '</h1>';
+			endif;
+			
+		}
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------

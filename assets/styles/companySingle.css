@@ -1,10 +1,55 @@
 /* CSS Document */
 
-.company-single-template { width: 100%; }
+.company-single-template { width: 100%; height: auto !important; }
 
 .company-single-template .company-logo-header {
 	height: 50px;
     width: auto;
 	vertical-align: middle;
 	margin-right: 16px;
+}
+
+#qe-onglets { 
+	width: 100%;
+	border-top: 1px solid #ccc;
+}
+#qe-onglets .ge-section {
+	border: 1px solid #ccc;
+	border-top: 0px solid #ccc;
+	padding: 16px;
+}
+#qe-onglets .qe-question-title { 
+	margin: 12px 0px;
+	font-weight: bold;
+}
+#qe-onglets .qe-question-subtitle {
+	margin-bottom:	12px;
+}
+#qe-onglets .qe-question-radio {
+	margin-bottom: 0px;
+}
+
+#qe-onglets .qe-onglet-content .qe-question label {
+    display: inline-block;
+	width: 100%;
+	vertical-align: middle;
+}
+
+#qe-onglets input[type="radio"] {
+	margin-top: 5px;
+	vertical-align: top;
+	height: 16px;
+	width: 16px;
+    margin-right: 10px;
+}
+#qe-onglets p:empty { height: 0px; line-height: 0px;}
+
+#qe-onglets span[role="alert"] {
+	border: 1px solid #f00;
+	color: #f00;
+    font-size: 1em;
+    font-weight: normal;
+	display: block;
+	padding: 10px;
+	margin-top: 6px;;
 }

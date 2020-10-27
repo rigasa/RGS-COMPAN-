@@ -819,11 +819,6 @@ if( ! class_exists( 'RGS_Company' ) ):
 			return self::getSlug_fn() . '-settings';
 		}
 		//--------------------------------------------------
-		static function getInquestMenuId_fn()
-		{
-			return self::getSlug_fn() . '-msg';
-		}
-		//--------------------------------------------------
 		static function adminMenu_fn()
 		{
 			self::$gAdminPageId = add_submenu_page(
@@ -841,14 +836,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 			// Adds my_help_tab when my_admin_page loads
     		add_action( 'load-' . self::$gAdminPageId, array( __CLASS__, 'adminAddHelpTab_fn' ) );
 			
-			$inquestPageId = add_submenu_page(
-				'edit.php?post_type=' . self::getSlug_fn(),
-				__( 'Companies Inquests', self::getTD_fn() ),
-				'<i class="wp-menu-image dashicons-before dashicons-forms"></i> ' . __( 'Inquests', self::getTD_fn() ),
-				'manage_options',
-				self::getInquestMenuId_fn(),
-				array( __CLASS__, 'adminInquestPage_fn' )
-			);
+			$inquestPageId = RGS_CompanyInquest::getSubMenu_fn();
 			
 		}
 		//--------------------------------------------------
@@ -864,23 +852,6 @@ if( ! class_exists( 'RGS_Company' ) ):
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Settings Page Loaded!', self::getTD_fn() ); 
-				echo '</h1>';
-			endif;
-			
-		}
-		//--------------------------------------------------
-		static function adminInquestPage_fn()
-		{
-			// check user capabilities
-    		if ( ! current_user_can( 'manage_options' ) ) :
-        		return;
-    		endif;
-			
-			if( is_file( self::$gViewsDir . 'inquestPage.php' ) ):
-				include_once(self::$gViewsDir . 'inquestPage.php');
-			else:
-				echo '<h1>';
-				esc_html_e( 'No Inquests Page Loaded!', self::getTD_fn() ); 
 				echo '</h1>';
 			endif;
 			
@@ -1022,12 +993,12 @@ if( ! class_exists( 'RGS_Company' ) ):
 
 		}
 		//--------------------------------------------------
-		static function deleteAttachedItems_fn( $id )
+		static function deleteAttachedItems_fn( $postID )
 		{
 			$subposts = get_children(array(
-				'post_parent' => $id,
+				'post_parent' => $postID,
 				'post_type'   => 'any',
-				'numberposts' => -1,
+				'posts_per_page' => -1,
 				'post_status' => 'any'
 			));
 
@@ -1039,11 +1010,13 @@ if( ! class_exists( 'RGS_Company' ) ):
 					self::deleteAttachedFile_fn($subpost->ID);
 				endforeach;
 			endif;
-			// Image
-			self::deleteAttachedFile_fn($idgetRefsDatas_fn);
-			// Inquests
 
-			
+			// Image
+			self::deleteAttachedFile_fn($postID);
+
+			// Inquests
+			RGS_CompanyInquest::deleteInquestsByPost_fn($postID, 'COMPANY_ID' );
+			//
 		}
 		//--------------------------------------------------
 		//--------------------------------------------------
