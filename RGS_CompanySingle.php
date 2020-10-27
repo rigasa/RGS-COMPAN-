@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class RGS_CompanyForm
+ * @class RGS_CompanySingle
  * @fullname Eco Citoyen Management
- * @package RGS_CompanyForm
+ * @package RGS_Company
  * @category Core
- * @filesource assets/plugins/Entreprise/RGS_CompanyForm.php
+ * @filesource assets/plugins/Entreprise/RGS_CompanySingle.php
  * @version 0.0.1
  * @created 2020-10-07
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'RGS_CompanyForm' ) ):
+if( ! class_exists( 'RGS_CompanySingle' ) ):
 	//----------------------------------
-	class RGS_CompanyForm
+	class RGS_CompanySingle
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -51,11 +51,9 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 		//---
 		static public $gFIELDS;
 		//---
-		const K_SLUG = 'rgsCompanyForm';
-		const K_PREFIX = 'rgsCompanyForm-';
-		const K_VERS = '0.0.1';
-		const K_DBVERS = '0.0.1';
-		
+		const K_SLUG = 'rgsCompanySingle';
+		const K_PREFIX = 'rgsCompanySingle-';
+		const K_VERS = '0.0.6';
 		//------------------------------
 		public function __construct()
 		{
@@ -183,11 +181,11 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 		static function enqueueScripts_fn()
 		{
 			//------------------------------------------------------
-			if( file_exists( RGS_Company::$gJsDir . 'companyForm.js' ) ):
+			if( file_exists( RGS_Company::$gJsDir . 'companySingle.js' ) ):
 				//
 				wp_enqueue_script( 
-					self::getSlug_fn() . '_companyForm', 
-					RGS_Company::$gJsUrl . 'companyForm.js', 
+					self::getSlug_fn() . '_companySingle', 
+					RGS_Company::$gJsUrl . 'companySingle.js', 
 					array( 'jquery' ), 
 					'0.0.1', 
 					true 
@@ -198,8 +196,8 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 				$localize = array_replace_recursive( $localize, $_args );
 				//
 				wp_localize_script( 
-					self::getSlug_fn() . '_companyForm', 
-					'oCompanyForm', 
+					self::getSlug_fn() . '_companySingle', 
+					'oCompanySingle', 
 					$localize
 				); 
 			
@@ -905,7 +903,7 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 		//---------------------------------------------------------------
 		static function includeTemplate_fn()
 		{
-			$file = RGS_Company::$gTemplatesDir .'companyForm.php';
+			$file = RGS_Company::$gTemplatesDir .'companySingle.php';
 			if( is_file( $file ) ):
 				include_once( $file  );
 			endif;
@@ -929,12 +927,12 @@ if( ! class_exists( 'RGS_CompanyForm' ) ):
 	if( ! function_exists( 'rgsCompanyForm_fn' ) ):
 		function rgsCompanyForm_fn() 
 		{
-			return RGS_CompanyForm::getInstance_fn();
+			return RGS_CompanySingle::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'RGS_CompanyForm' ] ) ):
-		$GLOBALS[ 'RGS_CompanyForm' ] = rgsCompanyForm_fn();
+	if( ! isset( $GLOBALS[ 'RGS_CompanySingle' ] ) ):
+		$GLOBALS[ 'RGS_CompanySingle' ] = rgsCompanyForm_fn();
 	endif;
 	//-------------------------------------------------------------------
 endif;

@@ -288,13 +288,11 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 			//
 			$OPTION = self::getOptionNameMB_fn();
 			// Template 
-			$templateName   = isset( $_POST['_wp_page_template'] ) ? $_POST['_wp_page_template'] : '';
-			if(empty($templateName) ):
-				delete_post_meta($post_id, '_wp_page_template', $templateName );
-			else:
-				add_post_meta($post_id, '_wp_page_template', $templateName );
-			endif;
-			//
+			$templateName   = isset( $_POST[$OPTION]['REFS']['REF_Template'] ) ? $_POST[$OPTION]['REFS']['REF_Template'] : '';
+			
+			delete_post_meta($post_id, '_wp_page_template' );
+			update_post_meta($post_id, '_wp_page_template', $templateName );
+			
 			if( isset( $_POST[$OPTION] ) ):
 				update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
 			endif;

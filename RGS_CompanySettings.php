@@ -444,7 +444,7 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			// Get the value of the setting we've registered with register_setting()
 			$options = self::getOption_fn();
 			//
-			$list = RGS_CompanyForm::getFormsList_fn();
+			$list = RGS_CompanySingle::getFormsList_fn();
 			//
 			if($list):
 			
@@ -517,7 +517,7 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			// Get the value of the setting we've registered with register_setting()
 			$options = self::getOption_fn();
 			//
-			$list = RGS_CompanyForm::getFormsList_fn();
+			$list = RGS_CompanySingle::getFormsList_fn();
 			
 			if($list):
 			

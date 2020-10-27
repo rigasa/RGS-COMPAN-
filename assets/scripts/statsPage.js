@@ -23,28 +23,28 @@
 //	OBJECT
 //----------------------------------------------------------
 //if (typeof(oCompanyF) === undefined) { var oCompany = {}; }
-//if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
+//if (typeof(oCompanySingle) === undefined) { var oCompanySingle = {}; }
 //if (typeof(zingchart) === undefined) { var zingchart = {}; }
 // ---------------------------------
 (function() {
 	"use strict";
 	//
 	//if (typeof(oCompanyF) === undefined) { var oCompany = {}; }
-	//if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
+	//if (typeof(oCompanySingle) === undefined) { var oCompanySingle = {}; }
 	//if (typeof(zingchart) === undefined) { var zingchart = {}; }
-	const theOptions = oCompanyForm.options;
+	const theOptions = oCompanySingle.options;
 	// -----------------------------
 	// ONLY TAB COMPANIES STATS PAGE
 	// -----------------------------
-	oCompanyForm.theme = 'light';
+	oCompanySingle.theme = 'light';
 	if( typeof(theOptions.themeChoice) !== 'undefined' ) {
-		oCompanyForm.theme = theOptions.themeChoice;
+		oCompanySingle.theme = theOptions.themeChoice;
 	}
 	// -----------------------------
 	// GRAPH BY SECTIONS
 	// -----------------------------
-	if (typeof(oCompanyForm.checkMedia_fn) !== 'function') {
-        oCompanyForm.checkMedia_fn = function(pSelector) {
+	if (typeof(oCompanySingle.checkMedia_fn) !== 'function') {
+        oCompanySingle.checkMedia_fn = function(pSelector) {
 			
 			if(jQuery('#' + pSelector + '-photo').html() === '' ){
 				// Hide Button
@@ -58,15 +58,15 @@
 					// Clear Image
 					jQuery('#' + pSelector + '-photo').html('');
 					// Hide Button
-					oCompanyForm.checkMedia_fn(pSelector);
+					oCompanySingle.checkMedia_fn(pSelector);
 				});
 				
 			}
 		};
 	}
 	// -----------------------------
-	if (typeof(oCompanyForm.createMedia_fn) !== 'function') {
-        oCompanyForm.createMedia_fn = function(pSelector, pTarget) {
+	if (typeof(oCompanySingle.createMedia_fn) !== 'function') {
+        oCompanySingle.createMedia_fn = function(pSelector, pTarget) {
             if(oCompany.zingChartExists){
 				zingchart.exec( pSelector, 'getimagedata', {
 					filetype : 'png',
@@ -74,7 +74,7 @@
 						//console.log(imagedata);
 						if( oCompany.exists('#' + pTarget) ) {
 							jQuery('#' + pTarget).html('<img src="' + imagedata + '" alt="" />');
-							oCompanyForm.checkMedia_fn( pSelector );
+							oCompanySingle.checkMedia_fn( pSelector );
 						}
 					}
 				});
@@ -94,7 +94,7 @@
 			//console.log('companyID', companyID );
 			
 			jQuery.ajax({
-				url: oCompanyForm.ajaxUrl,
+				url: oCompanySingle.ajaxUrl,
 				type: "POST",
 				data: {
 					'action': 'getStatsList',
@@ -133,10 +133,10 @@
 								} else {
 									//
 									if(seriesSections !== '' ){
-									   oCompanyForm.setSections_fn( seriesSections );
+									   oCompanySingle.setSections_fn( seriesSections );
 									}
 									if(seriesQuestions !== '' ){
-									   oCompanyForm.setPoints_fn(seriesQuestions);
+									   oCompanySingle.setPoints_fn(seriesQuestions);
 									}
 									//
 								   jQuery('#chartByPoints, #chartBySections').fadeIn( 400 );
@@ -166,13 +166,13 @@
 	// -----------------------------
 	// Points
 	// -----------------------------
-	if (typeof(oCompanyForm.setPoints_fn) !== 'function') {
-        oCompanyForm.setPoints_fn = function( points ) {
+	if (typeof(oCompanySingle.setPoints_fn) !== 'function') {
+        oCompanySingle.setPoints_fn = function( points ) {
 			//
 			if( oCompany.exists('#pointsChart') ) {
 				
-				const theLang = oCompanyForm.lang;
-				const theColors = oCompanyForm.questionsColors;
+				const theLang = oCompanySingle.lang;
+				const theColors = oCompanySingle.questionsColors;
 				const theLabels = theLang.chartLabels;
 				const theSeries = new Array();
 				
@@ -205,7 +205,7 @@
 				//
 				const myConfig = {
 					type: chartType, 
-					"theme": oCompanyForm.theme,
+					"theme": oCompanySingle.theme,
 					globals: {
 					  fontSize: 12
 					},
@@ -265,7 +265,7 @@
 		};
 	}
 	//
-	oCompanyForm.setPoints_fn( oCompanyForm.points );
+	oCompanySingle.setPoints_fn( oCompanySingle.points );
 	// -----------------------------
 	// RADAR
 	// -----------------------------
@@ -276,19 +276,19 @@
 		});
 	}
 	// -----------------------------
-	if (typeof(oCompanyForm.setSections_fn) !== 'function') {
-        oCompanyForm.setSections_fn = function( series ) {
+	if (typeof(oCompanySingle.setSections_fn) !== 'function') {
+        oCompanySingle.setSections_fn = function( series ) {
 			//
 			if( oCompany.exists('#sectionsGraph') ) {
 				//
 				oCompany.setGraph_fn('sectionsGraph', series );
 				//
-				oCompanyForm.checkMedia_fn('sectionsGraph');
+				oCompanySingle.checkMedia_fn('sectionsGraph');
 				// -------------------------
 				jQuery( '#sectionsGraph-save' ).on('click', function( event ){
 					event.preventDefault();
 					//
-					oCompanyForm.createMedia_fn('sectionsGraph', 'sectionsGraph-photo' );
+					oCompanySingle.createMedia_fn('sectionsGraph', 'sectionsGraph-photo' );
 					//
 				});
 			}
@@ -305,7 +305,7 @@
 			//console.log('craete pdf', dataHTML);
 
 			jQuery.ajax({
-				url: oCompanyForm.ajaxUrl,
+				url: oCompanySingle.ajaxUrl,
 				type: "POST",
 				data: {
 					'action': 'createPDF',
@@ -333,6 +333,6 @@
 		});
 	}
 	//
-	oCompanyForm.setSections_fn( oCompanyForm.series );
+	oCompanySingle.setSections_fn( oCompanySingle.series );
 	// -----------------------------
 })(jQuery);

@@ -56,14 +56,14 @@ $TD = self::getTD_fn();
 
 		<?php
 		//Template
-		$theTemplate = RGS_CompanyMBoxes::getCurTemplate_fn($post->ID);
+		$theTemplate = $refDatas['REFS']['REF_Template'];//RGS_CompanyMBoxes::getCurTemplate_fn($post->ID);
 		$arrTemplates = wp_get_theme()->get_page_templates();
 		?>
 		<div class="row">
 			<p class="post-attributes-label-wrapper">
 				<label class="post-attributes-label"><?php _e('Template', $TD); ?></label>
 			</p>
-			<input id="templateField" type="hidden" name="_wp_page_template" value='<?php echo $theTemplate; ?>' />
+			<input id="templateField" type="hidden" name="<?php echo $refPrefix; ?>[REFS][REF_Template]" value='<?php echo $refDatas['REFS']['REF_Template']; ?>' />
 			<div class="fields">
 				<select id="templateSelect">
 					<option value=""<?php echo ( selected( '', $theTemplate, false ) ); ?>><?php echo __('Select template', $TD); ?></option>

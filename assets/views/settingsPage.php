@@ -88,12 +88,12 @@ settings_errors( $slug . 'inquests' );
 			//----------------------------
 			
 			
-			//$data = RGS_CompanyForm::getFormElem_fn( 329 );
+			//$data = RGS_CompanySingle::getFormElem_fn( 329 );
 			
 			//echo '<p>SATAS::: '.print_r($data, TRUE).'</p>';
 			
 			
-			/*$short = RGS_CompanyForm::getCampaignForm_fn();
+			/*$short = RGS_CompanySingle::getCampaignForm_fn();
 			
 			echo do_shortcode( $short );*/
 			

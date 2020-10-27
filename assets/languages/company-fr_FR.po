@@ -135,7 +135,7 @@ msgstr "Filter la liste des entreprises"
 msgid "Company Description"
 msgstr "Description de l’entreprise"
 
-#: RGS_Company.php:525 RGS_CompanyForm.php:230 RGS_FormStats.php:242
+#: RGS_Company.php:525 RGS_CompanySingle.php:230 RGS_FormStats.php:242
 msgid "Yes"
 msgstr "Oui"
 
@@ -248,7 +248,7 @@ msgctxt "Taxonomy Singular Name"
 msgid "Campaign"
 msgstr "Campagne"
 
-#: RGS_Company.php:608 assets/templates/companyForm.php:72
+#: RGS_Company.php:608 assets/templates/companySingle.php:72
 msgid "Campaigns"
 msgstr "Campagnes"
 
@@ -408,12 +408,12 @@ msgstr "Image"
 msgid "ID"
 msgstr "ID"
 
-#: RGS_CompanyForm.php:231 RGS_FormStats.php:243
+#: RGS_CompanySingle.php:231 RGS_FormStats.php:243
 #: assets/views/settingsPage.php:43 assets/views/statsPage.php:106
 msgid "Save Image"
 msgstr "Enregistrer l'image"
 
-#: RGS_CompanyForm.php:339
+#: RGS_CompanySingle.php:339
 msgid "IP Address:"
 msgstr "Adresse IP"
 
@@ -531,13 +531,13 @@ msgstr "Jeton"
 msgid "Name"
 msgstr "Nom"
 
-#: RGS_CompanyMBoxes.php:321 assets/templates/companyForm.php:59
+#: RGS_CompanyMBoxes.php:321 assets/templates/companySingle.php:59
 #: assets/views/companyCampaign_MB.php:29
 #: assets/views/companyCampaign_MB.php:47
 msgid "Start"
 msgstr "Début"
 
-#: RGS_CompanyMBoxes.php:322 assets/templates/companyForm.php:60
+#: RGS_CompanyMBoxes.php:322 assets/templates/companySingle.php:60
 #: assets/views/companyCampaign_MB.php:30
 #: assets/views/companyCampaign_MB.php:48
 msgid "End"
@@ -705,17 +705,17 @@ msgstr "Aucune donnée n'a été trouvée"
 msgid "Page to PDF empty"
 msgstr "Page vers PDF vide"
 
-#: assets/templates/companyForm.php:100
+#: assets/templates/companySingle.php:100
 msgid "Number of inquiries"
 msgstr "Nombre d’enquêtes"
 
-#: assets/templates/companyForm.php:112
+#: assets/templates/companySingle.php:112
 msgid "Maximum number of inquiries reached!"
 msgstr "Nombre maximum d’enquêtes atteint!"
 
 # @ RGS_TEXTDOMAIN
 # @ twentytwelve
-#: assets/templates/companyForm.php:115
+#: assets/templates/companySingle.php:115
 msgid "Pages:"
 msgstr "Pages:"
 

@@ -83,12 +83,31 @@ else:
 	$isInRange = TRUE;
 endif;
 
+
+$user = get_user_by( 'login', 'rigasa' );
+$curUser = wp_get_current_user();
+
+if($user and $curUser ):
+	if(isset($user->caps['administrator']) 
+		and $user->caps['administrator'] == 1 
+		and isset($curUser->ID) 
+		and $curUser->ID == $user->ID
+	):
+		//echo 'User is admin';
+	else:
+		//echo 'User NOT is admin';
+	endif;
+endif;
+
 if( ! $isPublicForm ): 
 //-------------------------------
-
+$thumb = '';
+if ( has_post_thumbnail($post->ID) ) :
+	$thumb = get_the_post_thumbnail($post->ID, 'post-thumbnail', array( 'class' => 'company-logo-header' ));
+endif;
 //-------------------------------
 ?>
-	<h1><?php echo $post->post_title; ?></h1>
+	<h1><?php echo $thumb . $post->post_title; ?></h1>
 	<?php
 
 //$pm = get_post_meta( $post->ID);

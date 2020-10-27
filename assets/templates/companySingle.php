@@ -13,8 +13,8 @@ get_header(); ?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<div class="entry-content">
 					<?php
-					if(method_exists('RGS_CompanyForm', 'includeTemplate_fn')):
-						RGS_CompanyForm::includeTemplate_fn();
+					if(method_exists('RGS_CompanySingle', 'includeTemplate_fn')):
+						RGS_CompanySingle::includeTemplate_fn();
 					endif;
 					?>
 				</div><!-- .entry-content -->

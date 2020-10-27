@@ -233,7 +233,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			$fileRequired = self::$gDir . 'RGS_CompanyForm.php';
+			$fileRequired = self::$gDir . 'RGS_CompanySingle.php';
 			if( file_exists( $fileRequired ) ):
 				require_once( $fileRequired );
 			endif;
@@ -287,8 +287,9 @@ if( ! class_exists( 'RGS_Company' ) ):
 			else:
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
 			endif;
-			
+			// SINGLE
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueSingle_fn'), 11 );
+			add_action( 'before_delete_post', array(__CLASS__, 'deleteAttachedItems_fn' ) );
 	}
 		//------------------------------
 	//|-----------------
@@ -978,6 +979,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 					$refDatas['REFS']['REF_NbEmployees'] = 0; 
 					$refDatas['REFS']['REF_Shortcode']= ''; 
 					$refDatas['REFS']['REF_FormID'] = ''; 
+					$refDatas['REFS']['REF_Template'] = 'companySingle.php'; 
 				else:
 					$refDatas['REFS']['REF_Shortcode'] = addslashes( $refDatas['REFS']['REF_Shortcode'] );
 				endif;
@@ -993,6 +995,63 @@ if( ! class_exists( 'RGS_Company' ) ):
 			add_post_meta($postID, '_wp_page_template', 'companySingle.php' );
 			*/
 		}
+		//--------------------------------------------------
+		static function deleteAttachedFile_fn( $id )
+		{
+			$_wp_attached_file = get_post_meta( $id, '_wp_attached_file', true);
+			$original = basename($_wp_attached_file);
+			$pos = strpos(strrev($original), '.');
+			if (strpos($original, '.') !== false) :
+				$ext = explode('.', strrev($original));
+				$ext = strrev($ext[0]);
+			else :
+				$ext = explode('-', strrev($original));
+				$ext = strrev($ext[0]);
+			endif;
+
+			$pattern = $uploadpath['basedir'].'/'.dirname($_wp_attached_file).'/'.basename($original, '.'.$ext).'-[0-9]*x[0-9]*.'.$ext;
+			$original= $uploadpath['basedir'].'/'.dirname($_wp_attached_file).'/'.basename($original, '.'.$ext).'.'.$ext;
+			if (getimagesize($original)){
+				$thumbs = glob($pattern);
+				if (is_array($thumbs) && count($thumbs) > 0){
+					foreach($thumbs as $thumb)
+						unlink($thumb);
+				}
+			}
+			wp_delete_attachment( $id, true );
+
+		}
+		//--------------------------------------------------
+		static function deleteAttachedItems_fn( $id )
+		{
+			$subposts = get_children(array(
+				'post_parent' => $id,
+				'post_type'   => 'any',
+				'numberposts' => -1,
+				'post_status' => 'any'
+			));
+
+			// Subposts
+			if (is_array($subposts) && count($subposts) > 0) :
+				$uploadpath = wp_upload_dir();
+
+				foreach($subposts as $subpost) :
+					self::deleteAttachedFile_fn($subpost->ID);
+				endforeach;
+			endif;
+			// Image
+			self::deleteAttachedFile_fn($idgetRefsDatas_fn);
+			// Inquests
+
+			
+		}
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
+		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------
 		

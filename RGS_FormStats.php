@@ -172,11 +172,11 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				RGS_Company::loadScripts_fn();
 			endif;
 			//------------------------------------------------------
-			if( file_exists( RGS_Company::$gJsDir . 'companyForm.js' ) ):
+			if( file_exists( RGS_Company::$gJsDir . 'companySingle.js' ) ):
 				//
 				wp_enqueue_script( 
-					self::getSlug_fn() . '_companyForm', 
-					RGS_Company::$gJsUrl . 'companyForm.js', 
+					self::getSlug_fn() . '_companySingle', 
+					RGS_Company::$gJsUrl . 'companySingle.js', 
 					array( 'jquery' ), 
 					'0.0.1', 
 					true 
@@ -187,8 +187,8 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 				$localize = array_replace_recursive( $localize, $_args );
 				//
 				wp_localize_script( 
-					self::getSlug_fn() . '_companyForm', 
-					'oCompanyForm', 
+					self::getSlug_fn() . '_companySingle', 
+					'oCompanySingle', 
 					$localize
 				); 
 			
@@ -286,7 +286,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 		//---------------------------------------------------------------
 		static function includeTemplate_fn()
 		{
-			/*$file = RGS_Company::$gTemplatesDir .'companyForm.php';
+			/*$file = RGS_Company::$gTemplatesDir .'companySingle.php';
 			if( is_file( $file ) ):
 				include_once( $file  );
 			endif;*/

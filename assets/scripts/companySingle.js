@@ -11,7 +11,7 @@
  * @fullname Eco Citoyen Management
  * @package RGS_Company
  * @category Core
- * @filesource assets/plugins/Entreprise/assets/scripts/companyForm.js
+ * @filesource assets/plugins/Entreprise/assets/scripts/companySingle.js
  * @version 0.0.1
  * @created 2020-10-10
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -22,12 +22,12 @@
 //----------------------------------------------------------
 //	OBJECT
 //----------------------------------------------------------
-if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
+if (typeof(oCompanySingle) === undefined) { var oCompanySingle = {}; }
 // ---------------------------------
 (function() {
 	"use strict";
 	//
-	var oCF = oCompanyForm;
+	var oCF = oCompanySingle;
 	oCF.Form = {};
 	// -----------------------------
     // TOOLS
@@ -124,7 +124,7 @@ if (typeof(oCompanyForm) === undefined) { var oCompanyForm = {}; }
 			//const postID = event.detail.containerPostId;
 			//const inputs = event.detail.inputs;
 			//console.log('mail sent OK', event.detail );
-			oCompanyForm.getInquest_fn();
+			oCompanySingle.getInquest_fn();
 		} );
 		// ------------------------------------------
 	} else {
