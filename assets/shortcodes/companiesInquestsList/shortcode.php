@@ -3,19 +3,19 @@
 if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 	//
 	if ( ! shortcode_exists( basename( dirname( __FILE__ ) ) ) ) :
-		$_shc_attr = array(
+		$shortcodeAttr = array(
 			'name' => __( 'Inquests', RGS_Shortcodes::getTD_fn() ),
 			'fields' => array( 
 				'title' => array(
 					'id'             => 'rgs-sc-' . basename( dirname( __FILE__ ) ) . '-title',
 					'title'          => esc_html__( 'Title', RGS_Shortcodes::getTD_fn() ),
 					'desc'           => '',
-					'value'          => __( 'Stay tuned. Read our news', RGS_Shortcodes::getTD_fn() ),
+					'value'          => __( 'List of Inquests', RGS_Shortcodes::getTD_fn() ),
 					'placeholder'    => '',
 					'type'           => 'text'
 				),
-				'companyID' => array(
-					'id'             => 'rgs-sc-' . basename( dirname( __FILE__ ) ) . '-companyID',
+				'company_id' => array(
+					'id'             => 'rgs-sc-' . basename( dirname( __FILE__ ) ) . '-company_id',
 					'title'          => esc_html__( 'Company ID', RGS_Shortcodes::getTD_fn() ),
 					'desc'           => '',
 					'value'          => 0,
@@ -96,14 +96,14 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 		//
 		if( ! function_exists( 'rgsInquestsShortcode_fn' ) ):
 
-			function rgsInquestsShortcode_fn( $_atts, $_content = NULL, $_tag )
+			function rgsInquestsShortcode_fn( $args, $content = NULL, $tag )
 			{
 				//--------------------------------
-				$defaults = rgs_Shortcodes::$_sc_items[ basename( dirname( __FILE__ ) ) ][ 'fields' ];
+				$defaults = RGS_Shortcodes::$gScItems[ basename( dirname( __FILE__ ) ) ][ 'fields' ];
 				//--------------------------------
 				$settings = array();
-				foreach( $defaults as $_key => $_field_arr ):
-					$settings[ $_key ] = ( isset( $_atts[ $_key ] ) ) ? $_atts[ $_key ] : $_field_arr['value'];
+				foreach( $defaults as $key => $fieldArr ):
+					$settings[ $key ] = ( isset( $args[ $key ] ) ) ? $args[ $key ] : $fieldArr['value'];
 				endforeach;
 				//--------------------------------
 				if( empty( $settings[ 'limit' ] ) ):
@@ -117,9 +117,10 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 					'order'     	=> $settings[ 'order' ],
 					'post_status'   => $settings[ 'post_status' ]
 				);
-				if($companyID > 0 ):
+				//--------------------------------
+				if($settings[ 'company_id' ] > 0 ):
 					$args['meta_key'] = 'COMPANY_ID';
-					$args['meta_value'] = $companyId;
+					$args['meta_value'] = $settings[ 'company_id' ];
 				endif;
 				//--------------------------------
 				if( $settings[ 'orderby' ] === 'rand' ) :
@@ -141,7 +142,13 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 				//--------------------------------
 				$arrItems = get_posts( $args );
 				$total = count( $arrItems );
-				if( $total === 0 ) return;
+				//-----
+				if( $total === 0 ) :
+					$_output = '<div class="company-inquest-empty">' . addslashes(__('No inquest was retrieved', RGS_Shortcodes::getTD_fn() ) ) . '</div>';
+					
+					echo ''.print_r($_output, TRUE).'';
+					return $_output;
+				endif;
 				//--------------------------------
 				$dateFormat = get_option( 'date_format' );
 				$HTML = '';

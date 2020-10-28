@@ -251,7 +251,7 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 		//--------------------------------------------------
 		static function getCptName_fn()
 		{
-			return RGS_Company::getSlug_fn().'Inquest';
+			return RGS_Company::getSlug_fn().'inquest';
 		}
 		//--------------------------------------------------
 		// Columns

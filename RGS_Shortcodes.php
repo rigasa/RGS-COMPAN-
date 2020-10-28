@@ -108,7 +108,7 @@ if( ! class_exists( 'RGS_Shortcodes' ) ):
 			//---
 			self::$gSlug 			= sanitize_title( self::K_SLUG );
 			//---
-			self::$gScItems = array();
+			self::$gScItems 		= array();
 			//---
 		}
 		//---------------------------------------------------------------
@@ -188,32 +188,32 @@ if( ! class_exists( 'RGS_Shortcodes' ) ):
 			return false;
 		}
 		//---------------------------------------------------------------
-		static function scandirShortcodes_fn( $_dir = '' )
+		static function scandirShortcodes_fn( $dir = '' )
 		{
-			$_arr = array();
+			$arr = array();
 			
-			if( is_dir( $_dir ) ):
+			if( is_dir( $dir ) ):
 				
-				if ( $_dh = opendir( $_dir ) ) :
+				if ( $dirOpen = opendir( $dir ) ) :
 			
-					while ( ( $_entry = readdir( $_dh ) ) !== false ) :
+					while ( ( $entry = readdir( $dirOpen ) ) !== false ) :
 						
-						if ( $_entry !== "." and $_entry !== ".." ) :
+						if ( $entry !== "." and $entry !== ".." ) :
 			
-							$_shortcode_dir = $_dir . trailingslashit( $_entry );
+							$shortcodeDir = $dir . trailingslashit( $entry );
 			
-							if( is_dir( $_shortcode_dir ) ):
+							if( is_dir( $shortcodeDir ) ):
 			
-								if( file_exists( $_shortcode_dir . 'shortcode.php' ) ):
+								if( file_exists( $shortcodeDir . 'shortcode.php' ) ):
 			
-									include_once( $_shortcode_dir . 'shortcode.php' );
+									include_once( $shortcodeDir . 'shortcode.php' );
 									
-									if( isset( $_shc_attr ) ):
+									if( isset( $shortcodeAttr ) ):
 										
-										$_arr[ $_entry ] = array();
-										$_arr[ $_entry ] = array_replace_recursive( $_arr[ $_entry ], $_shc_attr );
+										$arr[ $entry ] = array();
+										$arr[ $entry ] = array_replace_recursive( $arr[ $entry ], $shortcodeAttr );
 										
-										unset( $_shc_attr );
+										unset( $shortcodeAttr );
 										
 									endif;
 									
@@ -224,15 +224,15 @@ if( ! class_exists( 'RGS_Shortcodes' ) ):
 			
 					endwhile;
 			
-					closedir( $_dh );
+					closedir( $dirOpen );
 			
 				endif;
 			
 			endif;
 			
-			ksort( $_arr );
+			ksort( $arr );
 			
-			return $_arr;
+			return $arr;
 		}
 		//---------------------------------------------------------------
 		static function removeWpautop_fn( $_content ) 

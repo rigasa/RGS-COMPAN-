@@ -1027,7 +1027,6 @@ if( ! class_exists( 'RGS_Company' ) ):
 		static function isCustomPostType_fn( $cpt = NULL )
 		{
 			$allCPT = get_post_types( array ( '_builtin' => FALSE ) );
-			
 			// there are no custom post types
 			if ( empty ( $allCPT ) )
 				return FALSE;

@@ -195,21 +195,21 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 		{
 			add_meta_box( 
 				self::getRefMetabox_fn(), 
-				__('References', self::getTD_fn()),  
+				'<i class="wp-menu-image dashicons-before dashicons-admin-settings"></i> ' . __('References', self::getTD_fn()),  
 				array(__CLASS__, 'refMetabox_fn'), 
 				self::getSlug_fn(), 
 				'normal', 
 				'low'
 			);
 			
-			/*add_meta_box( 
-				self::getSlug_fn() .'-campaign', 
-				__('Campaign', self::getTD_fn()),  
-				array(__CLASS__, 'campaignMetabox_fn'), 
+			add_meta_box( 
+				self::getSlug_fn() .'-inquests', 
+				'<i class="wp-menu-image dashicons-before dashicons-forms"></i> ' . __('Inquests', self::getTD_fn()),  
+				array(__CLASS__, 'inquestsMetabox_fn'), 
 				self::getSlug_fn(), 
 				'normal', 
 				'low'
-			);*/
+			);
 		}
 		//---------------------------------------------------------------
 		// Renders the meta boxes.
@@ -230,23 +230,23 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 				include_once(RGS_Company::$gViewsDir . 'companyRef_MB.php');
 			else:
 				echo '<h1>';
-				esc_html_e( 'No Reference Metabox Page Loaded!', self::getTD_fn() ); 
+				esc_html_e( 'No Reference Metabox Loaded!', self::getTD_fn() ); 
 				echo '</h1>';
 			endif;
 		}
 		//---------------------------------------------------------------
-		static function campaignMetabox_fn($post)
+		static function inquestsMetabox_fn($post)
 		{
 			// check user capabilities
     		if ( ! current_user_can( 'manage_options' ) ) :
         		return;
     		endif;
 			
-			if( is_file( RGS_Company::$gViewsDir . 'companyCampaign_MB.php' ) ):
-				include_once(RGS_Company::$gViewsDir . 'companyCampaign_MB.php');
+			if( is_file( RGS_Company::$gViewsDir . 'companyInquests_MB.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'companyInquests_MB.php');
 			else:
 				echo '<h1>';
-				esc_html_e( 'No Campaign Metabox Page Loaded!', self::getTD_fn() ); 
+				esc_html_e( 'No Inquests Metabox Loaded!', self::getTD_fn() ); 
 				echo '</h1>';
 			endif;
 			

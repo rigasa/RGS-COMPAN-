@@ -629,3 +629,71 @@ function gravatar_perso ($avatar_defaults) {
 add_filter( 'avatar_defaults', 'gravatar_perso' );
 
 // https://www.b-website.com/un-superbe-outil-pour-presenter-le-rendu-dun-site-responsif
+
+
+function bweb_breadcrumb(){
+	wp_reset_query();
+	echo '<ul class="breadcrumbs">';
+		if (is_tag()) {echo"<li>Tag : ";single_tag_title();}
+		elseif (is_day()) {echo"<li>Archive de "; the_time('F jS, Y'); echo'</li>';}
+		elseif (is_month()) {echo"<li>Archive de "; the_time('F, Y'); echo'</li>';}
+		elseif (is_year()) {echo"<li>Archive de "; the_time('Y'); echo'</li>';}
+		elseif (is_author()) {echo"<li>Archive"; echo'</li>';}
+		elseif (isset($_GET['paged']) && !empty($_GET['paged'])) {echo "<li>Archives du Blog "; echo'</li>';}
+		elseif (is_search()) {echo"<li>Résultat de recherche"; echo'</li>';}
+		elseif (!is_home() && !is_front_page() ) {
+			echo '<li><a href="';
+			echo get_option('home');
+			echo '">';
+			echo 'Accueil';
+			echo '</a></li><li class="separator"> / </li>';
+			if (is_category() || is_single()) {
+				echo '<li>';
+				the_category(' </li><li class="separator"> / </li><li> ');
+				if (is_single()) {
+					echo '</li><li class="separator"> / </li><li>';
+					the_title();
+					echo '</li>';
+				}
+			} elseif (is_page()) {
+				if($post->post_parent){
+					$anc = get_post_ancestors( $post->ID );
+
+					foreach ( $anc as $ancestor ) {
+						$output = '<li><a href="'.get_permalink($ancestor).'" title="'.get_the_title($ancestor).'">'.get_the_title($ancestor).'</a></li> <li class="separator">/</li>';
+					}
+					echo $output;
+					echo $title;
+				} else {
+					echo the_title();
+				}
+			}
+		}
+    echo '</ul>';
+}
+
+// Miniatures standard
+if(false === get_option("thumbnail_crop")) {
+	add_option("thumbnail_crop", "1"); 
+} else {
+	update_option("thumbnail_crop", "1");
+}
+
+// Miniatures moyenne
+if(false === get_option("medium_crop")) {
+	add_option("medium_crop", "1"); 
+} else {
+	update_option("medium_crop", "1");
+}
+
+// // Grande miniatures
+if(false === get_option("large_crop")) {
+	add_option("large_crop", "1"); 
+} else {
+	update_option("large_crop", "1");
+}
+
+
+
+
+

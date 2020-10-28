@@ -3,24 +3,21 @@
 $refDatas = get_post_meta($post->ID, '_' . self::getOptionNameMB_fn(), TRUE);
 if ( ! $refDatas) :
 	$refDatas = array();
-	if( ! isset( $refDatas['CAMPAIGN'] ) ):
-		$refDatas['CAMPAIGN'] = array();
+	if( ! isset( $refDatas['INQUESTS'] ) ):
+		$refDatas['INQUESTS'] = array();
 	else:
 
 	endif;
 endif;
 
-
+//-----------------------
 $TD = self::getTD_fn();
+#echo '<pre>' .print_r($shortcode_tags, TRUE). '</pre>';
+$shortcode = '[companiesInquestsList company_id="' . $post->ID . '"]';
+do_shortcode($shortcode);
 ?>  
 
-<p>
- <input type="button" class="button button-secondary" id="cAddButton"  value="<?php _e( 'Add', $TD ); ?>" />
- <input type="button" class="button button-secondary" id="cRemoveButton" value="&times; <?php _e( 'Remove', $TD ); ?>" />
-</p>
-<br /> 
-
-<table width="100%" border="0" cellpadding="3">
+<!--<table width="100%" border="0" cellpadding="3">
     <thead>
         <tr>
 			<th align="center" width="30" scope="col"><input type="checkbox" class="removeAll" value="1"></th>
@@ -49,3 +46,4 @@ $TD = self::getTD_fn();
         </tr>
 	</tfoot>
 </table>
+-->
