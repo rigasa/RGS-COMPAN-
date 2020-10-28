@@ -8,11 +8,11 @@
 */
 //-----------------------------------------------------------------------
 /**
- * @class RGS_HtmlToPDF
+ * @class RGS_Shortcodes
  * @fullname RiGaSa Companion
- * @package RGS_HtmlToPDF
+ * @package RGS_Shortcodes
  * @category Core
- * @filesource assets/plugins/Entreprise/RGS_HtmlToPDF.php
+ * @filesource assets/plugins/Entreprise/RGS_Shortcodes.php
  * @version 0.0.1
  * @created 2020-10-07
  * @author  Ri.Ga.Sa <rigasa@rigasa.ch>
@@ -25,9 +25,9 @@
 //--------------------------------------
 if ( ! defined( 'ABSPATH' ) ) exit; // SECURITY : Exit if accessed directly
 //--------------------------------------
-if( ! class_exists( 'RGS_HtmlToPDF' ) ):
+if( ! class_exists( 'RGS_Shortcodes' ) ):
 	//----------------------------------
-	class RGS_HtmlToPDF
+	class RGS_Shortcodes
 	{
 		//------------------------------
 		//---------------------------------------------------------------
@@ -43,14 +43,16 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 		static public $gFile;
 		static public $gDir;
 		static public $gUrl;
-		//---
+		//------------------------------------------------------------
 		static public $gBasename;
 		// Plugin Hierarchy
-		//---
-		static public $gAdminPageId;
-		//---
-		const K_SLUG = 'rgsHtmlToPdf';
-		const K_PREFIX = 'rgsHtmlToPdf-';
+		//------------------------------------------------------------
+		private static $folderDir;
+		//-------------------------------------------------------------
+		public static $gScItems;
+		//--------------------------------------------------------------
+		const K_SLUG = 'rgsShortcodes';
+		const K_PREFIX = 'rgsShortcodes-';
 		const K_VERS = '0.0.1';
 		
 		//------------------------------
@@ -102,11 +104,11 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 			//
 			// Directories Hierarchy
 			//
-			//---
-			self::$gAdminPageId = null;
-			//---
+			self::$folderDir      	= RGS_Company::$gAssetsDir . trailingslashit( 'shortcodes' );
 			//---
 			self::$gSlug 			= sanitize_title( self::K_SLUG );
+			//---
+			self::$gScItems = array();
 			//---
 		}
 		//---------------------------------------------------------------
@@ -121,16 +123,7 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 		private function loadDependencies_fn() 
 		{
 			//------------------------------------------------------
-			$fileRequired = RGS_Company::$gLibsDir . trailingslashit( 'fpdf' ) . 'fpdf.php';
-			if( file_exists( $fileRequired ) ):
-				require_once( $fileRequired );
-			endif;
-			//------------------------------------------------------
-			$dirPlugins = RGS_Company::$gLibsDir . trailingslashit( 'fpdf' ) . trailingslashit( 'plugins' );
-			$fileRequired = $dirPlugins . 'loadPlugins.php';
-			if( file_exists( $fileRequired ) ):
-				require_once( $fileRequired );
-			endif;
+			
 			//------------------------------------------------------
 		}
 		//---------------------------------------------------------------
@@ -139,15 +132,18 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 			// SETUPS
 			//---------------------------------------------------
 			add_action( 'wp_init', array(__CLASS__, 'initClass_fn') );
-			//------
-			// CREATE PDF BY AJAX
-			//------
-			add_action( 'wp_ajax_createPDF', array(__CLASS__, 'createPDF_fn') );
-			add_action( 'wp_ajax_nopriv_createPDF', array(__CLASS__, 'createPDF_fn') );
+			//---------------------------------------------------
+			add_filter ( 'widget_text', 'do_shortcode' );
+			//---------------------------------------------------
+			add_action( 'init', array( __CLASS__, 'addShortcodes_fn' ), 10 );
+			//---------------------------------------------------
+			add_action( 'after_setup_theme', array( __CLASS__, 'override_fn' ), 10 );
+			//---------------------------------------------------
+			//---------------------------------------------------
 			//---------------------------------------------------
 		}
 		//---------------------------------------------------------------
-		// CPT
+		// Getters
 		//---------------------------------------------------------------
 		static function getSlug_fn()
 		{
@@ -159,137 +155,166 @@ if( ! class_exists( 'RGS_HtmlToPDF' ) ):
 			return RGS_Company::getTD_fn();
 		}
 		//---------------------------------------------------------------
+		// HOOKS
+		//---------------------------------------------------------------
 		static function initClass_fn()
 		{
 			
 		}
 		//---------------------------------------------------------------
-		// TEMPLATES
-		//---------------------------------------------------------------
-		static function getHeader_fn()
+		static function override_fn()
 		{
-			$fileCustomHeader = null;
-			//------------------------------------------------------
-			$file = RGS_Company::$gTemplatesDir . 'customHeader.php';
-			if( file_exists( $file ) ):
-				$fileCustomHeader = file_get_contents($file);
-			endif;
-			//------------------------------------------------------
-			return $fileCustomHeader;
+			
 		}
 		//---------------------------------------------------------------
-		static function getFooter_fn()
+		static function addShortcodes_fn()
 		{
-			$fileCustomFooter = null;
-			//------------------------------------------------------
-			$file = RGS_Company::$gTemplatesDir . 'customFooter.php';
-			if( file_exists( $file ) ):
-				$fileCustomFooter = file_get_contents($file);
-			endif;
-			//------------------------------------------------------
-			return $fileCustomFooter;
+			//-----------------------------
+			self::$gScItems = self::scandirShortcodes_fn( self::$folderDir );
+			#echo '<pre>ADD SHORTCODES: '.print_r( self::$gScItems, TRUE).'</pre>';
+			#die( '---' );
+			//-----------------------------
 		}
 		//---------------------------------------------------------------
-		// PDF CONSTRUCTOR
+		// TOOLS
 		//---------------------------------------------------------------
-		static function constructPDF_fn( $args )
-		{
-			if( ! class_exists('FPDF')):
-				return array('error' => __('Page to PDF empty', self::getTD_fn() ) );
-			else:
-				//-----------
-				//create a FPDF object
-				$pdf=new FPDF();
-
-				//set document properties
-				$pdf->SetAuthor('Lana Kovacevic');
-				$pdf->SetTitle('FPDF tutorial');
-
-				//set font for the entire document
-				$pdf->SetFont('Helvetica','B',20);
-				$pdf->SetTextColor(50,60,100);
-
-				//set up a page
-				$pdf->AddPage('P');
-				$pdf->SetDisplayMode(real,'default');
-
-				//insert an image and make it a link
-				//$pdf->Image('logo.png',10,20,33,0,' ','http://www.fpdf.org/');
-
-				//display the title with a border around it
-				$pdf->SetXY(50,20);
-				$pdf->SetDrawColor(50,60,100);
-				$pdf->Cell(100,10,'FPDF Tutorial',1,0,'C',0);
-
-				//Set x and y position for the main text, reduce font size and write content
-				$pdf->SetXY (10,50);
-				$pdf->SetFontSize(10);
-				$pdf->Write(5,'Congratulations! You have generated a PDF.');
-
-				//Output the document
-				$pdf->Output('example1.pdf','I');
-
-				echo '<pre>createPDF::: '.print_r( $pdf, TRUE).'</pre>';
-				die('DEBUG');
-
-
-				return array('success' => array(
-					'file' => 'example1.pdf'
-				));
-				//-----------
+		static public function checkHexaColor_fn( $value ) 
+		{ 
+			// Function that will check if value is a valid HEX color.
+			if ( preg_match( '/^#[a-f0-9]{6}$/i', $value ) ) : // if user insert a HEX color with #     
+				return true;
 			endif;
+
+			return false;
 		}
 		//---------------------------------------------------------------
-		// AJAX CALLBACK
-		//---------------------------------------------------------------
-		static function createPDF_fn()
+		static function scandirShortcodes_fn( $_dir = '' )
 		{
-
-			$pageHTML = (isset( $_POST['pageHTML'] ) ) ? $_POST['pageHTML'] : '';
-			//
-			if( empty( $pageHTML ) ) :
-				wp_send_json_error( __('Page to PDF empty', self::getTD_fn() ) );
-			else:
-				//-----------
-				/*$isConstruct = self::constructPDF_fn( $pageHTML );
-				//-----------
-				if( !isset($isConstruct['error']) ):
-					wp_send_json_error( $isConstruct['error'] );
-				else:
-					//-----------
+			$_arr = array();
+			
+			if( is_dir( $_dir ) ):
+				
+				if ( $_dh = opendir( $_dir ) ) :
+			
+					while ( ( $_entry = readdir( $_dh ) ) !== false ) :
+						
+						if ( $_entry !== "." and $_entry !== ".." ) :
+			
+							$_shortcode_dir = $_dir . trailingslashit( $_entry );
+			
+							if( is_dir( $_shortcode_dir ) ):
+			
+								if( file_exists( $_shortcode_dir . 'shortcode.php' ) ):
+			
+									include_once( $_shortcode_dir . 'shortcode.php' );
+									
+									if( isset( $_shc_attr ) ):
+										
+										$_arr[ $_entry ] = array();
+										$_arr[ $_entry ] = array_replace_recursive( $_arr[ $_entry ], $_shc_attr );
+										
+										unset( $_shc_attr );
+										
+									endif;
+									
+								endif; // IS SHORTCODE
+							endif;
+							
+						endif;
+			
+					endwhile;
+			
+					closedir( $_dh );
+			
 				endif;
-				*/
-				echo '<pre>createPDF::: '.print_r( $pageHTML, TRUE).'</pre>';
-					die('DEBUG');
-				//
+			
 			endif;
-
-			wp_die();
+			
+			ksort( $_arr );
+			
+			return $_arr;
 		}
 		//---------------------------------------------------------------
+		static function removeWpautop_fn( $_content ) 
+		{
+			$_content = do_shortcode( shortcode_unautop( $_content ) );
+			$_content = preg_replace( '#^<\/p>|^<br \/>|<p>$#', '', $_content );
+			//$_content = str_replace( array( "\r","\n","\t" ), array( '','','' ), $_content );
+			return $_content;
+		}
 		//---------------------------------------------------------------
+		static function getShortcodes_fn()
+		{
+			//self::$gScItems = self::scandirShortcodes_fn( self::$folderDir );
+			$_items = self::$gScItems;
+			$_names = array();
+			foreach ( $_items as $_key => $_row ) :
+				$_names[$_key]  = $_row['name'];
+			endforeach;
+			
+			array_multisort( $_names, SORT_ASC, $_items );
+			
+			return $_items;
+		}
 		//---------------------------------------------------------------
+		// Shortcode Generator
 		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
-		//---------------------------------------------------------------
+		static function buildShortcode_fn( $name )
+		{
+			$_sc = self::$gScItems; //self::getShortcodes_fn();
+			
+			if( ! isset( $_sc[ $name ] ) ) return;
+			
+			$Sc = $_sc[ $name ];
+			
+			$shortcode = "[$name";
+			
+			foreach( $Sc[ 'fields' ] as $_key => $_type_arr ) :
+				
+				$_val = ( isset( $_type_arr[ 'value' ] ) ) ? $_type_arr[ 'value' ]: '';
+				if( $Sc[ 'fields' ][ $_key ][ 'type' ] == 'checkbox' ):
+					$_val = ( $_val == 'true' ) ? 'true': 'false';
+				endif;
+				$shortcode .= ' ' . $_key .'="' . $_val. '"';
+				
+			endforeach;
+			
+			$shortcode .= ']';
+			
+			if( $Sc[ 'content' ] != false ) :
+				
+				$shortcode .= $Sc[ 'content' ];
+				$shortcode .= "[/$name]";
+				
+			endif;
+			
+			return $shortcode;
+		}	
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		//---------------------------------------------------------------
 		
 	};
 	//-------------------------------------------------------------------
-	if( ! function_exists( 'rgsHTML2PDF_fn' ) ):
-		function rgsHTML2PDF_fn() 
+	if( ! function_exists( 'rgsShortcodes_fn' ) ):
+		function rgsShortcodes_fn() 
 		{
-			return RGS_HtmlToPDF::getInstance_fn();
+			return RGS_Shortcodes::getInstance_fn();
 		};
 	endif;
 	//-------------------------------------------------------------------
-	if( ! isset( $GLOBALS[ 'RGS_HtmlToPDF' ] ) ):
-		$GLOBALS[ 'RGS_HtmlToPDF' ] = rgsHTML2PDF_fn();
+	if( ! isset( $GLOBALS[ 'RGS_Shortcodes' ] ) ):
+		$GLOBALS[ 'RGS_Shortcodes' ] = rgsShortcodes_fn();
 	endif;
 	//-------------------------------------------------------------------
+	if( ! function_exists( 'rgsClearAutop_fn' ) ):
+		function uds_clear_autop($content)
+		{
+    		$content = str_ireplace('<p>', '', $content);
+    		$content = str_ireplace('</p>', '', $content);
+    		$content = str_ireplace('<br>', '', $content);
+    		return $content;
+}
+	endif;
 endif;
 //-----------------------------------------------------------------------

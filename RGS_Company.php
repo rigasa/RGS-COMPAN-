@@ -9,7 +9,7 @@
 //----------------------------------------------------------
 /**
  * @class RGS_Company
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_Company
  * @category Core
  * @filesource assets/plugins/Entreprise/RGS_Company.php
@@ -249,6 +249,11 @@ if( ! class_exists( 'RGS_Company' ) ):
 			endif;
 			//------------------------------------------------------
 			$fileRequired = self::$gDir . 'RGS_CompanyTemplates.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
+			endif;
+			//------------------------------------------------------
+			$fileRequired = self::$gDir . 'RGS_Shortcodes.php';
 			if( file_exists( $fileRequired ) ):
 				require_once( $fileRequired );
 			endif;
@@ -1019,6 +1024,18 @@ if( ! class_exists( 'RGS_Company' ) ):
 			//
 		}
 		//--------------------------------------------------
+		static function isCustomPostType_fn( $cpt = NULL )
+		{
+			$allCPT = get_post_types( array ( '_builtin' => FALSE ) );
+			
+			// there are no custom post types
+			if ( empty ( $allCPT ) )
+				return FALSE;
+
+			$customTypes      = array_keys( $allCPT );
+
+			return in_array( $cpt, $customTypes );
+		}
 		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------

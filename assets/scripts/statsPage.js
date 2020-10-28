@@ -8,7 +8,7 @@
 //----------------------------------------------------------
 /**
  * @class RGS_Company
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_Company
  * @category Core
  * @filesource assets/plugins/Entreprise/assets/scripts/statsPage.js

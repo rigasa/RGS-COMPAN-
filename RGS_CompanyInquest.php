@@ -9,7 +9,7 @@
 //----------------------------------------------------------
 /**
  * @class RGS_CompanyInquest
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_CompanyInquest
  * @category Core
  * @filesource assets/plugins/Entreprise/RGS_CompanyInquest.php

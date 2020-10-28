@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------
 /**
  * @class RGS_CompanyMBoxes
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_CompanyMBoxes
  * @category Core
  * @filesource assets/plugins/Entreprise/RGS_CompanyMBoxes.php

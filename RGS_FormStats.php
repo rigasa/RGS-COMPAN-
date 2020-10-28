@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------
 /**
  * @class RGS_FormStats
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_FormStats
  * @category Core
  * @filesource assets/plugins/Entreprise/RGS_FormStats.php

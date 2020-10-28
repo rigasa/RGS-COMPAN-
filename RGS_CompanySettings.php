@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------
 /**
  * @class RGS_CompanySettings
- * @fullname Eco Citoyen Management
+ * @fullname RiGaSa Companion
  * @package RGS_CompanySettings
  * @category Core
  * @filesource assets/plugins/Entreprise/RGS_CompanySettings.php
