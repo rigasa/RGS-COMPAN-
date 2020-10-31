@@ -41,19 +41,17 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 					if( oCompany.exists('#copy') ) {
 						jQuery( '#copy' ).on('click', function( event ){
 							event.preventDefault();
+							const newShortcode = jQuery('#toCopy').val();
+							
+							//const oldContent = jQuery('#content').html();
+							jQuery('#content').html('');
+							jQuery('#content').html(newShortcode);
+							//wp.media.editor.insert(newShortcode);
 
-							const copyText = document.querySelector("#toCopy");
-
-							copyText.select();
-							copyText.setSelectionRange(0, 99999); // used for mobile phone
-							document.exrgsCommand("copy");
-							console.log( `${copyText.value} is copied` );
 						});
 					}
 				};
 			}
-			// -----------------------------
-			oCompany.copyShortcode_fn();
 			// -----------------------------
 			if( oCompany.exists('#formChoice') ) {
 				jQuery( '#formChoice' ).on('change', function( event ){
@@ -62,11 +60,10 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 					const newForm = jQuery(this).val();
 					const newName = jQuery(this).find('option:selected').text();
 					const newShortcode = '[contact-form-7 id="' + newForm + '" title="' + newName.trim() + '"]';
-					
+					//
 					if( oCompany.exists('#toCopy') ) {
 						jQuery('#toCopy').val(newShortcode);
 						oCompany.copyShortcode_fn();
-						console.log('newShortcode', jQuery('#toCopy').val() );
 					}
 				});
 			}

@@ -1,4 +1,24 @@
 <?php
+// https://www.smashingmagazine.com/2017/12/customizing-admin-columns-wordpress/
+add_action( 'pre_get_posts', 'smashing_posts_orderby' );
+function smashing_posts_orderby( $query ) {
+  if( ! is_admin() || ! $query->is_main_query() ) {
+    return;
+  }
+
+  if ( 'price_per_month' === $query->get( 'orderby') ) {
+    $query->set( 'orderby', 'meta_value' );
+    $query->set( 'meta_key', 'price_per_month' );
+    $query->set( 'meta_type', 'numeric' );
+  }
+}
+
+
+
+
+
+
+
 
 add_filter( 'jpeg_quality', create_function( '', 'return 75;' ) );
 

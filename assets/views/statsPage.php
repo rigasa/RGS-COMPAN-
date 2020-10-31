@@ -164,8 +164,8 @@ $rgsOptions = RGS_CompanySettings::getOption_fn();
 				//Output the document
 				#$pdf->Output('example1.pdf','D', TRUE);
 
-				echo '<pre>createPDF::: '.print_r( $pdf, TRUE).'</pre>';
-				die('DEBUG');
+				//echo '<pre>createPDF::: '.print_r( $pdf, TRUE).'</pre>';
+				//die('DEBUG');
 			endif;
 			//------------------------------------------------------
 			?>

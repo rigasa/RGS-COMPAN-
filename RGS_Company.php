@@ -258,7 +258,12 @@ if( ! class_exists( 'RGS_Company' ) ):
 				require_once( $fileRequired );
 			endif;
 			//------------------------------------------------------
-			unset($dirForm);
+			$fileRequired = self::$gDir . 'RGS_CompanyCampaigns.php';
+			if( file_exists( $fileRequired ) ):
+				require_once( $fileRequired );
+			endif;
+			//------------------------------------------------------
+			unset($fileRequired);
 		}
 		//--------------------------------------------------
 		private function setupHooks_fn() 
@@ -286,8 +291,9 @@ if( ! class_exists( 'RGS_Company' ) ):
 				add_action( 'admin_print_scripts-post.php', array( __CLASS__, 'adminEnqueueScripts_fn'), 12 );
 			
 				// Add columns in list
-				add_filter( 'manage_posts_columns', array( __CLASS__, 'manageAdminColumns_fn') );
-				add_action( 'manage_posts_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 10, 2 );
+				add_filter( 'manage_' . self::getCPT_fn() . '_posts_columns', array( __CLASS__, 'manageAdminColumns_fn') );
+				add_action( 'manage_' . self::getCPT_fn() . '_posts_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 10, 2 );
+				add_filter( 'manage_edit-' . self::getCPT_fn() . '_sortable_columns', array( __CLASS__, 'sortableColumns_fn') );
 				//
 			else:
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
@@ -363,7 +369,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				'rewrite'               => $rewrite,
 				//'show_in_rest'          => false,
 			);
-			register_post_type( self::getSlug_fn(), $args );
+			register_post_type( self::getCPT_fn(), $args );
 			//----------
 			// TAXONOMIES
 			//----------
@@ -566,11 +572,16 @@ if( ! class_exists( 'RGS_Company' ) ):
 			return 'company';
 		}
 		//--------------------------------------------------
+		static function getCPT_fn()
+		{
+			return 'company';
+		}
+		//--------------------------------------------------
 		// TAXOS
 		//--------------------------------------------------
 		static function getTaxoCampaignName_fn()
 		{
-			return self::getSlug_fn() . '-campaign';
+			return self::getCPT_fn() . '-campaign';
 		}
 		//--------------------------------------------------
 		static function registerTaxoCat_fn() {
@@ -837,11 +848,12 @@ if( ! class_exists( 'RGS_Company' ) ):
 			
 			add_action( 'admin_print_styles-' . self::$gAdminPageId, array( __CLASS__, 'adminEnqueueStyles_fn' ) );
 			
-			
 			// Adds my_help_tab when my_admin_page loads
     		add_action( 'load-' . self::$gAdminPageId, array( __CLASS__, 'adminAddHelpTab_fn' ) );
 			
 			$inquestPageId = RGS_CompanyInquest::getSubMenu_fn();
+			#$campaignsPageId = RGS_CompanyCampaigns::adminMenu_fn();
+			
 			
 		}
 		//--------------------------------------------------
@@ -900,23 +912,44 @@ if( ! class_exists( 'RGS_Company' ) ):
 		//--------------------------------------------------
 		static function manageAdminColumns_fn( $columns )
 		{
+			$columns = array(
+				'cb' => $columns['cb'],
+      			'image' => __( 'Image' ),
+				'title' => __( 'Title' ),
+				'mail' => __('Mail address', self::getTD_fn()),
+				'nb' => __('Number of employees', self::getTD_fn()),
+				'post_id' => __('ID', self::getTD_fn())
+			);
 			
-			$columns['featured_image'] = __('Image', self::getTD_fn());
-			$columns['post_id'] = __('ID', self::getTD_fn());
 			return $columns;
 		}
 		//--------------------------------------------------
 		static function setAdminColumns_fn( $column, $post_id )
 		{
+			$metas = get_post_meta( $post_id, RGS_CompanyMBoxes::getOptionNameMB_fn() );
+			$thumb = get_the_post_thumbnail( $post_id, array(60, 60) );
+			$metas = isset($metas[0]) ? $metas[0]: '';
+			
 			switch ( $column ) :
 				// display featured image
-				case 'featured_image':
-					echo the_post_thumbnail( 'thumbnail' );
+				case 'image':
+					echo isset($thumb) ? $thumb : '';
 					break;
 				case 'post_id':
 					echo $post_id;
 					break;
+				case 'mail':
+					echo isset($metas['REF_MailAddress']) ? $metas['REF_MailAddress'] : '';
+					break;
+				case 'nb':
+					echo isset($metas['REF_NbEmployees']) ? $metas['REF_NbEmployees'] : '';
+					break;
 			endswitch;
+		}
+		//--------------------------------------------------
+		static function sortableColumns_fn( $columns ) {
+  			$columns['post_id'] = 'ID';
+  			return $columns;
 		}
 		//--------------------------------------------------
 		// METHODS
@@ -945,20 +978,20 @@ if( ! class_exists( 'RGS_Company' ) ):
 		//--------------------------------------------------
 		static function getRefsDatas_fn( $post_id )
 		{
-			$refDatas = get_post_meta($post_id, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+			$refDatas = (array) get_post_meta($post_id, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
 			//
-			if ( ! $refDatas) :
+			if ( empty( $refDatas ) ) :
 				$refDatas = array();
-				if( ! isset( $refDatas['REFS'] ) ):
-					$refDatas['REFS'] = array();
-					$refDatas['REFS']['REF_MailAddress']= ''; 
-					$refDatas['REFS']['REF_NbEmployees'] = 0; 
-					$refDatas['REFS']['REF_Shortcode']= ''; 
-					$refDatas['REFS']['REF_FormID'] = ''; 
-					$refDatas['REFS']['REF_Template'] = 'companySingle.php'; 
-				else:
-					$refDatas['REFS']['REF_Shortcode'] = addslashes( $refDatas['REFS']['REF_Shortcode'] );
-				endif;
+				$refDatas['REF_MailAddress']= ''; 
+				$refDatas['REF_NbEmployees'] = 0; 
+				$refDatas['REF_Shortcode']= ''; 
+				$refDatas['REF_FormID'] = 329; 
+				$refDatas['REF_Template'] = 'companySingle.php'; 
+				$refDatas['REF_Campaigns'] = array(); 
+			endif;
+
+			if(! empty($refDatas['REF_Shortcode']) ):
+				$refDatas['REF_Shortcode'] = addslashes( $refDatas['REF_Shortcode'] );
 			endif;
 			//
 			return $refDatas;

@@ -510,7 +510,26 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			//
 		}
 		//---------------------------------------------------------------
-		static function getSelectForm_fn( $name ='TEST', $value ='' ) 
+		static function getFormNameById_fn( $id = 0 ) 
+		{
+			$name = '';
+			if($id >  0):
+				$list = RGS_CompanySingle::getFormsList_fn();
+				if($list):
+
+					foreach ( $list as $theId => $theName ):
+						if($id == $theId ):
+							$name = $theName;
+							break;
+						endif;
+					endforeach;
+				endif;
+				unset( $list );
+			endif;
+			return $name;
+		}
+		//---------------------------------------------------------------
+		static function getSelectForm_fn( $name ='TEST', $value ='', $defaultFirst = false ) 
 		{
 			//
 			$labelFor = 'formChoice';
@@ -520,20 +539,21 @@ if( ! class_exists( 'RGS_CompanySettings' ) ):
 			$list = RGS_CompanySingle::getFormsList_fn();
 			
 			if($list):
-			
-				if( ! isset($options[ $labelFor ]) ):
-					// Set the first key from an associative array 
-					$options[ $labelFor ] = ! empty($list) ? key($list) : '';
-				endif;
+				if($defaultFirst) :
+					if( ! isset($options[ $labelFor ]) ):
+						// Set the first key from an associative array 
+						$options[ $labelFor ] = ! empty($list) ? key($list) : '';
+					endif;
 				
-				if( empty( $value )) :
-					$value = $options[ $labelFor ];
+					if( empty( $value )) :
+						$value = $options[ $labelFor ];
+					endif;
 				endif;
 				// ?>
 				<select
 						id="<?php echo esc_attr( $labelFor ); ?>"
 						name="<?php echo $name; ?>">
-
+					<option value=""><?php _e('Select form', $TD); ?></option>
 					<?php
 					foreach ( $list as $theId => $theName ): ?>
 
