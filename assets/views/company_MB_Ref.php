@@ -1,19 +1,8 @@
 <?php
 global $post;
 //
-$refPrefix = self::getOptionNameMB_fn();
+$refPrefix = RGS_CompanyMBoxes::getOptionNameMB_fn();
 $refDatas = RGS_Company::getRefsDatas_fn( $post->ID );
-//unset($refDatas['REFS']);
-//update_post_meta($post->ID, $refPrefix, $refDatas);
-//echo '<pre>IN MB::: '.print_r($refDatas, TRUE).'</pre>';
-
-/*if(! isset( $refDatas['REF_Shortcode'] ) or empty( $refDatas['REF_Shortcode'] ) ):
-	$theId = (int) $refDatas['REF_FormID'];
-	$formName = RGS_CompanySettings::getFormNameById_fn( $theId );
-	if( ! empty( $formName ) ):
-		$refDatas['REF_Shortcode'] = addslashes( '[contact-form-7 id="' . $theId . '" title="' . $formName. '"]' ) ;
-	endif;
-endif;*/
 //
 $TD = self::getTD_fn();
 ?>   
@@ -88,8 +77,3 @@ $TD = self::getTD_fn();
 				<p class="description"><?php _e("Select a template to view the company", $TD); ?></p>
 			</div>
 		</div>
-
-
-<?php
-// REF_Campaigns
-?>

@@ -284,7 +284,11 @@ if( ! class_exists( 'RGS_Company' ) ):
 			add_action( 'admin_menu', array( __CLASS__, 'adminMenu_fn' ) );
 			//
 			if(is_admin()):
-				
+				// Styles for admin
+
+				add_action('admin_print_styles', array( __CLASS__, 'adminStyles_fn'), 11);
+
+				//
 				add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
 			
 				add_action( 'admin_print_scripts-post-new.php', array( __CLASS__, 'adminEnqueueScripts_fn'), 12 );
@@ -373,8 +377,8 @@ if( ! class_exists( 'RGS_Company' ) ):
 			//----------
 			// TAXONOMIES
 			//----------
-			self::registerTaxoCat_fn();
-			self::registerTaxoCampaigns_fn();
+			//self::registerTaxoCat_fn();
+			//self::registerTaxoCampaigns_fn();
 			//
 			
 		}
@@ -827,6 +831,19 @@ if( ! class_exists( 'RGS_Company' ) ):
 			//
 		}
 		//--------------------------------------------------
+		static function adminStyles_fn()
+		{
+			if( file_exists( RGS_Company::$gCssDir  . 'adminStyles.css' ) ):
+				
+				wp_enqueue_style( 
+					self::getSlug_fn() . '_adminStyles', 
+					RGS_Company::$gCssUrl . 'adminStyles.css', 
+					array( ), 
+					'0.0.1', 
+					'all' 
+				);
+			endif;
+		}
 		//--------------------------------------------------
 		// ADMIN MENU
 		//--------------------------------------------------
@@ -929,7 +946,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 			$metas = get_post_meta( $post_id, RGS_CompanyMBoxes::getOptionNameMB_fn() );
 			$thumb = get_the_post_thumbnail( $post_id, array(60, 60) );
 			$metas = isset($metas[0]) ? $metas[0]: '';
-			
+
 			switch ( $column ) :
 				// display featured image
 				case 'image':
@@ -978,16 +995,22 @@ if( ! class_exists( 'RGS_Company' ) ):
 		//--------------------------------------------------
 		static function getRefsDatas_fn( $post_id )
 		{
-			$refDatas = (array) get_post_meta($post_id, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+			#$refDatas = (array) get_post_meta($post_id, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+			$REF_MailAddress = get_post_meta($post_id, 'REF_MailAddress', TRUE);
+			$REF_NbEmployees = get_post_meta($post_id, 'REF_NbEmployees', TRUE);
+			$REF_Shortcode = get_post_meta($post_id, 'REF_Shortcode', TRUE);
+			$REF_FormID = get_post_meta($post_id, 'REF_FormID', TRUE);
+			$REF_Template = get_post_meta($post_id, 'REF_Template', TRUE);
+			$REF_Campaigns = get_post_meta($post_id, 'REF_Campaigns', TRUE);
 			//
 			if ( empty( $refDatas ) ) :
 				$refDatas = array();
-				$refDatas['REF_MailAddress']= ''; 
-				$refDatas['REF_NbEmployees'] = 0; 
-				$refDatas['REF_Shortcode']= ''; 
-				$refDatas['REF_FormID'] = 329; 
-				$refDatas['REF_Template'] = 'companySingle.php'; 
-				$refDatas['REF_Campaigns'] = array(); 
+				$refDatas['REF_MailAddress']= !empty($REF_MailAddress) ? $REF_MailAddress : ''; 
+				$refDatas['REF_NbEmployees'] = !empty($REF_NbEmployees) ? $REF_NbEmployees : 0;
+				$refDatas['REF_Shortcode']= !empty($REF_Shortcode) ? $REF_Shortcode : ''; 
+				$refDatas['REF_FormID'] = !empty($REF_FormID) ? $REF_FormID : 329; 
+				$refDatas['REF_Template'] = !empty($REF_Template) ? $REF_Template : 'companySingle.php'; 
+				$refDatas['REF_Campaigns'] = !empty($REF_Campaigns) ? $REF_Campaigns : array(); 
 			endif;
 
 			if(! empty($refDatas['REF_Shortcode']) ):

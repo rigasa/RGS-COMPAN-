@@ -288,7 +288,8 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 				'title' => __( 'Title' ),
 				'startDate' => __('Start Date', self::getTD_fn()),
 				'endDate' => __('End Date', self::getTD_fn()),
-				'post_id' => __('ID', self::getTD_fn())
+				'post_id' => __('ID', self::getTD_fn()),
+				'active' => __('Active', self::getTD_fn())
 			);
 
 			return $columns;
@@ -296,29 +297,41 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 		//--------------------------------------------------
 		static function setAdminColumns_fn( $column, $post_id )
 		{
-			$metas = get_post_meta( $post_id, self::getOptionNameMB_fn() );
-			$thumb = get_the_post_thumbnail( $post_id, array(60, 60) );
-			$metas = isset($metas[0]) ? $metas[0]: '';
-
+			//
 			switch ( $column ) :
 				case 'post_id':
 					echo $post_id;
 					break;
 				// display featured image
 				case 'image':
+					$thumb = get_the_post_thumbnail( $post_id, array(60, 60) );
 					echo isset($thumb) ? $thumb : '';
 					break;
 				case 'startDate':
-					echo isset($metas['startDate']) ? $metas['startDate'] : '';
+					$startDate = get_post_meta($post_id, 'startDate', TRUE);
+					echo !empty($startDate) ? $startDate  : '';
 					break;
 				case 'endDate':
-					echo isset($metas['endDate']) ? $metas['endDate'] : '';
+					$endDate = get_post_meta($post_id, 'endDate', TRUE);
+					echo !empty($endDate) ? $endDate : '';
 					break;
+					case 'active':
+						$startDate = get_post_meta($post_id, 'startDate', TRUE);
+						$endDate = get_post_meta($post_id, 'endDate', TRUE);
+						$inCampaign = RGS_CompanyCampaigns::inCampaign_fn($startDate, $endDate );
+						$inSyle = '';
+            			if($inCampaign):
+                			$inSyle =  '<span class="dashicons dashicons-yes" style="color:green;"></span> ';
+            			endif;
+						echo !empty($inSyle) ? $inSyle : '';
+						break;
 			endswitch;
 		}
 		//--------------------------------------------------
 		static function sortableColumns_fn( $columns ) {
   			$columns['post_id'] = 'ID';
+  			$columns['startDate'] = 'startDate';
+  			$columns['endDate'] = 'endDate';
   			return $columns;
 		}
 		//--------------------------------------------------
@@ -358,13 +371,13 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 		//--------------------------------------------------
 		static function getDatasMB_fn( $post_id )
 		{
-			$refDatas = get_post_meta($post_id, self::getOptionNameMB_fn(), TRUE);
+			#$refDatas = get_post_meta($post_id, self::getOptionNameMB_fn(), TRUE);
+			$startDate = get_post_meta($post_id, 'startDate', TRUE);
+			$endDate = get_post_meta($post_id, 'endDate', TRUE);
 			//
-			if ( ! $refDatas) :
-				$refDatas = array();
-				$refDatas['startDate']= $DATE = date('d/m/Y');
-				$refDatas['endDate'] = $DATE = date('d/m/Y');
-			endif;
+			$refDatas = array();
+			$refDatas['startDate']= !empty($startDate) ? $startDate : date('d/m/Y');
+			$refDatas['endDate'] = !empty($endDate) ? $endDate : date('d/m/Y', strtotime('+2 month'));
 			//
 			return $refDatas;
 			//
@@ -434,7 +447,10 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 			//
 			$OPTION = self::getOptionNameMB_fn();
 			if( isset( $_POST[$OPTION] ) ):
-				update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
+				#update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
+				foreach( $_POST[$OPTION] as $key => $val ):
+					update_post_meta($post_id, $key, $val );
+				endforeach;
 			endif;
 			//
 			return $post_id;
@@ -621,6 +637,24 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 			endforeach;
 		}
 		//--------------------------------------------------
+		static function inCampaign_fn($startDate, $endDate )
+		{
+			//
+			//$startDate = date('d/m/Y', strtotime('-10 month'));
+			//$endDate = date('d/m/Y', strtotime('-5 month'));
+			//$curDate = date('d/m/Y');
+			$eStart = explode('/', $startDate);
+			$eEnd = explode('/', $endDate);
+			$ts = time();
+			$startTime = mktime(0, 0, 0, $eStart[1], $eStart[0], $eStart[2]);
+			$endTime = mktime(0, 0, 0, $eEnd[1], $eEnd[0], $eEnd[2]);
+
+			if( $startTime <= $ts and $endTime >= $ts ):
+				return true;
+			endif;
+			//
+			return false;
+		}
 		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------

@@ -210,6 +210,15 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 				'normal', 
 				'low'
 			);
+			
+			add_meta_box( 
+				self::getSlug_fn() .'-campaigns', 
+				'<i class="wp-menu-image dashicons-before dashicons-calendar-alt"></i> ' . __('Campaigns', self::getTD_fn()),  
+				array(__CLASS__, 'campaignsMetabox_fn'), 
+				self::getSlug_fn(), 
+				'normal', 
+				'low'
+			);
 		}
 		//---------------------------------------------------------------
 		// Renders the meta boxes.
@@ -226,8 +235,8 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
         		return;
     		endif;
 			
-			if( is_file( RGS_Company::$gViewsDir . 'companyRef_MB.php' ) ):
-				include_once(RGS_Company::$gViewsDir . 'companyRef_MB.php');
+			if( is_file( RGS_Company::$gViewsDir . 'company_MB_Ref.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'company_MB_Ref.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Reference Metabox Loaded!', self::getTD_fn() ); 
@@ -242,11 +251,28 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
         		return;
     		endif;
 			
-			if( is_file( RGS_Company::$gViewsDir . 'companyInquests_MB.php' ) ):
-				include_once(RGS_Company::$gViewsDir . 'companyInquests_MB.php');
+			if( is_file( RGS_Company::$gViewsDir . 'company_MB_Inquests.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'company_MB_Inquests.php');
 			else:
 				echo '<h1>';
 				esc_html_e( 'No Inquests Metabox Loaded!', self::getTD_fn() ); 
+				echo '</h1>';
+			endif;
+			
+		}
+		//---------------------------------------------------------------
+		static function campaignsMetabox_fn($post)
+		{
+			// check user capabilities
+    		if ( ! current_user_can( 'manage_options' ) ) :
+        		return;
+    		endif;
+			
+			if( is_file( RGS_Company::$gViewsDir . 'company_MB_Campaigns.php' ) ):
+				include_once(RGS_Company::$gViewsDir . 'company_MB_Campaigns.php');
+			else:
+				echo '<h1>';
+				esc_html_e( 'No Campaigns Metabox Loaded!', self::getTD_fn() ); 
 				echo '</h1>';
 			endif;
 			
@@ -292,9 +318,16 @@ if( ! class_exists( 'RGS_CompanyMBoxes' ) ):
 			
 			delete_post_meta($post_id, '_wp_page_template' );
 			update_post_meta($post_id, '_wp_page_template', $templateName );
-			
+			//
+			// REF_Campaigns
+			//echo '<pre>POST:: '.print_r($_POST, TRUE).'</pre>';
+			//die('DEBUG');
+			//
 			if( isset( $_POST[$OPTION] ) ):
-				update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
+				//update_post_meta($post_id, self::getOptionNameMB_fn(), $_POST[$OPTION]);
+				foreach( $_POST[$OPTION] as $key => $val ):
+					update_post_meta($post_id, $key, $val );
+				endforeach;
 			endif;
 			//
 			return $post_id;

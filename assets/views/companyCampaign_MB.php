@@ -1,8 +1,8 @@
 <?php
 global $post;
 //
-$refPrefix = self::getOptionNameMB_fn();
-$refDatas = self::getDatasMB_fn( $post->ID );
+$refPrefix = RGS_CompanyCampaigns::getOptionNameMB_fn();
+$refDatas = RGS_CompanyCampaigns::getDatasMB_fn( $post->ID );
 //
 $TD = self::getTD_fn();
 
@@ -10,7 +10,7 @@ $startDate = $refDatas[ 'startDate' ];
 $endDate = $refDatas[ 'endDate' ];
 
 ?>
-<input type="hidden" name="<?php echo self::getNonceName_fn(); ?>" id="<?php echo self::getNonceName_fn(); ?>" value="<?php echo wp_create_nonce( self::getNonceAction_fn() );?>"/>
+<input type="hidden" name="<?php echo RGS_CompanyCampaigns::getNonceName_fn(); ?>" id="<?php echo RGS_CompanyCampaigns::getNonceName_fn(); ?>" value="<?php echo wp_create_nonce( RGS_CompanyCampaigns::getNonceAction_fn() );?>"/>
 
 <div class="row">
 	<p class="post-attributes-label-wrapper">
