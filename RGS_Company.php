@@ -558,7 +558,9 @@ if( ! class_exists( 'RGS_Company' ) ):
 					'yes' 				=> __( 'Yes', $TD ),
 					'delMedia' 			=> __( 'Are you sure you want to delete this media?', $TD ),
 					'noMediaToDel'		=> __( 'No media to delete!', $TD ),
-					'noLogoId'			=> __( 'LOGO ID NOT EXISTS !', $TD )
+					'noLogoId'			=> __( 'LOGO ID NOT EXISTS !', $TD ),
+					'delEmpty'			=> __( 'Please select the items to delete.', $TD ),
+					'delInquest'		=> __( 'Are you sure you want to delete inquest(s)?', $TD )
 
 				)
 			);
@@ -1092,6 +1094,72 @@ if( ! class_exists( 'RGS_Company' ) ):
 			return in_array( $cpt, $customTypes );
 		}
 		//--------------------------------------------------
+		static function getTaxo_fn($POSTID, $TAXO = '')
+		{
+			$taxoHTML = '';
+			//
+			if($POSTID > 0 ):
+				if(empty($TAXO)) :
+					$TAXO = RGS_Company::getSlug_fn() . '-campaign';
+				endif;
+				$isInRange = FALSE;
+				//
+				$terms = get_the_terms( $POSTID, $TAXO );
+				$countInRange = array();
+				//
+				foreach($terms as $term):
+					//
+					$termID = $term->term_id;
+					$termName = $term->name;
+					// 
+					$termMETAS = RGS_Company::campaignTaxoGetCustomFields_fn( $term->term_id );
+					$startDate = $termMETAS['startDate']; 
+					$endDate = $termMETAS['endDate']; 
+					$cLogo = $termMETAS['cLogo']; 
+					//
+					$termInRange = TRUE; //RGS_Company::isDateRange_fn($startDate, $endDate);
+					//
+					if($termInRange) :
+						//
+						$termHTML = '<div id="term-' . $term->term_id . '" class="campaign-row" style="border:1px solid #000000; padding:6px;">';
+						$image = wp_get_attachment_image_src ( $cLogo, 'thumbnail', FALSE );
+						$imgSrc = '';
+						//
+						if( is_array( $image ) and isset( $image[0] ) ):
+							$imgSrc = $image[0] ;
+						endif;
+						//
+						if( ! empty( $imgSrc ) ):
+							$termHTML .= '<span class="campaign-cell-image" style="float:left; margin-right:6px;"><img width="auto" height="66" src="' . $imgSrc . '" class="cLogoImage" alt="" style="height: 66px; width: auto; margin:0px;"></span>';
+						endif;
+
+						$termHTML .= '<span class="campaign-cell-title"><strong>'. $termName . '</strong></span><br>';
+						$termHTML .= '<span class="campaign-cell-start"><i>'.__('Start', $TD) . ': </i>' . $startDate . '</span><br>';
+						$termHTML .= '<span class="campaign-cell-end"><i>'.__('End', $TD) . ': </i>' . $endDate . '</span>';
+						$termHTML .= '</div>';
+						//
+						$countInRange[] = $termHTML;
+						//
+					endif;
+					//
+				endforeach;
+				//---------------------
+				if( ! empty($countInRange) ):
+
+					$taxoHTML = '<div id="campaigns-list" style="width:calc( 100% - 0px); padding-bottom:10px; ">';
+					$taxoHTML .= '<h2 style="margin-bottom: 8px;">' . __('Campaigns', $TD) .'</h2>';
+					foreach($countInRange as $termDisplay ):
+						$taxoHTML .= $termDisplay;
+					endforeach;
+					$isInRange = TRUE;
+
+					$taxoHTML .= '</div>';
+				endif;
+			//---------------------
+			endif;
+			//---------------------
+			return $taxoHTML;
+		}
 		//--------------------------------------------------
 		//--------------------------------------------------
 		//--------------------------------------------------

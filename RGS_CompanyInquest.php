@@ -134,8 +134,8 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			//
 			if(is_admin()):
 				// Add columns in list
-				add_filter('manage_' . self::getCptName_fn() . '_columns', array( __CLASS__, 'manageAdminColumns_fn') );
-				add_action( 'manage_' . self::getCptName_fn() . '_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 10, 2 );
+				add_filter('manage_' . self::getCptName_fn() . '_posts_columns', array( __CLASS__, 'manageAdminColumns_fn') );
+				add_action( 'manage_' . self::getCptName_fn() . '_posts_custom_column', array( __CLASS__, 'setAdminColumns_fn'), 10, 2 );
 				//
 				add_filter( 'add_menu_classes',  array( __CLASS__, 'menuInquestBubble_fn' ) );
 				//
@@ -148,6 +148,9 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			//------
 			add_action( 'wp_ajax_getInquest', array(__CLASS__, 'getInquestByUniqId_fn') );
 			add_action( 'wp_ajax_nopriv_getInquest', array(__CLASS__, 'getInquestByUniqId_fn') );
+			//------
+			add_action( 'wp_ajax_delInquests', array(__CLASS__, 'ajaxDeleteInquests_fn') );
+			add_action( 'wp_ajax_nopriv_delInquests', array(__CLASS__, 'ajaxDeleteInquests_fn') );
 			//
 	}
 		//------------------------------
@@ -371,7 +374,10 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			$arrDisplay['table'] = $table;
 			$arrDisplay['points'] = get_post_meta($post->ID, 'points', TRUE );
 			$arrDisplay['graphSeries'] = get_post_meta($post->ID, 'graphSeries', TRUE );
-			
+			//
+			//$nbInquests = (int) RGS_FormStats::getNbInquestInCompany_fn( $post->ID );
+
+
 			return $arrDisplay;
 		}
 		//---------------------------------------------------------------
@@ -411,12 +417,34 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			
 			wp_die();
 		}
+		//---------------------------------------------------------------
+		static function ajaxDeleteInquests_fn()
+		{
+			$arrToDelete = (isset( $_POST['arrToDelete'] ) ) ? $_POST['arrToDelete'] : '';
+			$arrDeleted = array();
+			foreach ( $arrToDelete as $postID ) :
+				$response = self::deleteInquest_fn( $postID, true);
+				$arrDeleted[] = isset($response->ID ) ? $response->ID: 0;
+			endforeach;
+
+			if( empty( $arrDeleted ) ):
+				wp_send_json_error( __('No inquest was deleted', self::getTD_fn() ) );
+			else:
+				wp_send_json_success($arrDeleted);
+			endif;
+
+			wp_die();
+		}
 		//--------------------------------------------------
 		// DELETE INQUEST
 		//--------------------------------------------------
-		static function deleteInquest_fn( $id, $notInTrash = true )
+		static function deleteInquest_fn( $id, $forceDelete = true )
 		{
-			wp_delete_post( $id, $notInTrash);
+			if ( ! function_exists( 'wp_delete_post' ) ) :
+				require_once ABSPATH . WPINC . '/post.php'; 
+			endif;
+
+			return wp_delete_post( $id, $forceDelete);
 		}
 		//--------------------------------------------------
 		static function deleteAllInquests_fn()
@@ -429,7 +457,7 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			$post_list = get_posts( $args );
 	
 			foreach ( $post_list as $post ) :
-				self::deleteInquest_fn( $post->ID, true);
+				$result = self::deleteInquest_fn( $post->ID, true);
 			endforeach;
 		}
 		//--------------------------------------------------
@@ -446,7 +474,7 @@ if( ! class_exists( 'RGS_CompanyInquest' ) ):
 			$theList = get_posts( $args );
 			//
 			foreach ( $theList as $post ) :
-				self::deleteInquest_fn( $post->ID, true);
+				$result = self::deleteInquest_fn( $post->ID, true);
 			endforeach;
 		}
 		//--------------------------------------------------

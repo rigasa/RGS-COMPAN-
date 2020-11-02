@@ -76,11 +76,109 @@ if (typeof(oCompany) === undefined) { var oCompany = {}; }
 					//
 					if( oCompany.exists('#templateField') ) {
 						jQuery('#templateField').val(newTemplate);
-						console.log('newTemplate', jQuery('#newTemplate').val() );
 					}
 				});
 			}
-			// -----------------------------
+			// ------------------------------------------
+			// INQUESTS
+			// ------------------------------------------
+			if( oCompany.exists('.removeAllInquests') ){
+				jQuery('.removeAllInquests').on( 'change', function(){
+				
+					if( jQuery( this ).is(':checked') ){
+						jQuery('.removeAllInquests, .inquestItem').attr('checked', true);
+					} else {
+						jQuery('.removeAllInquests, .inquestItem').attr('checked', false);
+					}
+
+				});
+			}
+			// ------------------------------------------
+			if (typeof(oCompany.delInquestCallback_fn) !== 'function') {
+				oCompany.delInquestCallback_fn = function(response) {
+					//
+					if(typeof(response.success) !== 'undefined'){
+						const theArrDeleted = response.data;
+						
+						jQuery.each(theArrDeleted, function( index, value) {
+							
+							const theLine = jQuery( '#inquest-select-' + value ).closest('tr');
+							
+							if( oCompany.exists(theLine) ){
+								jQuery(theLine).fadeOut( 300, function(){
+									jQuery(this).remove();
+								});
+							}
+						});
+
+						const arrLines = jQuery('.inquest-line');
+						if(typeof( arrLines ) === 'undefined'){
+							location.reload();
+						}
+
+					}
+				};
+			}
+			// ------------------------------------------
+			if( oCompany.exists('.inquestDelete') ){
+				jQuery('.inquestDelete').on( 'click', function(e){
+					e.preventDefault();
+
+					const theRecords = jQuery('.inquestItem:checked');
+					if(theRecords.length === 0 ){
+						alert(oCompany.lang.delEmpty);
+					} else {
+						if(confirm(oCompany.lang.delInquest)){
+							var arrToDelete = new Array();
+							//
+							jQuery.each(theRecords, function(index, value) {
+								const theVal = jQuery( value ).val();
+								//console.log( index+": "+ value);
+								arrToDelete.push( theVal );
+							});
+							//							
+							console.log( 'arrToDelete', arrToDelete);
+							if( arrToDelete.length > 0 ) {
+
+								jQuery.ajax({
+									url: oCompany.ajaxUrl,
+									type: "POST",
+									data: {
+										'action': 'delInquests',
+										'arrToDelete': arrToDelete
+									},
+									dataType: 'JSON',
+									success:function(response){
+										oCompany.delInquestCallback_fn(response);
+									},
+									error: function(errorThrown){
+										//alert('error');
+										console.log(errorThrown);
+									}
+								});
+
+							}
+
+						}
+					}
+				});
+			}
+			// ------------------------------------------
+			if( oCompany.exists('.removeAll') ){
+				jQuery('.removeAll').on( 'change', function(){
+					if( jQuery( this ).is(':checked') ){
+						jQuery('.removeAll, .tableItem').attr('checked', true);
+					} else {
+						jQuery('.removeAll, .tableItem').attr('checked', false);
+					}
+				});
+			}
+			// ------------------------------------------
+			if( oCompany.exists('.tableItem') ){
+				jQuery('.tableItem').on( 'change', function(){
+
+				});
+			}
 			
 		}
 	}

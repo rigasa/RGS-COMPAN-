@@ -245,6 +245,7 @@ if( ! class_exists( 'RGS_FormStats' ) ):
 					'pointsbyQ'			=> __( 'Points per question', $TD ),
 					'questions'			=> __( 'Questions', $TD ),
 					'points'			=> __( 'Points', $TD ),
+					'maxInquests' 		=> __('Maximum number of inquests reached!', $TD),
 					'chartLabels' 		=> array(
 						__( 'Lighting', $TD ), //"Eclairage", 
 						__( 'Equipment', $TD ), //"Matériel", 

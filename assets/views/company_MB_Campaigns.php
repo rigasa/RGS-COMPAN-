@@ -19,20 +19,22 @@ $args = array(
 $arrItems = get_posts( $args );
 $total = count( $arrItems );
 //-----
-//echo '<pre>$campaigns::: '.print_r($campaigns, true).'</pre>';
+$theHeadFooter = '<tr>';
+    $theHeadFooter .= '<th style="width: 24px;"></th>'; //'<th align="center" width="30" scope="col"><input type="radio" class="removeAll" value="1"></th>';
+    $theHeadFooter .= '<th scope="col" style="width: 40px;">' . __('ID', $TD) . '</th>';
+    $theHeadFooter .= '<th scope="col" style="width: 60px;">' . __('Logo', $TD) . '</th>';
+    $theHeadFooter .= '<th scope="col">' . __('Name', $TD) . '</th>'; 
+    $theHeadFooter .= '<th scope="col">' . __('Start', $TD) . '</th>';
+    $theHeadFooter .= '<th scope="col">' . __('End', $TD) . '</th>';
+    $theHeadFooter .= '<th scope="col" style="width: 40px;">' . __('Active', $TD) . '</th>';
+$theHeadFooter .= '</tr>';
 ?>  
 
-<table width="100%" border="0" cellpadding="3">
+<table id="campaigns-list" width="100%" border="0" cellpadding="3" class="wp-list-table widefat fixed striped pages">
     <thead>
-        <tr>
-			<th align="center" width="30" scope="col"><input type="checkbox" class="removeAll" value="1"></th>
-            <th scope="col"><?php _e('ID', $TD); ?></th>
-            <th scope="col"><?php _e('Logo', $TD); ?></th>
-            <th scope="col"><?php _e('Name', $TD); ?></th>
-            <th scope="col"><?php _e('Start', $TD); ?></th>
-            <th scope="col"><?php _e('End', $TD); ?></th>
-            <th scope="col"><?php _e('Active', $TD); ?></th>
-        </tr>
+       <?php
+       echo $theHeadFooter;
+       ?>
 	</thead>
 <tbody>
     <?php
@@ -60,11 +62,11 @@ $total = count( $arrItems );
                 //$HTML .= '<div class="image">' . $postThumbnail .' </div>';
             endif;
     ?>
-        <tr align="center">
+        <tr class="campaign-line">
 			<td>
             <?php
             $checked = in_array($ITEM->ID, $campaigns) ? ' checked="checked"' : '';            ?>
-            <input name="<?php echo $refPrefix; ?>[REF_Campaigns][]" id="b-select-<?php echo $ITEM->ID; ?>" style="padding-left: 3px;" type="checkbox" class="tableItem" value="<?php echo $ITEM->ID; ?>"<?php echo  $checked ?> /></td>
+            <input name="<?php echo $refPrefix; ?>[REF_Campaigns][]" id="b-select-<?php echo $ITEM->ID; ?>" style="padding-left: 3px;" type="radio" class="tableItem" value="<?php echo $ITEM->ID; ?>"<?php echo  $checked ?> /></td>
             <td><?php echo $ITEM->ID; ?></td>
             <td><?php echo $postThumbnail; ?></td>
             <td><?php echo $ITEM->post_title; ?></td>
@@ -78,14 +80,8 @@ $total = count( $arrItems );
     endif; ?>
     </tbody>
 	<tfoot>
-        <tr>
-			<th align="center" scope="col"><input type="checkbox" class="removeAll" value="1"></th>
-            <th scope="col"><?php _e('ID', $TD); ?></th>
-            <th scope="col"><?php _e('Logo', $TD); ?></th>
-            <th scope="col"><?php _e('Name', $TD); ?></th>
-            <th scope="col"><?php _e('Start', $TD); ?></th>
-            <th scope="col"><?php _e('End', $TD); ?></th>
-            <th scope="col"><?php _e('Active', $TD); ?></th>
-        </tr>
+    <?php
+       echo $theHeadFooter;
+       ?>
 	</tfoot>
 </table>

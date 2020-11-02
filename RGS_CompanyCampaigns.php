@@ -562,41 +562,70 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 			return $arrDisplay;
 		}
 		//---------------------------------------------------------------
-		// AJAX
-		//---------------------------------------------------------------
-		static function getCampaignByUniqId_fn()
+		static function getActivesCampaigns_fn($campaigns = array() )
 		{
-			$uinqid = (isset( $_POST['uniqid'] ) ) ? $_POST['uniqid'] : '';
-			//
-			if( empty( $uinqid ) ) :
-				wp_send_json_error( __('Uniq id is mandatory', self::getTD_fn() ) );
-			else:
-				$args = array(
-					'post_type' 	=> self::getCptName_fn(),
-					'post_status' 	=> 'draft',
-					'meta_key' 		=> 'uniqId',
-					'meta_value' 	=> $uinqid
-				);
-				$query = new WP_Query($args);
-				if( $query->have_posts() ) : 
-					while( $query->have_posts() ) : 
-						$query->the_post();
-						global $post;
-						//
-						$arrDisplay = self::getDisplayCampaign_fn( $post );
-						//
-					endwhile;
+			$return = false;
+			$arrLines = array();
+			$arrIdx = 0;
+			foreach( $campaigns as $campaignID ) :
+
+				$arrLines[$arrIdx] = array();
+				$mStartDate = get_post_meta( $campaignID, 'startDate', TRUE);
+				$mEndDate = get_post_meta( $campaignID, 'endDate', TRUE);
+
+				if( ! empty($mStartDate) and ! empty($mEndDate)  ):
+					$inCampaign = RGS_CompanyCampaigns::inCampaign_fn($mStartDate, $mEndDate );
+					
+					if($inCampaign):
+						$arrLines[$arrIdx]['id'] = $campaignID;
+						$arrLines[$arrIdx]['title'] = get_the_title( $campaignID );
+						$arrLines[$arrIdx]['thumb'] = get_the_post_thumbnail( $campaignID, array(60, 60) );
+						$arrLines[$arrIdx]['start'] = $mStartDate;
+						$arrLines[$arrIdx]['end'] = $mEndDate;
+						$arrLines[$arrIdx]['icon'] = '<span class="dashicons dashicons-yes" style="color:green;"></span> ';
+
+						$arrIdx++;
+
+					endif;
 				endif;
-				wp_reset_postdata();
-				//
-				if( ! $arrDisplay ):
-					wp_send_json_error( __('No inquest was retrieved', self::getTD_fn() ) );
-				else:
-					wp_send_json_success($arrDisplay);
-				endif;
-			endif;
+
+			endforeach;
 			
-			wp_die();
+			return $arrLines;
+		}
+		//---------------------------------------------------------------
+		static function getActivesCampaign_fn($campaigns = array() )
+		{
+			$return = false;
+			$arrLines = array();
+			$arrIdx = 0;
+			foreach( $campaigns as $campaignID ) :
+
+				$arrLines[$arrIdx] = array();
+				$mStartDate = get_post_meta( $campaignID, 'startDate', TRUE);
+				$mEndDate = get_post_meta( $campaignID, 'endDate', TRUE);
+
+				if( ! empty($mStartDate) and ! empty($mEndDate)  ):
+					$inCampaign = RGS_CompanyCampaigns::inCampaign_fn($mStartDate, $mEndDate );
+					
+					if($inCampaign):
+						$arrLines[$arrIdx]['id'] = $campaignID;
+						$arrLines[$arrIdx]['title'] = get_the_title( $campaignID );
+						$arrLines[$arrIdx]['thumb'] = get_the_post_thumbnail( $campaignID, array(60, 60) );
+						$arrLines[$arrIdx]['start'] = $mStartDate;
+						$arrLines[$arrIdx]['end'] = $mEndDate;
+						$arrLines[$arrIdx]['icon'] = '<span class="dashicons dashicons-yes" style="color:green;"></span> ';
+
+						return $arrLines;
+						
+						$arrIdx++;
+
+					endif;
+				endif;
+
+			endforeach;
+			
+			return $arrLines;
 		}
 		//--------------------------------------------------
 		// DELETE INQUEST
@@ -637,19 +666,25 @@ if( ! class_exists( 'RGS_CompanyCampaigns' ) ):
 			endforeach;
 		}
 		//--------------------------------------------------
+		static function convertDate_fn( $date )
+		{
+			#$date = date('d/m/Y', strtotime( $date) );
+			//
+			$djour = explode("/", $date);
+			return $djour[2].$djour[1].$djour[0];
+		}
+		//--------------------------------------------------
 		static function inCampaign_fn($startDate, $endDate )
 		{
 			//
-			//$startDate = date('d/m/Y', strtotime('-10 month'));
-			//$endDate = date('d/m/Y', strtotime('-5 month'));
-			//$curDate = date('d/m/Y');
-			$eStart = explode('/', $startDate);
-			$eEnd = explode('/', $endDate);
-			$ts = time();
-			$startTime = mktime(0, 0, 0, $eStart[1], $eStart[0], $eStart[2]);
-			$endTime = mktime(0, 0, 0, $eEnd[1], $eEnd[0], $eEnd[2]);
+			#$startDate = date('d/m/Y', strtotime( $startDate) );
+			#$endDate = date('d/m/Y', strtotime( $endDate) );
+			//
+			$today = self::convertDate_fn( date('d/m/Y') );
+			$start = self::convertDate_fn( $startDate );
+			$end = self::convertDate_fn( $endDate );
 
-			if( $startTime <= $ts and $endTime >= $ts ):
+			if( $start <= $today and $end >= $today ):
 				return true;
 			endif;
 			//

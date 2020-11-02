@@ -51,5 +51,71 @@
     font-weight: normal;
 	display: block;
 	padding: 0.2em 1em;
-	margin-top: 6px;;
+	margin-top: 6px;
+}
+#company-single-response {
+
+}
+#company-single-response table {
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+#company-single-response tr {
+	border-bottom: 1px solid #ccc;
+
+}#company-single-response td {
+	padding: 6px;
+}
+#oneGraph {
+	text-align: center;
+	margin: 0px auto;
+}
+
+.warning {
+	padding: 10px;
+	border: 2px solid #c00;
+	font-family: Arial, sans-serif;
+	margin-bottom: 10px;
+}
+/*
+CAMPAIGNS
+*/
+#campaigns-list {
+	width:calc( 100% - 0px); 
+	padding-bottom:10px;
+}
+#campaigns-list h2 {
+	margin-bottom: 8px;
+}
+
+.campaign-item {
+	width: 100%;
+	font-family: Arial, sans-serif;
+}
+
+.campaign-item .campaign-cell-image {
+	float:left; 
+	margin-right:6px;
+}
+
+.campaign-item .campaign-cell-image .wp-post-image {
+	border: none;
+}
+
+.campaign-item .campaign-cell-title {
+	border: none;
+}
+
+.campaign-item .campaign-cell-title strong {
+	border: none;
+}
+.campaign-cell-start,
+.campaign-cell-end {
+	
+	font-size: smaller;
+}
+.campaign-cell-start i,
+.campaign-cell-end i {
+	font-weight: bold;
+	font-style: italic;
 }

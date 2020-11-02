@@ -216,17 +216,11 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 				'isAdmin' 			=> is_admin()? true: false,
 				'isFrontPage' 		=> is_front_page()? true: false,
 				'slug' 				=> $SLUG,
-				/*'assetsUrl' 		=> self::$gAssetsUrl,
-				'stylesUrl'			=> self::$gCssUrl,
-				'scriptsUrl'		=> self::$gJsUrl,
-				'imgUrl' 			=> self::$gImgUrl,
-				'delay' 			=> 1000,
-				'isSingleOrPage' 	=> ( is_page() || is_single() )? true: false,
-				'taxoCampaign'		=> self::getSlug_fn() . '-campaign',*/
 				'pagePermalink' 	=> get_the_permalink(),
 				'lang' 				=> array(
 					'yes' 				=> __( 'Yes', $TD ),
-					'saveImage'			=> __( 'Save Image', $TD )
+					'saveImage'			=> __( 'Save Image', $TD ),
+					'maxInquests' 		=> __('Maximum number of inquests reached!', $TD)
 
 				)
 			);
@@ -333,8 +327,17 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 				$graphVal = '';
 				$mail['body'] = str_replace($graphTag,$graphVal, $mail['body']);
 			endif;
+			if(isset($replaceTags['campaign']) ):
+				$campaignTag = '***CAMPAIGN***';
+				//
+				$campaignContent = $replaceTags['campaign'];
+				$mail['body'] = str_replace($campaignTag,$campaignContent, $mail['body']);
+				//
+			endif;
+			
+
 			//
-			$mailHeaderTmpl = '<p>' . __( 'IP Address:', self::getTD_fn() ) . $_SERVER['REMOTE_ADDR'].'</p>'; //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_header.php');
+			$mailHeaderTmpl = '<p>' . __( 'IP Address:', self::getTD_fn() ) . ' ' . $_SERVER['REMOTE_ADDR'].'</p>'; //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_header.php');
   			$mailFooterTmpl = ''; //self::createChart_fn($chartProp); //file_get_contents(dirname(__FILE__) . '/templates/emails/mail_footer.php');
 
   			// Replace the email body with the designed one
@@ -451,23 +454,72 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 					//
 					$POST_ID = $postedData['_wpcf7_container_post'];
 					//
+					$campaignID = ( isset( $_POST['campaignid'] ) ) ? $_POST['campaignid'] : 0;
+					//
 					$thePost = get_post( $POST_ID );
 					if( $thePost ):
-						// CHECK META FOEM ID
-						$refDatas = get_post_meta($POST_ID, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
-						//
-						$refFormID = 0;
-						if(isset($refDatas['REFS']['REF_FormID'])):
-							$refFormID = $refDatas['REFS']['REF_FormID'];
-						endif;
-						// CHECK IS FORM IS VALID...
-						if( $FORM_ID != $refFormID):
-							#$wpcf7->skip_mail = true;
-							return $wpcf7;
+						$isCompany = ( $thePost->post_type == RGS_Company::getCPT_fn() )? 1 : 0;
+
+						if($isCompany):
+							// CHECK META FORM ID
+							$refDatas = RGS_Company::getRefsDatas_fn($POST_ID);
+							//
+							$refFormID = 0;
+							if(isset($refDatas['REF_FormID'])):
+								$refFormID = $refDatas['REF_FormID'];
+							endif;
+							// CHECK IS FORM IS VALID...
+							if( $FORM_ID != $refFormID):
+								$wpcf7->skip_mail = true;
+								return $wpcf7;
+							endif;
+							// CHECK MAX INQUIRIES
+							$nbInquiries = (int) RGS_FormStats::getNbInquestInCompany_fn( $POST_ID );
+							$maxInquiries = 0;
+
+							if(isset($refDatas['REF_NbEmployees'])):
+								$maxInquiries = $refDatas['REF_NbEmployees'];
+
+								// CHECK IS INqUIRIES IS VALID...
+								if( $nbInquiries > $maxInquiries):
+									$wpcf7->skip_mail = true;
+									return $wpcf7;
+								endif;
+
+							endif;
+							// CHECK CAMPAIGNS
+							$campaignID = ( isset( $_POST['campaignid'] ) ) ? $_POST['campaignid'] : 0;
+							
 						endif;
 					endif;
 					////////////////////////////////////////////////
 					$replaceTags['company'] = $thePost->post_title;
+					if( $campaignID > 0 ):
+						$lineHTML = '';
+						$arrLines = RGS_CompanyCampaigns::getActivesCampaign_fn( array( $campaignID ) );
+						foreach($arrLines as $line):
+							$lineHTML = '';
+							$lineHTML = '<div id="campaigns-list">';
+							$lineHTML .= '<h2>' . __('Campaign', self::getTD_fn()) .'</h2>';
+							//title,thumb,start,end,icon,id
+							$lineHTML .= '<div data-campaign="'. $line['id'] . '" style="width: 100%; font-family: Arial, sans-serif;">';
+				
+							if( ! empty( $line['thumb'] ) ):
+								$lineHTML .= '<span style="float: left; margin-right: 6px;">' . $line['thumb'] . '</span>';
+							endif;
+				
+							$lineHTML .= '<span style="font-size: 18px"><strong>'. $line['title'] . '</strong></span><br>';
+							$lineHTML .= '<span style="font-size: smaller;"><i style="font-weight: bold;font-style: italic;">'.__('Start', self::getTD_fn()) . ': </i>' . $line['start']  . '</span><br>';
+							$lineHTML .= '<span style="font-size: smaller;"><i style="font-weight: bold;font-style: italic;">'.__('End', self::getTD_fn()) . ': </i>' . $line['end']  . '</span>';
+							$lineHTML .= '</div>';
+							//
+							$lineHTML .= '</div>';
+						endforeach;
+						$replaceTags['campaign'] = $lineHTML;
+					else:
+						$replaceTags['campaign'] = '';
+					endif;
+					// $dbFields['campaignid'] = ( isset( $_POST['campaignid'] ) ) ? $_POST['campaignid'] : 0;
 					// UPDATE MAIL
 					$mail = self::setMail_fn( $wpcf7, $replaceTags );
 					//
@@ -557,9 +609,11 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 				else:
 					//
 					$dbFields['createdAt'] = gmdate('Y-m-d H:i:s');
-					//
+					//-------------------------------------
 					$dbFields['uniqId'] = ( isset( $_POST['uniqid'] ) ) ? $_POST['uniqid'] : '';
 					//
+					$dbFields['campaignid'] = ( isset( $_POST['campaignid'] ) ) ? $_POST['campaignid'] : 0;
+					//-------------------------------------
 					$currentUser = wp_get_current_user();
 
 					if ( 0 == $currentUser->ID ) :
@@ -573,16 +627,19 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 					$dbFields['FORM_ID'] = $postedData['_wpcf7'];
 					//
 					$dbFields['POST_ID'] = $postedData['_wpcf7_container_post'];
-					//
+					// Get post sender Company / Public
 					$thePost = get_post( $dbFields['POST_ID'] );
+					//
 					if( $thePost ):
 						$ID = $dbFields['POST_ID'];
-						// CHECK META FOEM ID
-						$refDatas = get_post_meta($ID, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
+						// CHECK META FORM ID
+						$refDatas = RGS_Company::getRefsDatas_fn( $ID );
+
+						//$refDatas = get_post_meta($ID, RGS_CompanyMBoxes::getOptionNameMB_fn(), TRUE);
 						#$dbFields['refDatas'] = $refDatas;
 						$refFormID = 0;
-						if(isset($refDatas['REFS']['REF_FormID'])):
-							$refFormID = $refDatas['REFS']['REF_FormID'];
+						if(isset($refDatas['REF_FormID'])):
+							$refFormID = $refDatas['REF_FormID'];
 						endif;
 						///////////////////////////////////
 						// CHECK IS FORM IS VALID...
@@ -592,10 +649,18 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 						endif;
 						//
 						$dbFields['POST_TYPE'] = $thePost->post_type;
+						$dbFields['private'] = ( $thePost->post_type == RGS_Company::getCPT_fn() )? 'yes' : 'no';
 						//
 						$dbFields['POST_TITLE'] = $thePost->post_title;
 						//
-						$TAXO = self::getSlug_fn() . '-campaign';
+						if( $dbFields['private'] == 'yes'):
+							$REF_Campaigns = array();
+							if(isset($refDatas['REF_Campaigns'])):
+								$REF_Campaigns = $refDatas['REF_Campaigns'];
+							endif;
+						endif;
+						
+						/*$TAXO = self::getSlug_fn() . '-campaign';
 						// Get post type taxonomies.
 						$terms = get_the_terms( $ID, $TAXO );
 						if ( ! empty( $terms ) ) :
@@ -622,8 +687,8 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 							$dbFields['taxos'] = $dbCampaigns; 
 						endif;
 						//
-						$dbFields['private'] = ( ! empty( $terms ) )? 'yes' : 'no';
-						//
+						$dbFields['private'] = ( ! empty( $terms ) )? 'yes' : 'no';*/
+						// MESSAGE
 						$scannedFormTags = $wpcf7->scan_form_tags();
 						$gTags = self::getFormTags_fn( $scannedFormTags );
 						//$tagsString = sc_sql( serialize( $gTags ) );

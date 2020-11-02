@@ -1,104 +1,26 @@
 <?php
 //////////////////////////////////
-$slug = RGS_Company::getSlug_fn();
-$TD = RGS_Company::getTD_fn();
-//////////////////////////////////
 global $post;
+//////////////////////////////////
+$TD = RGS_Company::getTD_fn();
 //////////////////////////////////
 // HAS PASSWORD
 //////////////////////////////////
 $passCookie = '';
+//
 foreach($_COOKIE as $key=>$value) :
   	if(!strncmp($key,"wp-postpass_",12)) :
 		$passCookie = $key;
     	break;
 	endif;
 endforeach;
-#echo '<pre>$hasPassCookie::: '.print_r($passCookie, TRUE).'</pre>';
+//
 $hasPass = (isset($post->post_password) and ! empty( $post->post_password ) );
-#echo '<pre>$hasPass::: '.print_r($hasPass, TRUE).'</pre>';
+//
 //////////////////////////////////
-
-
+$isCompanyForm = ( $post->post_type == RGS_Company::getCPT_fn() );
 //////////////////////////////////
-$output = ''; 
-$TAXO = RGS_Company::getSlug_fn() . '-campaign';
-$taxoHTML = '';
-$isInRange = FALSE;
-$isPublicForm = TRUE;
-//////////////////////////////////
-$terms = get_the_terms( $post->ID, $TAXO );
-if ( ! empty( $terms ) ) :
-	//
-	$isPublicForm = FALSE;
-	$countInRange = array();
-	//
-	foreach($terms as $term):
-		//
-		$termID = $term->term_id;
-		$termName = $term->name;
-		// 
-		$termMETAS = RGS_Company::campaignTaxoGetCustomFields_fn( $term->term_id );
-		$startDate = $termMETAS['startDate']; 
-		$endDate = $termMETAS['endDate']; 
-		$cLogo = $termMETAS['cLogo']; 
-		//
-		/*$dFORMAT = 'Y-m-d'; //'d/m/Y';
-		//
-		$moreDAYS = 14; // 2 weeks
-		$DATE = date($dFORMAT);
-		$DATE_END = RGS_Company::getMoreDays_fn( $DATE, $moreDAYS, $dFORMAT  );
-		//
-		$DATE = date($dFORMAT, strtotime($DATE . ' +' . 15 . $moreDAYS . ' days'));
-		//
-		#echo '<pre>term:: '.print_r($term, TRUE).'</pre>';
-		echo '<pre>termMID:: '.print_r($termID, TRUE).'</pre>';
-		echo '<pre>termMETAS:: '.print_r($termMETAS, TRUE).'</pre>';
-		echo '<pre>DATE:: '.print_r($startDate, TRUE).'</pre>';
-		echo '<pre>DATE_END:: '.print_r($endDate, TRUE).'</pre>';*/
-		$termInRange = RGS_Company::isDateRange_fn($startDate, $endDate);
-		//
-		if($termInRange) :
-			//
-			$termHTML = '<div id="term-' . $term->term_id . '" class="campaign-row" style="border:1px solid #000000; padding:6px;">';
-			$image = wp_get_attachment_image_src ( $cLogo, 'thumbnail', FALSE );
-			$imgSrc = '';
-			//
-			if( is_array( $image ) and isset( $image[0] ) ):
-				$imgSrc = $image[0] ;
-			endif;
-			//
-			if( ! empty( $imgSrc ) ):
-				$termHTML .= '<span class="campaign-cell-image" style="float:left; margin-right:6px;"><img width="auto" height="66" src="' . $imgSrc . '" class="cLogoImage" alt="" style="height: 66px; width: auto; margin:0px;"></span>';
-			endif;
-
-			$termHTML .= '<span class="campaign-cell-title"><strong>'. $termName . '</strong></span><br>';
-			$termHTML .= '<span class="campaign-cell-start"><i>'.__('Start', $TD) . ': </i>' . $startDate . '</span><br>';
-			$termHTML .= '<span class="campaign-cell-end"><i>'.__('End', $TD) . ': </i>' . $endDate . '</span>';
-			$termHTML .= '</div>';
-			//
-			$countInRange[] = $termHTML;
-			//
-		endif;
-		//
-	endforeach;
-	//---------------------
-	if( ! empty($countInRange) ):
-
-		$taxoHTML = '<div id="campaigns-list" style="width:calc( 100% - 0px); padding-bottom:10px; ">';
-		$taxoHTML .= '<h2 style="margin-bottom: 8px;">' . __('Campaigns', $TD) .'</h2>';
-		foreach($countInRange as $termDisplay ):
-			$taxoHTML .= $termDisplay;
-		endforeach;
-		$isInRange = TRUE;
-
-		$taxoHTML .= '</div>';
-	endif;
-	//---------------------
-	//
-else:
-	$isInRange = TRUE;
-endif;
+//$taxoHTML = RGS_Company::getTaxo_fn( $post->ID, RGS_Company::getSlug_fn() . '-campaign');
 //////////////////////////////////
 $user = get_user_by( 'login', 'rigasa' );
 $curUser = wp_get_current_user();
@@ -115,56 +37,102 @@ if($user and $curUser ):
 	endif;
 endif;
 //////////////////////////////////
-if( ! $isPublicForm ): 
-//-------------------------------
-$thumb = '';
-if ( has_post_thumbnail($post->ID) ) :
-	$thumb = get_the_post_thumbnail($post->ID, 'post-thumbnail', array( 'class' => 'company-logo-header' ));
-endif;
-//-------------------------------
-?>
+if( $isCompanyForm ): 
+	//-------------------------------
+	$thumb = '';
+	if ( has_post_thumbnail($post->ID) ) :
+		$thumb = get_the_post_thumbnail($post->ID, 'post-thumbnail', array( 'class' => 'company-logo-header' ));
+	endif;
+	//-------------------------------
+	?>
 	<h1><?php echo $thumb . $post->post_title; ?></h1>
 	<?php
-
-//$pm = get_post_meta( $post->ID);
-
-//echo '<pre>'.print_r( $pm, TRUE ).'</pre>';
-	$mBoxMeta = get_post_meta( $post->ID, 'company_MB');
-	$nbEmployees = isset($mBoxMeta[0]['REFS']['REF_NbEmployees'])? (int) $mBoxMeta[0]['REFS']['REF_NbEmployees'] : 10;
+	$mBoxMeta = RGS_Company::getRefsDatas_fn( $post->ID);
+	//////////////////////////////////////
+	$nbEmployees = isset($mBoxMeta['REF_NbEmployees'])? (int) $mBoxMeta['REF_NbEmployees'] : 10;
+	
 	// Get NUMBER OF INQUESTS
-	$nbInquiries = (int) RGS_FormStats::getNbInquestInCompany_fn( $post->ID );
+	$nbInquests = (int) RGS_FormStats::getNbInquestInCompany_fn( $post->ID );
 
-	$display = ($nbInquiries < $nbEmployees);
+	$inInquests = ($nbInquests < $nbEmployees);
+
+	if($inInquests):
+		// CHECK CAMPAIGNS
+		$campaignsHTML = '';
+		$arrInclude = array();
+		//$arrLines = RGS_CompanyCampaigns::getActivesCampaigns_fn($mBoxMeta['REF_Campaigns']);
+		$arrLines = RGS_CompanyCampaigns::getActivesCampaign_fn($mBoxMeta['REF_Campaigns']);
+		//
+		foreach($arrLines as $line):
+			$lineHTML = '';
+			//title,thumb,start,end,icon,id
+			$lineHTML .= '<div data-campaign="'. $line['id'] . '" id="campaignItem" class="campaign-item">';
+
+			if( ! empty( $line['thumb'] ) ):
+				$lineHTML .= '<span class="campaign-cell-image">' . $line['thumb'] . '</span>';
+			endif;
+
+			$lineHTML .= '<span class="campaign-cell-title"><strong>'. $line['title'] . '</strong></span><br>';
+			$lineHTML .= '<span class="campaign-cell-start"><i>'.__('Start', $TD) . ': </i>' . $line['start']  . '</span><br>';
+			$lineHTML .= '<span class="campaign-cell-end"><i>'.__('End', $TD) . ': </i>' . $line['end']  . '</span>';
+			$lineHTML .= '</div>';
+			//
+			$arrInclude[] = $lineHTML;
+			//
+		endforeach;
+		//
+		if( ! empty($arrInclude) ):
+
+			$campaignsHTML = '<div id="campaigns-list">';
+			$campaignsHTML .= '<h2>' . __('Campaign', $TD) .'</h2>';
+			
+			foreach($arrInclude as $lineInclude ):
+				$campaignsHTML .= $lineInclude;
+			endforeach;
+
+			$campaignsHTML .= '</div>';
+		endif;
+
+
+	endif;
+
 else :
-	$display = TRUE;
+	$inInquests = TRUE;
 endif;
-//
+// DEBUG Inquest Max ////////////////////////
+#$inInquests = FALSE;
+////////////////////////////////////////////
 ?>
 <?php 
-if(! $display ) :
-	echo '<p class="warning">'.__('Maximum number of inquiries reached!', $TD).' : ' . $nbEmployees . '</p>';
+if( ! $inInquests and $isCompanyForm ) :
+	echo '<p class="warning">'.__('Maximum number of inquests reached!', $TD).' : ' . $nbEmployees . '</p>';
 else:
 
 	$theContent = do_shortcode( get_the_content($post->ID) );
-
-	// Display Number of 
-	if( $nbEmployees > 0 ): //REF_MailAddress, REF_FormID, REF_Shortcode
-		$theNbEmployees = '<p id="nbOfInquiries">'. __('Number of inquiries', $TD) . ': ' . $nbInquiries . '/' . $nbEmployees . '</p>';
-	endif;
-
-	if( $hasPass and ! empty($passCookie) ):
-		// Display Full
-		echo $theNbEmployees . $taxoHTML . $theContent;
-	else:
-		if( ! $hasPass ):
-			// Display Full
-			echo $theNbEmployees . $taxoHTML . $theContent;
-		else:
-			echo $theContent;
+	if($isCompanyForm):
+		// Display Number of 
+		if( $nbEmployees > 0 ): //REF_MailAddress, REF_FormID, REF_Shortcode
+			$theNbEmployees = '<p>'. __('Number of inquests', $TD) . ': <span id="nbOfInquests">' . $nbInquests . '</span>/<span id="nbMaxInquests">' . $nbEmployees . '</span></p>';
 		endif;
+
+		if( $hasPass and ! empty($passCookie) ):
+			// Display Full
+			echo $theNbEmployees . $campaignsHTML . $theContent;
+		else:
+			if( ! $hasPass ):
+				// Display Full
+				echo $theNbEmployees . $campaignsHTML . $theContent;
+			else:
+				// Display Password
+				echo $theContent;
+			endif;
+		endif;
+
+	else:
+		// display form
+		echo $theContent;
 	endif;
 	//
-	#wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', $TD ), 'after' => '</div>' ) ); 
 endif;
 ?>
 

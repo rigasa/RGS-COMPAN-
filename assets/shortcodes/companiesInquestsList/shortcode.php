@@ -110,12 +110,14 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 					$settings[ 'limit' ] = '-1';
 				endif;
 				//--------------------------------
+				$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 				$args = array(
 					'post_type' 	=>  RGS_CompanyInquest::getCptName_fn(),
 					'numberposts' 	=> $settings[ 'limit' ],
 					'orderby'     	=> $settings[ 'orderby' ],
 					'order'     	=> $settings[ 'order' ],
-					'post_status'   => $settings[ 'post_status' ]
+					'post_status'   => $settings[ 'post_status' ],
+					'paged' 		=> $paged,
 				);
 				//--------------------------------
 				if($settings[ 'company_id' ] > 0 ):
@@ -142,61 +144,86 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 				//--------------------------------
 				$arrItems = get_posts( $args );
 				$total = count( $arrItems );
-				//-----
-				if( $total === 0 ) :
-					$_output = '<div class="company-inquest-empty">' . addslashes(__('No inquest was retrieved', RGS_Shortcodes::getTD_fn() ) ) . '</div>';
-					
-					echo ''.print_r($_output, TRUE).'';
-					return $_output;
-				endif;
 				//--------------------------------
 				$dateFormat = get_option( 'date_format' );
-				$HTML = '';
 				//
-				foreach( $arrItems as $ITEM ) :
+				$theHeadFooter = '<tr>
+					<th align="center" width="30" scope="col"><input type="checkbox" class="removeAllInquests" value="1"></th>
+					<th scope="col">' . __('ID', RGS_Shortcodes::getTD_fn()) . '</th>
+					<th scope="col">' . __('Logo', RGS_Shortcodes::getTD_fn()) . '</th>
+					<th scope="col">' . __('Name', RGS_Shortcodes::getTD_fn()) . '</th>
+					<th scope="col">' . __('Form', RGS_Shortcodes::getTD_fn()) . '</th>
+					<th scope="col">' . __('Points', RGS_Shortcodes::getTD_fn()) . '</th>
+					<th scope="col">' . __('Campaign', RGS_Shortcodes::getTD_fn()) . '</th>
+				</tr>';
+				$_output = '';
+				$_output .= '<p>';
+				$_output .= '<a class="inquestDelete" href=""><span class="dashicons dashicons-trash"></span></a>';
+				$_output .= '</p><hr>';
 
-					setup_postdata( $ITEM );
+				$_output .= '<table width="100%" border="0" cellpadding="3">';
+				$_output .= '<thead>';
+				$_output .= $theHeadFooter;
+				$_output .= '</thead>';
+				$_output .= '<tbody>';
+				if( $total === 0 ) :
+					$_output = '<tr id="empty-table">
+					<td align="center" colspan="6">' . addslashes(__('No inquest was retrieved', RGS_Shortcodes::getTD_fn() ) ) . '</td>
+					</tr>';
+				else:
+					foreach( $arrItems as $ITEM ) :
 
-					$theContent = wp_trim_words( $ITEM->post_content, 100 );
-					$postThumbnail = get_the_post_thumbnail( $ITEM->ID, 'post-thumbnail' );
-					$HTML .= '<li>';
-					$HTML .= '<div class="company-inquest">';
-					$HTML .= '';
-					if(!empty( $postThumbnail ) ):
-						$HTML .= '<div class="image">' . $postThumbnail .' </div>';
-					endif;
-					$HTML .= '';
-					$HTML .= '<div class="mask">';
-					$HTML .= '';
-					$HTML .= '<a class="company-inquest-link" href="'.get_permalink( $ITEM->ID ).'" title="'.$ITEM->post_title.'"> </a>';
-					$HTML .= '';
-					$HTML .= '</div>';
-					$HTML .= '';
-					$HTML .= '</div>';
-					$HTML .= '';
-					$HTML .= '<div class="company-inquest-intro">';
-					$HTML .= '';
-					$HTML .= '<a class="company-inquest-link2" href="'.get_permalink( $ITEM->ID ).'"><h5>'.$ITEM->post_title.'</h5></a>';
-					$HTML .= '';
+						setup_postdata( $ITEM );
 
-					$HTML .= '<p class="news-date">'. get_the_date( $dateFormat, $ITEM->ID ).'</p>';
-					$HTML .= '';
-					if( ! empty( $theContent ) ):
-						$HTML .= '<div>'. $theContent .'...</div>';
-					endif;
-					$HTML .= '';
-					$HTML .= '<a class="btn-small open3" href="'.get_permalink( $ITEM->ID ).'" title="'.$ITEM->post_title.'"><i class="fa fa-arrow-right"></i>&nbsp;'.__( 'View Details', RGS_Shortcodes::getTD_fn() ).'</a>';
-					$HTML .= '';
-					$HTML .= '</div>';
-					$HTML .= '';
-					$HTML .= '</li>';
+						$theContent = wp_trim_words( $ITEM->post_content, 100 );
+						$postThumbnail = get_the_post_thumbnail( $ITEM->ID, array(60, 60) );
 
-				endforeach;
+						$theTitle = get_post_meta($ITEM->ID, 'POST_TITLE', TRUE);
+						$theFormId = get_post_meta($ITEM->ID, 'FORM_ID', TRUE);
+						$thePointsTotal = get_post_meta($ITEM->ID, 'pointsTotal', TRUE);
+						$theCampaignId = get_post_meta($ITEM->ID, 'campaignid', TRUE);
+
+						$_output .= '<tr align="center">';
+						$_output .= '<td>';
+						$_output .= '<input id="inquest-select-' .  $ITEM->ID . '>" style="padding-left: 3px;" type="checkbox" class="inquestItem" value="' . $ITEM->ID .'" />';
+						$_output .= '</td>';
+
+						$_output .= '<td>';
+						$_output .= $ITEM->ID;
+						$_output .= '</td>';
+						
+						$_output .= '<td>';
+						$_output .= $postThumbnail;
+						$_output .= '</td>';
+						
+						$_output .= '<td>';
+						$_output .= $theTitle;
+						$_output .= '</td>';
+
+						$_output .= '<td>';
+						$_output .= $theFormId;
+						$_output .= '</td>';
+
+						$_output .= '<td>';
+						$_output .= $thePointsTotal;
+						$_output .= '</td>';
+
+						$_output .= '<td>';
+						$_output .= $theCampaignId;
+						$_output .= '</td>';
+
+						$_output .= '</tr>';
+					endforeach;
+				endif;
+				$_output .= '</tbody>';
+				$_output .= '<tfoot>';
+				$_output .= $theHeadFooter;
+				$_output .= '</tfoot>';
+				$_output .= '</table>';
+				
 				wp_reset_postdata();
 
-
-				$_output = '';
-				$_output .= '<div class="company-inquest-container">';
+				/*$_output .= '<div class="company-inquest-container">';
 				if( ! empty( $settings[ 'title' ] ) ):
 					$_output .= '<h1 class="center">'.$settings[ 'title' ].'</h1>';
 				endif;
@@ -207,8 +234,9 @@ if( RGS_Company::isCustomPostType_fn( RGS_CompanyInquest::getCptName_fn() ) ):
 				$_output .= '<a id="next2" class="next" href="#"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>';
 				$_output .= '</div>';
 				$_output .= '</div>';
-				$_output .= '</div>';
+				$_output .= '</div>';*/
 
+				echo $_output;
 				return $_output;
 				//--------------------------------
 			};
