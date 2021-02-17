@@ -10,7 +10,7 @@ if( !class_exists( 'WP_List_Table' ) )
 		require_once( ABSPATH.'/wp-admin/includes/class-wp-list-tabe.php' );
 	}else
 	{
-		require_once( ABSPATH.'/wp-admin/includes/class-jst-list-tabe.php' );
+		//require_once( ABSPATH.'/wp-admin/includes/class-jst-list-tabe.php' );
 	}	
 
 
@@ -35,42 +35,42 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 
 		public function __construct()
 		{
-			parent::__construct( [
+			parent::__construct( array(
 				'singular'	=> 'post',
 				'plural'	=> 'posts',
 				'ajax'		=> true
-			] );
+			) );
 		}
 
 		public function column_title( $item )
 		{
 			// Publish
 			$publishnonceaction = $this->publishnonceaction;
-			$publish_url = add_query_arg([
+			$publish_url = add_query_arg(array(
 				'page'		=> $_REQUEST[ 'page' ],
 				'post'		=> $item[ 'ID' ],
 				'action'	=> 'publish'
-			]);
+			));
 			$nonced_publish_url = wp_nonce_url( $publish_url, $publishnonceaction, $this->publishnoncename );
 
 			// Edit
 			$proto = isset( $_SERVER[ "HTTPS" ] ) ? 'https' : 'http';
 			$edit_url = admin_url( 'post.php', $proto );
-			$edit_url = add_query_arg( [
+			$edit_url = add_query_arg( array(
 				'post'		=> $item[ 'ID' ],
 				'action'	=> 'edit'
-			], $edit_url );
+				), $edit_url );
 
 			// Delete 
 			$deletenonceaction = $this->deletenonceaction;
-			$delete_url = add_query_arg( [
+			$delete_url = add_query_arg( array(
 				'page'		=> esc_url( $_REQUEST[ 'page' ] ),
 				'action'	=> 'delete',
 				'post'		=> $item[ 'ID' ]
-			] );
+			) );
 			$nonced_delete_url = wp_nonce_url( $delete_url, $deletenonceaction, $this->deletenoncename );
 
-			$actions = [
+			$actions = array(
 				'edit'		=> sprintf(
 					'<a href="%1$s">%2$s</a>',
 					$edit_url,
@@ -86,7 +86,7 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 					$nonced_publish_url,
 					__( 'Publish', 'jst' )
 				)
-			];
+			);
 			return sprintf( "%s %s", $item[ 'title' ], $this->row_actions( $actions ) );
 		}
 
@@ -115,28 +115,28 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 
 		public function get_columns()
 		{
-			return [
+			return array(
 				'cb'	=> '<input type="checkbox" />',
 				'title' => __( 'Title', 'jst' ),
 				'user'	=> __( 'User', 'jst' ),
 				'date'	=> __( 'Date', 'jst' )
-			];
+			);
 		}
 
 		public function get_sortable_columns()
 		{
-			return [
+			return array(
 				'title'		=> array( 'post_title', true ),
 				'user'		=> array( 'user_nicename', false ),
 				'date'		=> array( 'post_date', false )
-			];
+			);
 		} 
 
 		protected function get_bulk_actions(){
-			return [
+			return array(
 				'publish'	=> __( 'Publish', 'jst' ),
 				'delete' 	=> __( 'Delete', 'jst' ),
-			];
+			);
 		}
 
 
@@ -147,7 +147,7 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 				return false;
 			}
 			$current_action = ( FALSE !== $this->current_action() || 'rgsAction' != $this->current_action() ) ? $this->current_action() : 
-					( isset( $_REQUEST[ 'action2' ] ) && is_array( $_REQUEST[ 'action2' ], [ 'delete', 'publish' ] ) ) ? $_REQUEST[ 'action2' ] : false;
+					( isset( $_REQUEST[ 'action2' ] ) && is_array( $_REQUEST[ 'action2' ], array( 'delete', 'publish' ) ) ) ? $_REQUEST[ 'action2' ] : false;
 
 				if( FALSE ===  $current_action )
 				{
@@ -253,11 +253,11 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 
 			$columns 	= $this->get_columns();
 			$sortable 	= $this->get_sortable_columns();
-			$hidden 	= ['ID'];
+			$hidden 	= array('ID');
 
-			$this->_column_headers = [
+			$this->_column_headers = array(
 				$columns, $hidden, $sortable
-			];
+			);
 			$paged = ( isset( $_REQUEST[ "paged" ] ) && $_REQUEST[ "paged" ] && $_REQUEST[ "paged" ] > 1) ? (int) $_REQUEST[ 'paged' ] : 1;
 			$itemInfos = $this->getDataInfos( $paged );
 
@@ -267,13 +267,13 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 			$totalPages = ceil( $totalitems / $this->perpage );
 
 			$this->set_pagination_args(
-				[
+				array(
 					'total_items'	=> $totalitems,
 					'per_page'	=> $this->perpage,
 					'total_pages'	=> $totalPages,
 					'orderby'	=> isset( $_REQUEST[ 'orderby' ] ) ? esc_attr( $_REQUEST[ 'orderby' ] ) : 'title',
 					'order'		=> isset( $_REQUEST[ 'order' ] ) ? esc_attr( $_REQUEST[ 'order' ] ) : 'ASC'
-				]
+				)
 			);
 		}
 
@@ -304,14 +304,14 @@ if( !class_exists( 'RGS_InquestTable' ) ) :
 			echo $this->pagination( 'bottom' );
 			$tablenav_bottom = ob_get_clean();
 
-			$resp = [
+			$resp = array(
 				'rows'			=> $rows,
 				'headers'		=> $headers,
-				'pagination'	=> [
+				'pagination'	=> array(
 					'top'		=> $tablenav_top,
 					'bottom'	=> $tablenav_bottom
-				]
-			];
+				)
+			);
 			extract( $this->_pagination_args, EXTR_SKIP );
 			if( isset( $total_items ) )
 			{
