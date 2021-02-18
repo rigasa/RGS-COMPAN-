@@ -348,15 +348,16 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 		//---------------------------------------------------------------
 		static function getSeries_fn( $points )
 		{
-			$return = array();
+			$theWeighting = RGS_CompanySettings::getPointsWeighting_fn();
+			/*$return = array();
 			$return[0] = floatval($points[0]) + floatval($points[1]);
 			$return[1] = floatval($points[2]);
 			$return[2] = floatval($points[3]) + ($points[4]);
 			$return[3] = floatval($points[5]) + floatval($points[6]) + floatval($points[7]);
 			$return[4] = floatval($points[8]) + floatval($points[9]);
-			$return[5] = floatval($points[10]) + floatval($points[11]);
+			$return[5] = floatval($points[10]) + floatval($points[11]);*/
 			
-			return $return;
+			return $theWeighting['series']; //$return;
 		}
 		//---------------------------------------------------------------
 		static function getPoints_fn( $results )
@@ -365,6 +366,10 @@ if( ! class_exists( 'RGS_CompanySingle' ) ):
 			$return['total'] = 0;
 			$return['points'] = array();
 			$return['maxPoints'] = array();
+			//
+			$theWeighting = RGS_CompanySettings::getPointsWeighting_fn();
+			//
+			$thePoints = $theWeighting['points'];
 			//
 			foreach ( $results as $key => $val ) :
 				//

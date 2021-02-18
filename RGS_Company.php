@@ -300,6 +300,7 @@ if( ! class_exists( 'RGS_Company' ) ):
 				add_filter( 'manage_edit-' . self::getCPT_fn() . '_sortable_columns', array( __CLASS__, 'sortableColumns_fn') );
 				//
 			else:
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueFrontend_fn'), 11 );
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts_fn'), 11 );
 			endif;
 			// SINGLE
@@ -503,6 +504,19 @@ if( ! class_exists( 'RGS_Company' ) ):
 			self::loadScripts_fn();
 			//------------------------------------------------------
 			//------------------------------------------------------
+		}
+		//--------------------------------------------------
+		static function enqueueFrontend_fn()
+		{
+			if( file_exists( self::$gCssDir . 'companyFrontend.css' ) ):
+				wp_enqueue_style( 
+					self::getSlug_fn() . '_frontend', 
+					self::$gCssUrl . 'companyFrontend.css', 
+					array(  ), 
+					'0.0.1', 
+					'all' 
+				);
+			endif;
 		}
 		//--------------------------------------------------
 		static function enqueueSingle_fn()
